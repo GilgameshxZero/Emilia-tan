@@ -1,2 +1,3 @@
-# emilia-tan-com
-Front-end repository for the emilia-tan.com website, parallelling the back-end repository of `emilia`.
+# Emilia-tan
+
+Everything hosted on <http://emilia-tan.com>.

@@ -1,0 +1,10 @@
+**/__pycache__/
+
+/.emilia/
+/data/
+/deploy/
+/logs/
+/obj/
+/root/prototype/
+/root/scripts/
+/servers/
