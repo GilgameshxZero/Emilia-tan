@@ -1,104 +1,329 @@
 :root {
-	--min-vw: 350px;
-	--min-vh: 100px;
-	--html-margin: 0%;
-	--html-leftover: 1;
+  --light: #e9d8ff;
+  --medium-light: #bb91eb;
+  --medium: #914ce0;
+  --medium-dark: #531f8f;
+  --dark: #2b1049;
+
+  --hex-width: calc(3vmin + 49px);
+  --entrance-transition: 0.5s;
+  --transition-time: 0.35s;
+}
+
+.meta {
+  display: none;
+}
+
+.templates {
+  display: none;
 }
 
 html {
-	font-family: 'Raleway', sans-serif;
-	font-size: 19px;
-	
-	margin-top: var(--html-margin);
-	margin-bottom: var(--html-margin);
-	margin-left: var(--html-margin);
-	margin-right: var(--html-margin);
-
-	min-width: calc(var(--html-leftover) * var(--min-vw));
-	min-height: calc(var(--html-leftover) * var(--min-vh));
+  overflow: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-	background-color: white;
-	color: black;
+  margin: 0;
+  position: relative;
 
-	position: relative;
-
-	margin: 0;
-	width: 100%;
-	height: 100%;
-
-	min-width: calc(var(--html-leftover) * var(--min-vw));
-	min-height: calc(var(--html-leftover) * var(--min-vh));
+  background-color: black;
+  font-family: 'Montserrat', Helvetica, sans-serif;
+  font-size: calc(1vmin + 12px);
 }
 
-table {
-	font-size: inherit;
-	font-style: inherit;
-
-	line-height: 1.75;
+body.mobile>.main {
+  overflow-y: scroll;
 }
 
-#navigation-bar {
-	width: 100%;
-	height: 50px;
-
-	display: block;
+body.mobile>.scrollbar {
+  display: none;
 }
 
-#navigator {
-	width: 100%;
-	height: 90%;
-	background-color: white;
+.entrance {
+  width: 100%;
+  height: 100%;
+  position: absolute;
 
-	display: flex;
-	flex-flow: row nowrap;
+  overflow: hidden;
 }
 
-#navigator > div {
-	width: calc(100% / 3);
-	height: 100%;
+.entrance>* {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 50%;
+  transition: top var(--entrance-transition), bottom var(--entrance-transition);
+  background-color: black;
 
-	display: flex;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
-#navigator > div:not(.nav-selected) {
-	cursor: pointer;
+.entrance>.top {
+  top: 0;
 }
 
-#navigator > div > div {
-	margin: auto;
-
-	font-size: 24px;
+.entrance>.bottom {
+  bottom: 0;
 }
 
-#navigator > div:not(.nav-selected):hover {
-	filter: brightness(107%);
+.entrance>*>.text {
+  width: 100%;
+  flex: 1 0 0;
+
+  display: flex;
+  justify-content: center;
 }
 
-#divider {
-	width: 100%;
-	height: 10%;
+.entrance>.top>.text {
+  align-items: flex-end;
 }
 
-#main {
-	width: 100%;
-	height: calc(100% - 50px);
-
-	overflow: hidden;
-	position: relative;
-	
-	opacity: 0.01;
-	transition-property: opacity;
-	transition-duration: 0.5s;
+.entrance>.bottom>.text {
+  align-items: flex-start;
 }
 
-@media (max-width: 700px) {
-	html {
-		font-size: 16px;
-	}
+.entrance>*>.text>span {
+  margin: 5px 0;
 
-	#navigator > div > div {
-		font-size: 21px;
-	}
+  color: white;
+  font-size: 350%;
+}
+
+.entrance>*>.edge {
+  width: 100%;
+  flex: 0 0 1vh;
+
+  background-color: var(--medium);
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  display: flex;
+  flex-flow: row nowrap;
+  background-color: black;
+  color: white;
+
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.main>.inner {
+  margin: auto auto;
+  flex: 1 0 0;
+  height: 100%;
+  max-width: 100%;
+  max-height: 175vw;
+
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.main>.inner>.title {
+  flex: 0 0 calc(5vmin + 60px);
+  width: 100%;
+
+  display: flex;
+  flex-flow: row nowrap;
+  opacity: 1;
+  overflow: hidden;
+
+  transition: opacity var(--transition-time);
+}
+
+.main>.inner>.title.invisible {
+  opacity: 0;
+}
+
+.main>.inner>.title>span {
+  margin: auto;
+
+  font-size: 200%;
+}
+
+.main>.inner>.orbit {
+  position: relative;
+  flex: 0 0 calc(20vmin + 120px);
+  width: 100%;
+  max-width: 125vh;
+  margin: 0 auto;
+
+  display: flex;
+}
+
+.main>.inner>.orbit>.inner {
+  position: relative;
+  width: calc(90% - var(--hex-width));
+  height: calc(20vmin + 120px - var(--hex-width));
+  margin: calc(0.25 * var(--hex-width)) auto auto;
+}
+
+.main>.inner>.orbit>.return.hexagon {
+  position: absolute;
+  top: calc(50% - 0.75 * var(--hex-width));
+  left: calc(50% - 0.5 * var(--hex-width));
+
+  opacity: 0;
+  color: var(--medium);
+  transition: opacity var(--transition-time);
+  animation: spin-reverse 0.6s linear infinite;
+}
+
+.main>.inner>.orbit>.return.hexagon.enabled {
+  opacity: 1;
+
+  cursor: pointer;
+}
+
+@keyframes spin-reverse {
+  0% {
+    transform: scale(0.75) rotate(60deg);
+  }
+
+  100% {
+    transform: scale(0.75) rotate(0deg);
+  }
+}
+
+.main>.inner>.core {
+  flex: 1 0 0;
+  width: calc(100% - 15vmin);
+  margin: auto;
+
+  opacity: 1;
+
+  transition: opacity var(--transition-time);
+}
+
+.main>.inner>.core.invisible {
+  opacity: 0;
+}
+
+.scrollbar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 10px;
+}
+
+.scrollbar>.inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.scrollbar>.inner>.bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+
+  opacity: 0;
+  background-color: var(--medium);
+  transition: opacity var(--transition-time), height var(--transition-time);
+}
+
+.scrollbar>.inner>.bar.visible {
+  opacity: 1;
+}
+
+/*Common classes*/
+
+.hexagon {
+  position: relative;
+  width: var(--hex-width);
+  height: calc(var(--hex-width) * 0.58);
+  background-color: currentColor;
+  margin: calc(var(--hex-width) * 0.28) 0;
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  border-left: calc(var(--hex-width) * 0.5) solid transparent;
+  border-right: calc(var(--hex-width) * 0.5) solid transparent;
+}
+
+.hexagon:before {
+  bottom: 100%;
+  border-bottom: calc(var(--hex-width) * 0.28) solid currentColor;
+}
+
+.hexagon:after {
+  top: 100%;
+  width: 0;
+  border-top: calc(var(--hex-width) * 0.28) solid currentColor;
+}
+
+.planet {
+  position: absolute;
+  width: var(--hex-width);
+  height: calc(var(--hex-width) * 1.1546);
+  top: calc(50% - 0.5 * var(--hex-width));
+  left: calc(50% - 0.5 * var(--hex-width));
+  transform: scale(0.75);
+
+  transition: top var(--transition-time), left var(--transition-time), transform var(--transition-time);
+
+  cursor: pointer;
+}
+
+.planet.highlight {
+  cursor: initial;
+}
+
+.planet.highlight.spinning {
+  cursor: pointer;
+}
+
+.planet>.inner {
+  width: 100%;
+  height: 100%;
+}
+
+.planet>.inner>.index {
+  display: none;
+}
+
+.planet>.inner>.hexagon-wrapper {
+  z-index: 0;
+  position: absolute;
+
+  opacity: 1;
+  color: var(--dark);
+  transform: scale(0.9);
+  transition: opacity var(--transition-time);
+}
+
+.planet>.inner>.hexagon-wrapper.border {
+  transform: scale(1);
+  color: var(--medium);
+}
+
+.planet.spinning>.inner>.hexagon-wrapper {
+  opacity: 0;
+}
+
+.planet.spinning>.inner>.hexagon-wrapper.border {
+  opacity: 1;
+}
+
+.planet.spinning>.inner>.hexagon-wrapper {
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(60deg);
+  }
 }

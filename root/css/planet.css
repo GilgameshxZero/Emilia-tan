@@ -1,0 +1,46 @@
+/*Everything related to the icon and planet content, which is not markdown.*/
+
+.planet>.inner>.label {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  color: var(--light);
+  font-size: 200%;
+}
+
+.planet>.inner>.label>span {
+  margin: auto;
+}
+
+.planet>.inner>.label>img {
+  margin: auto;
+}
+
+/*Planet content*/
+
+.planet-content {
+  margin: 4vmin 0;
+  
+  font-size: 100%;
+  line-height: 1.5;
+}
+
+.planet-content.small-images img {
+  width: 100%;
+  max-width: 500px;
+}
+
+.planet-content .center {
+  text-align: center;
+}
+
+.planet-content .large {
+  font-size: 125%;
+}
+
+.planet-content .larger {
+  font-size: 150%;
+}

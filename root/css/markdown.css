@@ -1,0 +1,108 @@
+p {
+  word-wrap: break-word;
+}
+
+a {
+  color: var(--light);
+}
+
+code {
+  word-wrap: break-word;
+  display: inline-block;
+  max-width: 100%;
+  white-space: pre-wrap;
+
+  font-family: 'Roboto Mono', monospace;
+  font-size: 85%;
+
+  background-color: var(--dark);
+  border: 1px solid var(--dark);
+  border-radius: 3px;
+  color: white;
+  font-weight: 300;
+
+  padding: 1px 5px;
+}
+
+pre>code {
+  padding: 8px 12px;
+  width: calc(100% - 16px);
+}
+
+blockquote {
+  border-left: 4px solid var(--dark);
+  padding-left: 20px;
+  font-style: italic;
+  margin: 30px 0;
+}
+
+img {
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
+.image {
+  overflow: hidden;
+
+  width: 300px;
+
+  min-width: 20%;
+  max-width: 100%;
+
+  display: block;
+}
+
+.image>img {
+  border-radius: 5px;
+
+  max-width: 100%;
+}
+
+.left {
+  float: left;
+
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+.right {
+  float: right;
+
+  margin-left: 15px;
+  margin-bottom: 15px;
+
+  text-align: right;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 15px;
+
+  text-align: center;
+}
+
+.square-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.square-wrapper:after {
+  padding-top: 100%;
+
+  display: block;
+
+  content: '';
+}
+
+.square-pic {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  /*stretches image into the parent div which it should fit*/
+  width: 100%;
+}
