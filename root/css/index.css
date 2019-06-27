@@ -4,6 +4,7 @@
   --medium: #914ce0;
   --medium-dark: #531f8f;
   --dark: #2b1049;
+  --darker: #19082c;
 
   --diveable: #f757ff;
   --code: #41414180;
@@ -294,7 +295,7 @@ body.mobile>.scrollbar {
   height: 100%;
 
   animation: bg-hex linear infinite;
-  color: var(--dark);
+  color: var(--darker);
 }
 
 @keyframes bg-hex {
@@ -456,7 +457,7 @@ body.mobile>.scrollbar {
   }
 
   50% {
-    transform: scale(0.8);
+    transform: scale(0.84);
   }
 
   100% {

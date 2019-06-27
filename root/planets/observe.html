@@ -156,9 +156,10 @@
           xhr.send();
           state.intervalId = setInterval(state.props.animateButton, state.props.animateInterval);
           state.isButtonReady = false;
-        }
 
-        return false;
+          event.preventDefault();
+          return false;
+        }
       };
     };
 
