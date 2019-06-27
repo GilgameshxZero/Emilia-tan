@@ -49,10 +49,12 @@
   padding: 5px;
 
   font-family: inherit;
+  font-size: inherit;
   background-color: inherit;
   color: white;
   border: none;
   border-bottom: 2px solid var(--medium);
+  border-radius: 0;
 }
 
 .planet-content button {

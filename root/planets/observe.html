@@ -18,7 +18,7 @@
     }
 
     .planet-content>form>button {
-      margin: 20px auto;
+      margin: 20px auto 0;
       width: 15ch;
 
       transition: opacity var(--transition-time);
@@ -141,7 +141,7 @@
       return event => {
         if (state.isButtonReady) {
           const newText = state.props.button.textContent === "subscribe" ?
-                "unsubscribe" : "subscribe";
+            "unsubscribe" : "subscribe";
           const xhr = new XMLHttpRequest();
           xhr.open(`GET`, `scripts/mlist-query.exe?action=toggle&email=${state.props.input.value}`, true);
           xhr.onreadystatechange = () => {
@@ -194,21 +194,31 @@
 
 <body>
   <div class="meta">
-    <div class="title">SUBSCRIBE</div>
+    <div class="title">OBSERVE</div>
     <div class="label">
       <span style="padding-bottom: 10%;">@</span>
     </div>
     <div class="subplanets"></div>
   </div>
   <div class="planet-content">
+    <div style="display: flex">
+      <span style="margin: 0 auto;">
+        <p>
+          <i>intransitive verb</i><br>
+          <b>1</b> : <span class="large">to take notice</span><br>
+          &nbsp;&nbsp;&nbsp;… We can <i>observe</i> clearly that none of us is free.<br>
+        </p>
+      </span>
+    </div>
+    <br>
+    <p class="center">
+      subscribe to updates about my life
+    </p>
     <form>
-      <input class="center large" type="text" placeholder="email">
-      <span class="measure large"></span>
+      <input class="center" type="email" placeholder="email">
+      <span class="measure"></span>
       <button class="disabled" type="submit">subscribe</button>
     </form>
-    <p class="center">
-      personal life updates
-    </p>
   </div>
 </body>
 

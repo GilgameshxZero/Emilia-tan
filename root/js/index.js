@@ -547,7 +547,7 @@ window.addEventListener(`load`, () => {
   const props = { //constants
     totalPlanets: 10, //HARDCODED number of planets total, for the loading bar
     planetLoadRetry: 1000, //ms to wait between planet data request retries
-    rootPlanets: [`become`, `interface`, `create`, `exist`, `follow`], //planets visible at root orbit
+    rootPlanets: [`become`, `interface`, `create`, `exist`, `observe`], //planets visible at root orbit
     shrinkRatio: 0.5, //the size ratio of planet furthest away
     sameTransitionTimeThreshold: 100, //ms threshold during which new transitionend events cannot overlap processing; should be less than transition length
     scrollTimeout: 1000, //ms since the last event that triggered scrollbar should it be hidden
