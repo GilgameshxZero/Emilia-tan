@@ -94,7 +94,7 @@ setPlanetNodes = state => {
 handlePlanetNodeAnimationIteration = event => {
   const planetNode = event.target.parentNode.parentNode;
   planetNode.classList.remove(`spinning`);
-  planetNode.removeEventListener(`animationiteration`, handlePlanetNodeAnimationIteration);
+  planetNode.querySelector(`.inner>.hexagon-wrapper`).removeEventListener(`animationiteration`, handlePlanetNodeAnimationIteration);
 };
 
 //move the selected planet a certain amount in the orbit i.e. select another planet
@@ -111,7 +111,7 @@ orbitPlanetNodes = state => {
   //remove selected planet effects (spinning)
   const selectedPlanetNode = state.planetNodes[state.orbitPlanets[lastSelected]];
   selectedPlanetNode.classList.remove(`highlight`);
-  selectedPlanetNode.addEventListener(`animationiteration`, handlePlanetNodeAnimationIteration);
+  selectedPlanetNode.querySelector(`.inner>.hexagon-wrapper`).addEventListener(`animationiteration`, handlePlanetNodeAnimationIteration);
 
   //shift state and reset planets in orbit
   state.selectedIndex[lastIndex] = (state.orbitPlanets.length + lastSelected + amount) % state.orbitPlanets.length;
@@ -595,4 +595,22 @@ window.addEventListener(`load`, () => {
       document.querySelector(`.entrance>.bottom`).style.bottom = `-50%`;
     });
   });
+
+  //prep background animation
+  const background = document.querySelector(`.background`),
+    hexagon = document.querySelector(`.templates>.hexagon-wrapper`);
+  const addBkHex = () => {
+    const newHex = hexagon.cloneNode(true);
+    background.appendChild(newHex);
+    setTimeout(() => newHex.classList.add(`bottom`), 100);
+    newHex.style.left = `calc(${Math.random() * 100}% - 0.125 * var(--hex-width))`;
+    newHex.style.animationDuration = `${3 + Math.random() * 4}s`;
+    newHex.querySelector(`.hexagon`).style.animationDuration = `${3 + Math.random() * 4}s`;
+    newHex.style.transitionDuration = `${15 + Math.random() * 10}s`;
+    newHex.addEventListener(`transitionend`, () => {
+      background.removeChild(newHex);
+      addBkHex();
+    });
+  };
+  for (let a = 0; a < 20; a++) setTimeout(addBkHex, a * (1500 + Math.random() * 1000));
 });

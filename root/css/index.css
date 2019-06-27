@@ -117,7 +117,7 @@ body.mobile>.scrollbar {
 
   display: flex;
   flex-flow: row nowrap;
-  background-color: black;
+  background-color: transparent;
   color: white;
 
   overflow: hidden;
@@ -263,6 +263,64 @@ body.mobile>.scrollbar {
   opacity: 1;
 }
 
+.background {
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-color: transparent;
+}
+
+.background>.hexagon-wrapper {
+  position: absolute;
+  top: calc(-1 * var(--hex-width));
+  width: calc(0.25 * var(--hex-width));
+  height: calc(0.25 * var(--hex-width));
+
+  animation: bg-hex-wrapper linear infinite;
+  transition: top linear;
+}
+
+.background>.hexagon-wrapper.bottom {
+  top: calc(100% + var(--hex-width));
+}
+
+.background>.hexagon-wrapper>.hexagon {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  animation: bg-hex linear infinite;
+  color: var(--dark);
+}
+
+@keyframes bg-hex {
+  0% {
+    transform: scaleX(1);
+  }
+
+  50% {
+    transform: scaleX(-1);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bg-hex-wrapper {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /*Common classes*/
 
 .hexagon {
@@ -275,7 +333,7 @@ body.mobile>.scrollbar {
   height: 100%;
   width: calc(100% * 0.57735);
   display: inline-block;
-  
+
   background-color: currentColor;
 }
 
@@ -372,13 +430,14 @@ body.mobile>.scrollbar {
   opacity: 0;
 }
 
-.planet.highlight.spinning>.inner>.hexagon-wrapper>.hexagon.border {
+.planet.spinning>.inner>.hexagon-wrapper>.hexagon.border {
   color: var(--diveable);
 }
 
-.planet.highlight.spinning>.inner>.hexagon-wrapper>.hexagon.inner {
+.planet.spinning>.inner>.hexagon-wrapper>.hexagon.inner {
   color: var(--dark);
   opacity: 1;
+  animation: pulse 2.4s linear infinite;
 }
 
 @keyframes spin {
@@ -388,5 +447,19 @@ body.mobile>.scrollbar {
 
   100% {
     transform: rotate(90deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.9);
+  }
+
+  50% {
+    transform: scale(0.8);
+  }
+
+  100% {
+    transform: scale(0.9);
   }
 }
