@@ -25,7 +25,7 @@
   margin: 4vmin 0;
   
   font-size: 100%;
-  line-height: 1.5;
+  line-height: 1.75;
 }
 
 .planet-content.small-images img {
@@ -43,4 +43,26 @@
 
 .planet-content .larger {
   font-size: 150%;
+}
+
+.planet-content input {
+  padding: 5px;
+
+  font-family: inherit;
+  background-color: inherit;
+  color: white;
+  border: none;
+  border-bottom: 2px solid var(--medium);
+}
+
+.planet-content button {
+  padding: 10px 15px;
+
+  font-family: inherit;
+  font-size: inherit;
+  color: white;
+  background-color: var(--dark);
+  border: 3px solid var(--medium);
+
+  cursor: pointer;
 }

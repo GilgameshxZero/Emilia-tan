@@ -5,8 +5,11 @@
   --medium-dark: #531f8f;
   --dark: #2b1049;
 
+  --diveable: #f757ff;
+  --code: #41414180;
+
   --hex-width: calc(3vmin + 49px);
-  --entrance-transition: 0.5s;
+  --entrance-transition: 0.75s;
   --transition-time: 0.35s;
 }
 
@@ -92,9 +95,18 @@ body.mobile>.scrollbar {
 }
 
 .entrance>*>.edge {
-  width: 100%;
+  display: flex;
   flex: 0 0 1vh;
+  width: 100%;
 
+  background-color: var(--dark);
+}
+
+.entrance>*>.edge>.bar {
+  width: 0;
+  margin: 0 auto;
+
+  transition: width 0.1s;
   background-color: var(--medium);
 }
 
@@ -162,30 +174,50 @@ body.mobile>.scrollbar {
   margin: calc(0.25 * var(--hex-width)) auto auto;
 }
 
-.main>.inner>.orbit>.return.hexagon {
+.main>.inner>.orbit>.return {
   position: absolute;
   top: calc(50% - 0.75 * var(--hex-width));
   left: calc(50% - 0.5 * var(--hex-width));
+  width: var(--hex-width);
+  height: var(--hex-width);
 
   opacity: 0;
-  color: var(--medium);
   transition: opacity var(--transition-time);
   animation: spin-reverse 0.6s linear infinite;
 }
 
-.main>.inner>.orbit>.return.hexagon.enabled {
+.main>.inner>.orbit>.return.enabled {
   opacity: 1;
 
   cursor: pointer;
 }
 
+.main>.inner>.orbit>.return>.hexagon {
+  width: 100%;
+  height: 100%;
+}
+
+.main>.inner>.orbit>.return>.hexagon.border {
+  position: absolute;
+
+  color: var(--diveable);
+}
+
+.main>.inner>.orbit>.return>.hexagon.inner {
+  position: absolute;
+
+  transform: scale(0.9);
+  opacity: 1;
+  color: var(--dark);
+}
+
 @keyframes spin-reverse {
   0% {
-    transform: scale(0.75) rotate(60deg);
+    transform: scale(0.75) rotate(90deg);
   }
 
   100% {
-    transform: scale(0.75) rotate(0deg);
+    transform: scale(0.75) rotate(30deg);
   }
 }
 
@@ -234,37 +266,45 @@ body.mobile>.scrollbar {
 /*Common classes*/
 
 .hexagon {
+  text-align: center;
   position: relative;
-  width: var(--hex-width);
-  height: calc(var(--hex-width) * 0.58);
+  display: inline-block;
+}
+
+.hexagon-inner {
+  height: 100%;
+  width: calc(100% * 0.57735);
+  display: inline-block;
+  
   background-color: currentColor;
-  margin: calc(var(--hex-width) * 0.28) 0;
 }
 
-.hexagon:before,
-.hexagon:after {
-  content: "";
+.hexagon-inner:before {
   position: absolute;
-  width: 0;
-  border-left: calc(var(--hex-width) * 0.5) solid transparent;
-  border-right: calc(var(--hex-width) * 0.5) solid transparent;
+  top: 0;
+  right: calc((100% / 2) - ((100% * 0.57735) / 2));
+  background-color: inherit;
+  height: inherit;
+  width: inherit;
+  content: '';
+  transform: rotateZ(60deg);
 }
 
-.hexagon:before {
-  bottom: 100%;
-  border-bottom: calc(var(--hex-width) * 0.28) solid currentColor;
-}
-
-.hexagon:after {
-  top: 100%;
-  width: 0;
-  border-top: calc(var(--hex-width) * 0.28) solid currentColor;
+.hexagon-inner:after {
+  position: absolute;
+  top: 0;
+  right: calc((100% / 2) - ((100% * 0.57735) / 2));
+  background-color: inherit;
+  height: inherit;
+  width: inherit;
+  content: '';
+  transform: rotateZ(-60deg);
 }
 
 .planet {
   position: absolute;
   width: var(--hex-width);
-  height: calc(var(--hex-width) * 1.1546);
+  height: var(--hex-width);
   top: calc(50% - 0.5 * var(--hex-width));
   left: calc(50% - 0.5 * var(--hex-width));
   transform: scale(0.75);
@@ -287,6 +327,10 @@ body.mobile>.scrollbar {
   height: 100%;
 }
 
+.planet>.inner>.label {
+  color: white;
+}
+
 .planet>.inner>.index {
   display: none;
 }
@@ -295,35 +339,54 @@ body.mobile>.scrollbar {
   z-index: 0;
   position: absolute;
 
-  opacity: 1;
-  color: var(--dark);
-  transform: scale(0.9);
-  transition: opacity var(--transition-time);
-}
+  top: 0;
+  left: 0;
+  width: var(--hex-width);
+  height: var(--hex-width);
 
-.planet>.inner>.hexagon-wrapper.border {
-  transform: scale(1);
-  color: var(--medium);
-}
-
-.planet.spinning>.inner>.hexagon-wrapper {
-  opacity: 0;
-}
-
-.planet.spinning>.inner>.hexagon-wrapper.border {
-  opacity: 1;
+  transform: rotate(30deg);
 }
 
 .planet.spinning>.inner>.hexagon-wrapper {
   animation: spin 0.6s linear infinite;
 }
 
+.planet>.inner>.hexagon-wrapper>.hexagon {
+  position: absolute;
+  width: var(--hex-width);
+  height: var(--hex-width);
+
+  color: var(--medium);
+  transition: color var(--transition-time);
+}
+
+.planet>.inner>.hexagon-wrapper>.hexagon.inner {
+  transform: scale(0.9);
+  color: var(--dark);
+  opacity: 1;
+
+  transition: opacity var(--transition-time);
+}
+
+.planet.highlight>.inner>.hexagon-wrapper>.hexagon.inner {
+  opacity: 0;
+}
+
+.planet.highlight.spinning>.inner>.hexagon-wrapper>.hexagon.border {
+  color: var(--diveable);
+}
+
+.planet.highlight.spinning>.inner>.hexagon-wrapper>.hexagon.inner {
+  color: var(--dark);
+  opacity: 1;
+}
+
 @keyframes spin {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(30deg);
   }
 
   100% {
-    transform: rotate(60deg);
+    transform: rotate(90deg);
   }
 }

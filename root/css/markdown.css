@@ -4,6 +4,10 @@ p {
 
 a {
   color: var(--light);
+  text-decoration: none;
+
+  background-color: black;
+  border-bottom: 2px solid var(--medium);
 }
 
 code {
@@ -15,13 +19,13 @@ code {
   font-family: 'Roboto Mono', monospace;
   font-size: 85%;
 
-  background-color: var(--dark);
-  border: 1px solid var(--dark);
+  background-color: var(--code);
+  border: 1px solid var(--code);
   border-radius: 3px;
-  color: white;
+  color: inherit;
   font-weight: 300;
 
-  padding: 1px 5px;
+  padding: 0 5px;
 }
 
 pre>code {

@@ -33,7 +33,7 @@ requestPlanetData = (planet, onResponse) => {
 //calls onAllFinished when all ongoing xhrs have returned
 cachePlanet = (state, planet, onAllFinished) => {
   state.cLoadingPlanets++;
-  requestPlanetData(planet, (response) => {
+  requestPlanetData(planet, response => {
     //if planet load fails, retry after a second
     if (response === null) {
       console.log(`Planet '${planet}' failed to load; retrying...`);
@@ -44,6 +44,10 @@ cachePlanet = (state, planet, onAllFinished) => {
 
     state.planetData[planet] = document.createElement(`div`);
     state.planetData[planet].innerHTML = response;
+
+    //adjust the loading bar accordingly
+    [...document.querySelectorAll(`.entrance>*>.edge>.bar`)].forEach(edge =>
+      edge.style.width = `${Object.keys(state.planetData).length / state.props.totalPlanets * 100}%`);
 
     //load subplanet data
     getSubplanetsFromPlanetData(state.planetData[planet]).forEach(
@@ -106,6 +110,7 @@ orbitPlanetNodes = state => {
 
   //remove selected planet effects (spinning)
   const selectedPlanetNode = state.planetNodes[state.orbitPlanets[lastSelected]];
+  selectedPlanetNode.classList.remove(`highlight`);
   selectedPlanetNode.addEventListener(`animationiteration`, handlePlanetNodeAnimationIteration);
 
   //shift state and reset planets in orbit
@@ -160,7 +165,7 @@ diveIn = (state, index) => {
   shrinkPlanetNodes(state);
 
   //enable return hexagon and set what to do after shrinking orbit
-  document.querySelector(`.return.hexagon`).classList.add(`enabled`);
+  document.querySelector(`.return`).classList.add(`enabled`);
   state.onDivingEnd = () => {
     removePlanetNodes(state);
 
@@ -227,16 +232,24 @@ setLocationHash = newHash => {
 
 //set title and core, window hash, as well as navigator status, based on current state
 setTitleCore = state => {
-  state.props.mainNode.querySelector(`.inner>.title`).classList.remove(`invisible`);
-  state.props.mainNode.querySelector(`.inner>.core`).classList.remove(`invisible`);
+  const title = state.props.mainNode.querySelector(`.inner>.title`),
+    core = state.props.mainNode.querySelector(`.inner>.core`);
+
+  title.classList.remove(`invisible`);
+  core.classList.remove(`invisible`);
 
   const currentSelection = state.selectedIndex[state.selectedIndex.length - 1];
-  state.props.mainNode.querySelector(`.inner>.title>span`).textContent = getPlanetNodeTitle(state.planetData[state.orbitPlanets[currentSelection]]);
-  state.props.mainNode.querySelector(`.inner>.core`).innerHTML = state.planetData[state.orbitPlanets[currentSelection]].innerHTML;
+  title.querySelector(`span`).textContent = getPlanetNodeTitle(state.planetData[state.orbitPlanets[currentSelection]]);
+  core.innerHTML = state.planetData[state.orbitPlanets[currentSelection]].innerHTML;
+
+  //execute any scripts in the innerHTML
+  const script = core.querySelector(`script`);
+  if (script) eval(script.innerHTML);
 
   const selectedPlanetNode = state.planetNodes[state.orbitPlanets[state.selectedIndex[state.selectedIndex.length - 1]]];
 
   //if subplanets, enable enter by spinning selected planet
+  selectedPlanetNode.classList.add(`highlight`);
   if (getSubplanetsFromPlanetData(state.planetData[state.orbitPlanets[currentSelection]]).length > 0)
     selectedPlanetNode.classList.add(`spinning`);
 
@@ -257,7 +270,7 @@ diveOut = state => {
   state.onDivingEnd = () => {
     state.selectedIndex.pop();
     if (state.selectedIndex.length === 1)
-      document.querySelector(`.return.hexagon`).classList.remove(`enabled`);
+      document.querySelector(`.return`).classList.remove(`enabled`);
     removePlanetNodes(state);
 
     //set new state and update planets
@@ -507,13 +520,13 @@ handleTouchEnd = state => {
       if (yDiff > 0) handleSwipeUp(state);
       else handleSwipeDown(state);
     }
-    
+
     //reset values
     state.touchDragCoords = null;
   };
 };
 
-window.onload = () => {
+window.addEventListener(`load`, () => {
   const state = { //representative of ui state
     cLoadingPlanets: 0, //number of pages which have been requested and not resolved
     planetData: {}, //planet -> planet HTML
@@ -532,8 +545,9 @@ window.onload = () => {
     touchDragCoords: null, //mobile dragging event start coordinates
   };
   const props = { //constants
+    totalPlanets: 10, //HARDCODED number of planets total, for the loading bar
     planetLoadRetry: 1000, //ms to wait between planet data request retries
-    rootPlanets: [`become`, `interface`, `create`, `exist`, `starfall`], //planets visible at root orbit
+    rootPlanets: [`become`, `interface`, `create`, `exist`, `follow`], //planets visible at root orbit
     shrinkRatio: 0.5, //the size ratio of planet furthest away
     sameTransitionTimeThreshold: 100, //ms threshold during which new transitionend events cannot overlap processing; should be less than transition length
     scrollTimeout: 1000, //ms since the last event that triggered scrollbar should it be hidden
@@ -555,27 +569,30 @@ window.onload = () => {
       if (window.location.hash) {
         state.selectedIndex = window.location.hash.substring(1).split(`&`).map(s => parseInt(s));
         if (state.selectedIndex.length > 1)
-          document.querySelector(`.return.hexagon`).classList.add(`enabled`);
+          document.querySelector(`.return`).classList.add(`enabled`);
         for (let a = 1; a < state.selectedIndex.length; a++)
           state.orbitPlanets = getSubplanetsFromPlanetData(state.planetData[state.orbitPlanets[state.selectedIndex[a - 1]]]);
       }
 
+      //functions to prepare state into UI
       prepareOrbit(state);
       setPlanetNodes(state);
-      setTitleCore(state);
 
-      document.querySelector(`.return.hexagon`).addEventListener(`click`, handleReturnHexagonClick(state));
+      //common event handlers
+      document.querySelector(`.return`).addEventListener(`click`, handleReturnHexagonClick(state));
       document.addEventListener(`wheel`, handleWheel(state));
       document.addEventListener(`mousedown`, handleMouseDown(state));
       document.addEventListener(`mousemove`, handleMouseMove(state));
       document.addEventListener(`mouseup`, handleMouseUp(state));
       document.addEventListener(`keypress`, handleKeyPress(state));
-      document.addEventListener(`touchstart`, handleTouchStart(state), false);
-      document.addEventListener(`touchend`, handleTouchEnd(state), false);
+
+      //touch events currently don't work
+      document.addEventListener(`touchstart`, handleTouchStart(state));
+      document.addEventListener(`touchend`, handleTouchEnd(state));
 
       //remove loading screen
       document.querySelector(`.entrance>.top`).style.top = `-50%`;
       document.querySelector(`.entrance>.bottom`).style.bottom = `-50%`;
     });
   });
-};
+});
