@@ -40,7 +40,7 @@
     class TextScramble {
       constructor(el) {
         this.el = el;
-        this.chars = 'abcdefghijklmnopqrstuvwxyz';
+        this.chars = `!<>-_\\/[]{}—=+*^?#________`;
         this.update = this.update.bind(this);
       }
       setText(newText) {
@@ -49,8 +49,8 @@
         const promise = new Promise((resolve) => this.resolve = resolve);
         this.queue = [];
         for (let i = 0; i < length; i++) {
-          const from = oldText[i] || '';
-          const to = newText[i] || '';
+          const from = oldText[i] || ``;
+          const to = newText[i] || ``;
           const start = Math.floor(Math.random() * 10);
           const end = start + Math.floor(Math.random() * 10);
           this.queue.push({ from, to, start, end });
@@ -61,7 +61,7 @@
         return promise;
       }
       update() {
-        let output = '';
+        let output = ``;
         let complete = 0;
         for (let i = 0, n = this.queue.length; i < n; i++) {
           let { from, to, start, end, char } = this.queue[i]
