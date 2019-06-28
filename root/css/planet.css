@@ -63,8 +63,10 @@
   font-family: inherit;
   font-size: inherit;
   color: white;
-  background-color: var(--dark);
+  background-color: transparent;
   border: 3px solid var(--medium);
+  border-left: none;
+  border-right: none;
 
   cursor: pointer;
 }

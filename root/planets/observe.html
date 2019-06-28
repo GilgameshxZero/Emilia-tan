@@ -13,13 +13,10 @@
       max-width: 100%;
       width: 100px;
       margin: auto;
-
-      transition: width 0.1s;
     }
 
     .planet-content>form>button {
       margin: 20px auto 0;
-      width: 15ch;
 
       transition: opacity var(--transition-time);
     }
@@ -43,7 +40,7 @@
     class TextScramble {
       constructor(el) {
         this.el = el;
-        this.chars = '!<>-_\\/[]{}—=+*^?#________';
+        this.chars = 'abcdefghijklmnopqrstuvwxyz';
         this.update = this.update.bind(this);
       }
       setText(newText) {
@@ -104,8 +101,8 @@
 
         //based on value, enable or disable button
         state.isButtonReady = false;
-        state.intervalId = setInterval(state.props.animateButton, state.props.animateInterval);
         if (state.props.emailRegex.test(value)) {
+          state.intervalId = setInterval(state.props.animateButton, state.props.animateInterval);
           state.props.button.classList.remove(`disabled`);
           //also change whether the button says subscribe or unsubscribe based on mlist status
           const checkStatus = () => {
@@ -181,7 +178,7 @@
       };
       props.buttonFX = new TextScramble(props.button);
       props.animateButton = () => { //animate button if not ready
-        if (!state.isButtonReady) state.props.buttonFX.setText(`--subscribe`);
+        if (!state.isButtonReady) state.props.buttonFX.setText(`nsubscribe`);
       };
       state.props = props;
 

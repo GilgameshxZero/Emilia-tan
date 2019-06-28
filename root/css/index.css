@@ -3,7 +3,7 @@
   --medium: #914ce0;
   --dark: #2b1049;
 
-  --diveable: #f757ff;
+  --burning: #f757ff;
   --code: #41414180;
 
   --hex-width: calc(3vmin + 49px);
@@ -198,7 +198,7 @@ body.mobile>.scrollbar {
 .main>.inner>.orbit>.return>.hexagon.border {
   position: absolute;
 
-  color: var(--diveable);
+  color: var(--burning);
 }
 
 .main>.inner>.orbit>.return>.hexagon.inner {
@@ -431,7 +431,7 @@ body.mobile>.scrollbar {
 }
 
 .planet.spinning>.inner>.hexagon-wrapper>.hexagon.border {
-  color: var(--diveable);
+  color: var(--burning);
 }
 
 .planet.spinning>.inner>.hexagon-wrapper>.hexagon.inner {

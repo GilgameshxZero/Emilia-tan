@@ -569,7 +569,7 @@ window.addEventListener(`load`, () => {
     isDraggingScrollbar: false, //true if user is dragging the scrollbar
     scrollDragCoords: null, //mouse coordinates during last event processed of scroll dragging
     touchDragCoords: null, //mobile dragging event start coordinates
-    missingHexagons: 100, //hexagons to add to background animation
+    missingHexagons: 20, //hexagons to add to background animation
   };
   const props = { //constants
     totalPlanets: 10, //HARDCODED number of planets total, for the loading bar
@@ -607,8 +607,8 @@ window.addEventListener(`load`, () => {
       prepareOrbit(state);
       setPlanetNodes(state);
 
-      //background animation
-      addAllBackgroundHexagons(state);
+      //background animation: currently disabled
+      //addAllBackgroundHexagons(state);
 
       //common event handlers
       document.querySelector(`.return`).addEventListener(`click`, handleReturnHexagonClick(state));
