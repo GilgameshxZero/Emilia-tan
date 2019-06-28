@@ -493,7 +493,7 @@ handleSwipeRight = state => {
   if (state.orbiting || state.diving) return;
   state.orbitAmount = 1;
   orbitPlanetNodes(state);
-}
+};
 
 //callback on document for mobile swipes
 handleTouchStart = state => {
@@ -526,6 +526,32 @@ handleTouchEnd = state => {
   };
 };
 
+addBackgroundHexagon = state => {
+  return () => {
+    const newBackgroundHexagon = state.props.backgroundHexagon.cloneNode(true);
+    state.props.background.appendChild(newBackgroundHexagon);
+    setTimeout(() => newBackgroundHexagon.classList.add(`bottom`), 100);
+    newBackgroundHexagon.style.left = `calc(${Math.random() * 100}% - 0.125 * var(--hex-width))`;
+    newBackgroundHexagon.style.animationDuration = `${3 + Math.random() * 4}s`;
+    newBackgroundHexagon.querySelector(`.hexagon`).style.animationDuration = `${3 + Math.random() * 4}s`;
+    newBackgroundHexagon.style.transitionDuration = `${15 + Math.random() * 10}s`;
+    newBackgroundHexagon.addEventListener(`transitionend`, () => {
+      state.props.background.removeChild(newBackgroundHexagon);
+      state.missingHexagons++;
+
+      //setTimeout to aggregate all the missing hexagons so that they don't come out at the same time
+      setTimeout(() => addAllBackgroundHexagons(state), 100);
+    });
+  };
+};
+
+addAllBackgroundHexagons = state => {
+  const toAdd = state.missingHexagons;
+  state.missingHexagons = 0;
+  for (let a = 0; a < toAdd; a++)
+    setTimeout(addBackgroundHexagon(state), a * (500 + Math.random() * 250));
+};
+
 window.addEventListener(`load`, () => {
   const state = { //representative of ui state
     cLoadingPlanets: 0, //number of pages which have been requested and not resolved
@@ -543,6 +569,7 @@ window.addEventListener(`load`, () => {
     isDraggingScrollbar: false, //true if user is dragging the scrollbar
     scrollDragCoords: null, //mouse coordinates during last event processed of scroll dragging
     touchDragCoords: null, //mobile dragging event start coordinates
+    missingHexagons: 100, //hexagons to add to background animation
   };
   const props = { //constants
     totalPlanets: 10, //HARDCODED number of planets total, for the loading bar
@@ -555,6 +582,8 @@ window.addEventListener(`load`, () => {
     mainNode: document.querySelector(`.main`),
     orbitNode: document.querySelector(`.main>.inner>.orbit>.inner`),
     scrollbar: document.querySelector(`.scrollbar>.inner>.bar`),
+    background: document.querySelector(`.background`),
+    backgroundHexagon: document.querySelector(`.templates>.hexagon-wrapper`),
   };
   state.props = props;
 
@@ -578,6 +607,9 @@ window.addEventListener(`load`, () => {
       prepareOrbit(state);
       setPlanetNodes(state);
 
+      //background animation
+      addAllBackgroundHexagons(state);
+
       //common event handlers
       document.querySelector(`.return`).addEventListener(`click`, handleReturnHexagonClick(state));
       document.addEventListener(`wheel`, handleWheel(state));
@@ -595,22 +627,4 @@ window.addEventListener(`load`, () => {
       document.querySelector(`.entrance>.bottom`).style.bottom = `-50%`;
     });
   });
-
-  //prep background animation
-  const background = document.querySelector(`.background`),
-    hexagon = document.querySelector(`.templates>.hexagon-wrapper`);
-  const addBkHex = () => {
-    const newHex = hexagon.cloneNode(true);
-    background.appendChild(newHex);
-    setTimeout(() => newHex.classList.add(`bottom`), 100);
-    newHex.style.left = `calc(${Math.random() * 100}% - 0.125 * var(--hex-width))`;
-    newHex.style.animationDuration = `${3 + Math.random() * 4}s`;
-    newHex.querySelector(`.hexagon`).style.animationDuration = `${3 + Math.random() * 4}s`;
-    newHex.style.transitionDuration = `${15 + Math.random() * 10}s`;
-    newHex.addEventListener(`transitionend`, () => {
-      background.removeChild(newHex);
-      addBkHex();
-    });
-  };
-  for (let a = 0; a < 20; a++) setTimeout(addBkHex, a * (1500 + Math.random() * 1000));
 });
