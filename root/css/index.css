@@ -8,7 +8,7 @@
 
   --hex-width: calc(3vmin + 49px);
   --entrance-transition: 0.75s;
-  --transition-time: 0.35s;
+  --transition-time: 0.4s;
 }
 
 .meta {
@@ -133,31 +133,9 @@ body.mobile>.scrollbar {
   flex-flow: column nowrap;
 }
 
-.main>.inner>.title {
-  flex: 0 0 calc(5vmin + 60px);
-  width: 100%;
-
-  display: flex;
-  flex-flow: row nowrap;
-  opacity: 1;
-  overflow: hidden;
-
-  transition: opacity var(--transition-time);
-}
-
-.main>.inner>.title.invisible {
-  opacity: 0;
-}
-
-.main>.inner>.title>span {
-  margin: auto;
-
-  font-size: 200%;
-}
-
 .main>.inner>.orbit {
   position: relative;
-  flex: 0 0 calc(20vmin + 120px);
+  flex: 0 0 calc(20vmin + 120px + 5%);
   width: 100%;
   max-width: 125vh;
   margin: 0 auto;
@@ -169,12 +147,13 @@ body.mobile>.scrollbar {
   position: relative;
   width: calc(90% - var(--hex-width));
   height: calc(20vmin + 120px - var(--hex-width));
-  margin: calc(0.25 * var(--hex-width)) auto auto;
+  margin: calc(0.25 * var(--hex-width) + 5%) auto auto;
 }
 
-.main>.inner>.orbit>.return {
+.main>.inner>.orbit>.inner>.return {
+  z-index: 1;
   position: absolute;
-  top: calc(50% - 0.75 * var(--hex-width));
+  top: calc(50% - 0.5 * var(--hex-width));
   left: calc(50% - 0.5 * var(--hex-width));
   width: var(--hex-width);
   height: var(--hex-width);
@@ -184,24 +163,24 @@ body.mobile>.scrollbar {
   animation: spin-reverse 0.6s linear infinite;
 }
 
-.main>.inner>.orbit>.return.enabled {
+.main>.inner>.orbit>.inner>.return.enabled {
   opacity: 1;
 
   cursor: pointer;
 }
 
-.main>.inner>.orbit>.return>.hexagon {
+.main>.inner>.orbit>.inner>.return>.hexagon {
   width: 100%;
   height: 100%;
 }
 
-.main>.inner>.orbit>.return>.hexagon.border {
+.main>.inner>.orbit>.inner>.return>.hexagon.border {
   position: absolute;
 
   color: var(--burning);
 }
 
-.main>.inner>.orbit>.return>.hexagon.inner {
+.main>.inner>.orbit>.inner>.return>.hexagon.inner {
   position: absolute;
 
   transform: scale(0.9);
@@ -437,7 +416,6 @@ body.mobile>.scrollbar {
 .planet.spinning>.inner>.hexagon-wrapper>.hexagon.inner {
   color: var(--dark);
   opacity: 1;
-  animation: pulse 2.4s linear infinite;
 }
 
 @keyframes spin {
@@ -447,19 +425,5 @@ body.mobile>.scrollbar {
 
   100% {
     transform: rotate(90deg);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.9);
-  }
-
-  50% {
-    transform: scale(0.84);
-  }
-
-  100% {
-    transform: scale(0.9);
   }
 }

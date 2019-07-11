@@ -1,0 +1,59 @@
+<html>
+
+<head>
+  <script>
+    onPlanetContentLoad = () => {
+      const versionXHR = new XMLHttpRequest();
+      versionXHR.open(`GET`, `scripts/print-ver.exe`, true);
+      versionXHR.onreadystatechange = () => {
+        if (versionXHR.readyState !== 4) return;
+        if (versionXHR.status !== 200) return;
+        else document.querySelector(`.planet-content>.version`).textContent = versionXHR.responseText;
+      };
+      versionXHR.send();
+
+      const modifiedXHR = new XMLHttpRequest();
+      modifiedXHR.open(`GET`, `scripts/print-ver.exe`, true);
+      modifiedXHR.onreadystatechange = () => {
+        if (modifiedXHR.readyState !== 4) return;
+        if (modifiedXHR.status !== 200) return;
+        else document.querySelector(`.planet-content>.modified`).textContent = modifiedXHR.responseText;
+      };
+      modifiedXHR.send();
+    }
+    onPlanetContentLoad();
+  </script>
+</head>
+
+<body>
+  <div class="meta">
+    <div class="label">
+      <span>.</span>
+    </div>
+    <div class="subplanets"></div>
+  </div>
+  <div class="planet-content">
+    <p class="center larger">
+      EMILIA
+    </p>
+    <p class="center large version"></p>
+    <p class="center modified"></p>
+    <p class="center">
+      <br>
+      <br>
+      HTTP & SMTP server in native C++<br>
+      hosted on GIGABYTE BRIX<br>
+      tunneled with SERVEO through AWS<br>
+      UI/UX DESIGNED & BUILT from scratch<br>
+      <br>
+      based on <a href="https://myanimelist.net/character/118737/Emilia">EMILIA</a><br>
+      <br>
+    </p>
+    <p class="center">
+      <a href="https://github.com/gilgameshxzero/emilia">server repo</a><br>
+      <a href="https://github.com/gilgameshxzero/emilia-tan">front-end repo</a><br>
+    </p>
+  </div>
+</body>
+
+</html>

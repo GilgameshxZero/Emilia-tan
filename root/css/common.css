@@ -1,3 +1,7 @@
+.no-display {
+  display: none !important;
+}
+
 .no-select {
   -webkit-touch-callout: none;
   /* iOS Safari */

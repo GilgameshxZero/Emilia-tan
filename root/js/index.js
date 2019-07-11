@@ -1,10 +1,5 @@
 /*jshint esversion: 6 */
 
-//given a planet's html data, return its title
-getPlanetNodeTitle = planetNode => {
-  return planetNode.querySelector(`.meta>.title`).textContent;
-};
-
 //given a planet's html data, return its label
 getPlanetNodeLabel = planetNode => {
   return planetNode.querySelector(`.meta>.label`).innerHTML;
@@ -67,10 +62,9 @@ smoothScrollMainTop = state => {
   setTimeout(() => onMainScrolled(state, Date.now()), 500);
 };
 
-//called when an animation is beginning which will change title or core
+//called when an animation is beginning which will change core
 prepareMainChange = state => {
   smoothScrollMainTop(state);
-  document.querySelector(`.main>.inner>.title`).classList.add(`invisible`);
   document.querySelector(`.main>.inner>.core`).classList.add(`invisible`);
 };
 
@@ -150,13 +144,13 @@ handlePlanetNodeTransitionEnd = state => {
     if (state.orbitAmount !== 0) //finish up orbit with whatever's left
       setTimeout(() => orbitPlanetNodes(state), 1);
     else if (!state.diving) //don't update main while entering/leaving subplanets
-      setTitleCore(state);
+      setCoreContent(state);
     else //is diving, so continue the dive with defined function
       state.onDivingEnd();
   };
 };
 
-diveIn = (state, index) => {
+diveIn = (state, index = state.selectedIndex[state.selectedIndex.length - 1], diveTo = -1) => {
   const planet = state.orbitPlanets[index];
 
   if (getSubplanetsFromPlanetData(state.planetData[planet]).length === 0) return;
@@ -170,11 +164,12 @@ diveIn = (state, index) => {
     removePlanetNodes(state);
 
     //set new state and update planets
-    [...state.planetData[planet].querySelectorAll(`.meta>.subplanets>span`)]
-    .forEach((subplanet, index) => {
-      if (subplanet.classList.contains(`default`))
-        state.selectedIndex.push(index);
-    });
+    if (diveTo === -1) {
+      [...state.planetData[planet].querySelectorAll(`.meta>.subplanets>span`)]
+      .forEach((subplanet, index) => {
+        if (subplanet.classList.contains(`default`)) state.selectedIndex.push(index);
+      });
+    } else state.selectedIndex.push(diveTo);
     state.orbitPlanets = [];
     getSubplanetsFromPlanetData(state.planetData[planet]).forEach((subplanet) => state.orbitPlanets.push(subplanet));
 
@@ -184,7 +179,7 @@ diveIn = (state, index) => {
     state.onDivingEnd = () => {
       state.diving = false;
       state.onDivingEnd = null;
-      setTitleCore(state);
+      setCoreContent(state);
     };
   };
 };
@@ -230,17 +225,23 @@ setLocationHash = newHash => {
   else window.location.hash = newHash;
 };
 
-//set title and core, window hash, as well as navigator status, based on current state
-setTitleCore = state => {
-  const title = state.props.mainNode.querySelector(`.inner>.title`),
-    core = state.props.mainNode.querySelector(`.inner>.core`);
+//set core, window hash, as well as navigator status, based on current state
+setCoreContent = state => {
+  const core = state.props.mainNode.querySelector(`.inner>.core`);
 
-  title.classList.remove(`invisible`);
   core.classList.remove(`invisible`);
 
   const currentSelection = state.selectedIndex[state.selectedIndex.length - 1];
-  title.querySelector(`span`).textContent = getPlanetNodeTitle(state.planetData[state.orbitPlanets[currentSelection]]);
   core.innerHTML = state.planetData[state.orbitPlanets[currentSelection]].innerHTML;
+
+  //set diveable actions
+  core.querySelectorAll(`.diveable`).forEach(diveable => {
+    const diveTo = parseInt(diveable.getAttribute(`data-dive-to`));
+    diveable.addEventListener(`click`, event => {
+      if (diveTo === -1) diveIn(state);
+      else diveIn(state, state.selectedIndex[state.selectedIndex.length - 1], diveTo);
+    });
+  });
 
   //execute any scripts in the innerHTML
   const script = core.querySelector(`script`);
@@ -289,7 +290,7 @@ diveOut = state => {
     state.onDivingEnd = () => {
       state.diving = false;
       state.onDivingEnd = null;
-      setTitleCore(state);
+      setCoreContent(state);
     };
   };
 };
@@ -466,7 +467,7 @@ handleKeyPress = state => {
         diveOut(state);
         break;
       case "KeyE":
-        diveIn(state, state.selectedIndex[state.selectedIndex.length - 1]);
+        diveIn(state);
         break;
     }
   };
@@ -498,6 +499,7 @@ handleSwipeRight = state => {
 //callback on document for mobile swipes
 handleTouchStart = state => {
   return event => {
+    //document.querySelector(`.main>.inner>.core`).textContent = JSON.stringify(event.originalEvent);
     const firstTouch = event.touches[0];
     state.touchDragCoords = { x: firstTouch.clientX, y: firstTouch.clientY };
   };
@@ -506,6 +508,7 @@ handleTouchStart = state => {
 //callback on document for mobile swipes
 handleTouchEnd = state => {
   return event => {
+    //document.querySelector(`.main>.inner>.core`).textContent = JSON.stringify(event.originalEvent);
     if (state.touchDragCoords === null) return;
 
     const touch = event.touches[0],
@@ -526,32 +529,6 @@ handleTouchEnd = state => {
   };
 };
 
-addBackgroundHexagon = state => {
-  return () => {
-    const newBackgroundHexagon = state.props.backgroundHexagon.cloneNode(true);
-    state.props.background.appendChild(newBackgroundHexagon);
-    setTimeout(() => newBackgroundHexagon.classList.add(`bottom`), 100);
-    newBackgroundHexagon.style.left = `calc(${Math.random() * 100}% - 0.125 * var(--hex-width))`;
-    newBackgroundHexagon.style.animationDuration = `${3 + Math.random() * 4}s`;
-    newBackgroundHexagon.querySelector(`.hexagon`).style.animationDuration = `${3 + Math.random() * 4}s`;
-    newBackgroundHexagon.style.transitionDuration = `${15 + Math.random() * 10}s`;
-    newBackgroundHexagon.addEventListener(`transitionend`, () => {
-      state.props.background.removeChild(newBackgroundHexagon);
-      state.missingHexagons++;
-
-      //setTimeout to aggregate all the missing hexagons so that they don't come out at the same time
-      setTimeout(() => addAllBackgroundHexagons(state), 100);
-    });
-  };
-};
-
-addAllBackgroundHexagons = state => {
-  const toAdd = state.missingHexagons;
-  state.missingHexagons = 0;
-  for (let a = 0; a < toAdd; a++)
-    setTimeout(addBackgroundHexagon(state), a * (500 + Math.random() * 250));
-};
-
 window.addEventListener(`load`, () => {
   const state = { //representative of ui state
     cLoadingPlanets: 0, //number of pages which have been requested and not resolved
@@ -569,12 +546,11 @@ window.addEventListener(`load`, () => {
     isDraggingScrollbar: false, //true if user is dragging the scrollbar
     scrollDragCoords: null, //mouse coordinates during last event processed of scroll dragging
     touchDragCoords: null, //mobile dragging event start coordinates
-    missingHexagons: 20, //hexagons to add to background animation
   };
   const props = { //constants
     totalPlanets: 10, //HARDCODED number of planets total, for the loading bar
     planetLoadRetry: 1000, //ms to wait between planet data request retries
-    rootPlanets: [`become`, `interface`, `create`, `exist`, `observe`], //planets visible at root orbit
+    rootPlanets: [`become`, `interface`, `create`, `exist`, `emilia`], //planets visible at root orbit
     shrinkRatio: 0.5, //the size ratio of planet furthest away
     sameTransitionTimeThreshold: 100, //ms threshold during which new transitionend events cannot overlap processing; should be less than transition length
     scrollTimeout: 1000, //ms since the last event that triggered scrollbar should it be hidden
@@ -582,8 +558,6 @@ window.addEventListener(`load`, () => {
     mainNode: document.querySelector(`.main`),
     orbitNode: document.querySelector(`.main>.inner>.orbit>.inner`),
     scrollbar: document.querySelector(`.scrollbar>.inner>.bar`),
-    background: document.querySelector(`.background`),
-    backgroundHexagon: document.querySelector(`.templates>.hexagon-wrapper`),
   };
   state.props = props;
 
@@ -606,9 +580,6 @@ window.addEventListener(`load`, () => {
       //functions to prepare state into UI
       prepareOrbit(state);
       setPlanetNodes(state);
-
-      //background animation: currently disabled
-      //addAllBackgroundHexagons(state);
 
       //common event handlers
       document.querySelector(`.return`).addEventListener(`click`, handleReturnHexagonClick(state));

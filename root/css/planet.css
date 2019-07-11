@@ -7,7 +7,7 @@
   height: 100%;
 
   display: flex;
-  color: var(--light);
+  color: white;
   font-size: 200%;
 }
 
@@ -45,6 +45,10 @@
   font-size: 150%;
 }
 
+.planet-content h1 {
+  text-align: center;
+}
+
 .planet-content input {
   padding: 5px;
 
@@ -64,9 +68,14 @@
   font-size: inherit;
   color: white;
   background-color: transparent;
-  border: 3px solid var(--medium);
+  border: 2px solid var(--medium);
   border-left: none;
   border-right: none;
 
   cursor: pointer;
+  transition: border-color var(--transition-time);
+}
+
+.planet-content button:hover {
+  border-color: var(--burning);
 }

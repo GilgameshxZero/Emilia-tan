@@ -3,11 +3,14 @@ p {
 }
 
 a {
-  color: var(--light);
+  color: white;
   text-decoration: none;
 
   background-color: black;
-  border-bottom: 2px solid var(--medium);
+  border: 2px solid var(--medium);
+  border-left: none;
+  border-right: none;
+  border-top: none;
 }
 
 code {
@@ -21,7 +24,7 @@ code {
 
   background-color: var(--code);
   border: 1px solid var(--code);
-  border-radius: 3px;
+  border-radius: 2px;
   color: inherit;
   font-weight: 300;
 
