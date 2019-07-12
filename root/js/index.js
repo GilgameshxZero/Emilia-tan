@@ -499,32 +499,37 @@ handleSwipeRight = state => {
 //callback on document for mobile swipes
 handleTouchStart = state => {
   return event => {
-    //document.querySelector(`.main>.inner>.core`).textContent = JSON.stringify(event.originalEvent);
-    const firstTouch = event.touches[0];
+    const firstTouch = event.changedTouches[0];
     state.touchDragCoords = { x: firstTouch.clientX, y: firstTouch.clientY };
+  };
+};
+
+//callback on document for mobile swipes
+handleTouchMove = state => {
+  return event => {
+    const touch = event.changedTouches[0],
+      dx = state.touchDragCoords.x - touch.clientX,
+      dy = state.touchDragCoords.y - touch.clientY;
+
+    //interpret swipe based on most significant axis change
+    if (Math.abs(dx) > Math.abs(dy)) {
+      event.preventDefault();
+      if (Math.abs(dx) < state.props.swipeThreshold) return;
+      if (dx > 0) handleSwipeRight(state);
+      else handleSwipeLeft(state);
+    } else {
+      if (dy > 0) handleSwipeUp(state);
+      else handleSwipeDown(state);
+    }
+
+    //reset values
+    state.touchDragCoords = { x: touch.clientX, y: touch.clientY };
   };
 };
 
 //callback on document for mobile swipes
 handleTouchEnd = state => {
   return event => {
-    //document.querySelector(`.main>.inner>.core`).textContent = JSON.stringify(event.originalEvent);
-    if (state.touchDragCoords === null) return;
-
-    const touch = event.touches[0],
-      dx = state.touchDragCoords.x - touch.clientX,
-      dy = state.touchDragCoords.y - touch.clientY;
-
-    //interpret swipe based on most significant axis change
-    if (Math.abs(dx) > Math.abs(dy)) {
-      if (xDiff > 0) handleSwipeLeft(state);
-      else handleSwipeRight(state);
-    } else {
-      if (yDiff > 0) handleSwipeUp(state);
-      else handleSwipeDown(state);
-    }
-
-    //reset values
     state.touchDragCoords = null;
   };
 };
@@ -555,6 +560,7 @@ window.addEventListener(`load`, () => {
     sameTransitionTimeThreshold: 100, //ms threshold during which new transitionend events cannot overlap processing; should be less than transition length
     scrollTimeout: 1000, //ms since the last event that triggered scrollbar should it be hidden
     keyScrollAmount: 50, //amount to scroll with keyboard keys
+    swipeThreshold: 10,
     mainNode: document.querySelector(`.main`),
     orbitNode: document.querySelector(`.main>.inner>.orbit>.inner`),
     scrollbar: document.querySelector(`.scrollbar>.inner>.bar`),
@@ -589,9 +595,10 @@ window.addEventListener(`load`, () => {
       document.addEventListener(`mouseup`, handleMouseUp(state));
       document.addEventListener(`keypress`, handleKeyPress(state));
 
-      //touch events currently don't work
-      document.addEventListener(`touchstart`, handleTouchStart(state));
-      document.addEventListener(`touchend`, handleTouchEnd(state));
+      const orbitOuter = document.querySelector(`.main>.inner>.orbit`);
+      orbitOuter.addEventListener(`touchstart`, handleTouchStart(state));
+      orbitOuter.addEventListener(`touchmove`, handleTouchMove(state));
+      orbitOuter.addEventListener(`touchend`, handleTouchEnd(state));
 
       //remove loading screen
       document.querySelector(`.entrance>.top`).style.top = `-50%`;
