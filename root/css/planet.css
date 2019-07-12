@@ -37,6 +37,14 @@
   text-align: center;
 }
 
+.planet-content .left {
+  text-align: left;
+}
+
+.planet-content .right {
+  text-align: right;
+}
+
 .planet-content .large {
   font-size: 125%;
 }
