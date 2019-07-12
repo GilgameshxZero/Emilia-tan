@@ -1,6 +1,18 @@
 <html>
 
-<head></head>
+<head>
+  <style>
+    .planet-content .row {
+      display: flex;
+      flex-flow: row nowrap;
+    }
+
+    .planet-content .row>div {
+      flex: 1 0 0;
+    }
+
+  </style>
+</head>
 
 <body>
   <div class="meta">
@@ -18,12 +30,33 @@
         gil@emilia-tan.com
       </a><br>
     </p>
-    <p class="center">
-      <a href="https://github.com/gilgameshxzero">github</a><br>
-      <a href="https://www.facebook.com/GilgameshxZero">facebook</a><br>
-      <a href="https://www.linkedin.com/in/yang-gilbert-yan-31b43885/">linkedin</a><br>
-      <a href="https://myanimelist.net/profile/gilgameshxzero">myanimelist</a><br>
-    </p>
+    <div class="row">
+      <div class="right">
+        <a href="https://github.com/gilgameshxzero">github</a>
+      </div>
+      <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <div class="left">
+        <a href="https://www.linkedin.com/in/yang-gilbert-yan-31b43885/">linkedin</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="right">
+        <a href="/img/wechat.jpg">wechat</a>
+      </div>
+      <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <div class="left">
+        <a href="https://www.facebook.com/GilgameshxZero">facebook</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="right">
+        <a href="https://myanimelist.net/profile/gilgameshxzero">myanimelist</a>
+      </div>
+      <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+      <div class="left">
+        <a href="https://www.goodreads.com/user/show/18156822-yang-yan">goodreads</a>
+      </div>
+    </div>
   </div>
 </body>
 

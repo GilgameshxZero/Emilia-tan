@@ -548,7 +548,7 @@ window.addEventListener(`load`, () => {
     touchDragCoords: null, //mobile dragging event start coordinates
   };
   const props = { //constants
-    totalPlanets: 10, //HARDCODED number of planets total, for the loading bar
+    totalPlanets: 11, //HARDCODED number of planets total, for the loading bar
     planetLoadRetry: 1000, //ms to wait between planet data request retries
     rootPlanets: [`become`, `interface`, `create`, `exist`, `emilia`], //planets visible at root orbit
     shrinkRatio: 0.5, //the size ratio of planet furthest away
