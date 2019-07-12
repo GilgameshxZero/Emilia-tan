@@ -385,6 +385,35 @@ onMainScrolled = (state, time) => {
   }
 };
 
+//add a hexagon to background animation
+addBackgroundHexagon = state => {
+  return () => {
+    if (!state.windowFocused) {
+      setTimeout(addBackgroundHexagon(state), 1500 + Math.random() * 500);
+      return;
+    }
+
+    const newBackgroundHexagon = state.props.backgroundHexagon.cloneNode(true);
+    const wrapper = newBackgroundHexagon.querySelector(`.hexagon-wrapper`);
+    state.props.background.appendChild(newBackgroundHexagon);
+    newBackgroundHexagon.style.left = `calc(${Math.random() * 100}% - 0.125 * var(--hex-width))`;
+    newBackgroundHexagon.style.animationDuration = `${15 + Math.random() * 10}s`;
+    wrapper.style.animationName = Math.random() < 0.5 ? `bg-hex-wrapper` : `bg-hex-wrapper-reverse`;
+    wrapper.style.animationDuration = `${3 + Math.random() * 4}s`;
+    wrapper.querySelector(`.hexagon`).style.animationDuration = `${3 + Math.random() * 4}s`;
+    wrapper.style.transitionDuration = `${15 + Math.random() * 10}s`;
+    newBackgroundHexagon.addEventListener(`animationend`, () => {
+      state.props.background.removeChild(newBackgroundHexagon);
+      state.currentHexagons--;
+      setTimeout(addBackgroundHexagon(state), 0);
+    });
+
+    state.currentHexagons++;
+    if (state.currentHexagons < state.props.totalHexagons)
+      setTimeout(addBackgroundHexagon(state), 1500 + Math.random() * 500);
+  };
+};
+
 //callback for wheel events
 handleWheel = state => {
   return event => {
@@ -534,6 +563,24 @@ handleTouchEnd = state => {
   };
 };
 
+//blur and focus for tab events
+handleFocus = state => {
+  return event => {
+    document.querySelectorAll(`.background>.hexagon-positioner`)
+    .forEach(wrapper => wrapper.style.animationPlayState = `running`);
+    state.windowFocused = true;
+    if (state.currentHexagons < state.props.totalHexagons) addBackgroundHexagon(state)();
+  };
+};
+
+handleBlur = state => {
+  return event => {
+    document.querySelectorAll(`.background>.hexagon-positioner`)
+    .forEach(wrapper => wrapper.style.animationPlayState = `paused`);
+    state.windowFocused = false;
+  };
+};
+
 window.addEventListener(`load`, () => {
   const state = { //representative of ui state
     cLoadingPlanets: 0, //number of pages which have been requested and not resolved
@@ -551,6 +598,8 @@ window.addEventListener(`load`, () => {
     isDraggingScrollbar: false, //true if user is dragging the scrollbar
     scrollDragCoords: null, //mouse coordinates during last event processed of scroll dragging
     touchDragCoords: null, //mobile dragging event start coordinates
+    windowFocused: true,
+    currentHexagons: 0,
   };
   const props = { //constants
     totalPlanets: 11, //HARDCODED number of planets total, for the loading bar
@@ -560,10 +609,13 @@ window.addEventListener(`load`, () => {
     sameTransitionTimeThreshold: 100, //ms threshold during which new transitionend events cannot overlap processing; should be less than transition length
     scrollTimeout: 1000, //ms since the last event that triggered scrollbar should it be hidden
     keyScrollAmount: 50, //amount to scroll with keyboard keys
-    swipeThreshold: 10,
+    swipeThreshold: 10, //px threshold to orbit on swipe on mobile
+    totalHexagons: 40, //hexagons to add to background animation
     mainNode: document.querySelector(`.main`),
     orbitNode: document.querySelector(`.main>.inner>.orbit>.inner`),
     scrollbar: document.querySelector(`.scrollbar>.inner>.bar`),
+    background: document.querySelector(`.background`),
+    backgroundHexagon: document.querySelector(`.templates>.hexagon-positioner`),
   };
   state.props = props;
 
@@ -586,6 +638,11 @@ window.addEventListener(`load`, () => {
       //functions to prepare state into UI
       prepareOrbit(state);
       setPlanetNodes(state);
+
+      //background animation
+      addBackgroundHexagon(state)();
+      window.addEventListener(`focus`, handleFocus(state));
+      window.addEventListener(`blur`, handleBlur(state));
 
       //common event handlers
       document.querySelector(`.return`).addEventListener(`click`, handleReturnHexagonClick(state));
