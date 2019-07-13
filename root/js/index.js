@@ -388,6 +388,9 @@ onMainScrolled = (state, time) => {
 //add a hexagon to background animation
 addBackgroundHexagon = state => {
   return () => {
+    //don't add hexagon if not viewed rn
+    if (document.visibilityState !== `visible`) return;
+
     state.currentHexagons++;
     const newBackgroundHexagon = state.props.backgroundHexagon.cloneNode(true);
     const wrapper = newBackgroundHexagon.querySelector(`.hexagon-wrapper`);
@@ -401,9 +404,10 @@ addBackgroundHexagon = state => {
     newBackgroundHexagon.addEventListener(`animationend`, () => {
       state.props.background.removeChild(newBackgroundHexagon);
       addBackgroundHexagon(state)();
-      if (state.currentHexagons < state.props.totalHexagons)
-        setTimeout(addBackgroundHexagon(state), 10000);
     });
+
+    //clear interval if target reached
+    if (state.currentHexagons === state.props.totalHexagons) clearInterval(state.backgroundInterval);
   };
 };
 
@@ -559,7 +563,7 @@ handleTouchEnd = state => {
 handleVisibilityChange = state => {
   return event => {
     const visible = document.visibilityState === `visible`;
-    background.querySelectorAll(`.hexagon-positioner`)
+    state.props.background.querySelectorAll(`.hexagon-positioner`)
       .forEach(hexagon => hexagon.style.animationPlayState = visible ? `running` : `paused`);
   };
 };
@@ -582,6 +586,7 @@ window.addEventListener(`load`, () => {
     scrollDragCoords: null, //mouse coordinates during last event processed of scroll dragging
     touchDragCoords: null, //mobile dragging event start coordinates
     currentHexagons: 0, //hexagons in the background right now
+    backgroundInterval: null, //return of setInterval to add hexagons to background
   };
   const props = { //constants
     totalPlanets: 11, //HARDCODED number of planets total, for the loading bar
@@ -622,7 +627,7 @@ window.addEventListener(`load`, () => {
       setPlanetNodes(state);
 
       //background animation
-      addBackgroundHexagon(state)();
+      state.backgroundInterval = setInterval(addBackgroundHexagon(state), 1000);
 
       //common event handlers
       document.querySelector(`.return`).addEventListener(`click`, handleReturnHexagonClick(state));
