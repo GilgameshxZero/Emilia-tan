@@ -388,11 +388,7 @@ onMainScrolled = (state, time) => {
 //add a hexagon to background animation
 addBackgroundHexagon = state => {
   return () => {
-    if (!state.windowFocused) {
-      setTimeout(addBackgroundHexagon(state), 1500 + Math.random() * 500);
-      return;
-    }
-
+    state.currentHexagons++;
     const newBackgroundHexagon = state.props.backgroundHexagon.cloneNode(true);
     const wrapper = newBackgroundHexagon.querySelector(`.hexagon-wrapper`);
     state.props.background.appendChild(newBackgroundHexagon);
@@ -404,13 +400,10 @@ addBackgroundHexagon = state => {
     wrapper.style.transitionDuration = `${15 + Math.random() * 10}s`;
     newBackgroundHexagon.addEventListener(`animationend`, () => {
       state.props.background.removeChild(newBackgroundHexagon);
-      state.currentHexagons--;
-      setTimeout(addBackgroundHexagon(state), 0);
+      addBackgroundHexagon(state)();
+      if (state.currentHexagons < state.props.totalHexagons)
+        setTimeout(addBackgroundHexagon(state), 10000);
     });
-
-    state.currentHexagons++;
-    if (state.currentHexagons < state.props.totalHexagons)
-      setTimeout(addBackgroundHexagon(state), 1500 + Math.random() * 500);
   };
 };
 
@@ -563,21 +556,11 @@ handleTouchEnd = state => {
   };
 };
 
-//blur and focus for tab events
-handleFocus = state => {
+handleVisibilityChange = state => {
   return event => {
-    document.querySelectorAll(`.background>.hexagon-positioner`)
-    .forEach(wrapper => wrapper.style.animationPlayState = `running`);
-    state.windowFocused = true;
-    if (state.currentHexagons < state.props.totalHexagons) addBackgroundHexagon(state)();
-  };
-};
-
-handleBlur = state => {
-  return event => {
-    document.querySelectorAll(`.background>.hexagon-positioner`)
-    .forEach(wrapper => wrapper.style.animationPlayState = `paused`);
-    state.windowFocused = false;
+    const visible = document.visibilityState === `visible`;
+    background.querySelectorAll(`.hexagon-positioner`)
+      .forEach(hexagon => hexagon.style.animationPlayState = visible ? `running` : `paused`);
   };
 };
 
@@ -598,8 +581,7 @@ window.addEventListener(`load`, () => {
     isDraggingScrollbar: false, //true if user is dragging the scrollbar
     scrollDragCoords: null, //mouse coordinates during last event processed of scroll dragging
     touchDragCoords: null, //mobile dragging event start coordinates
-    windowFocused: true,
-    currentHexagons: 0,
+    currentHexagons: 0, //hexagons in the background right now
   };
   const props = { //constants
     totalPlanets: 11, //HARDCODED number of planets total, for the loading bar
@@ -641,16 +623,16 @@ window.addEventListener(`load`, () => {
 
       //background animation
       addBackgroundHexagon(state)();
-      window.addEventListener(`focus`, handleFocus(state));
-      window.addEventListener(`blur`, handleBlur(state));
 
       //common event handlers
       document.querySelector(`.return`).addEventListener(`click`, handleReturnHexagonClick(state));
+
       document.addEventListener(`wheel`, handleWheel(state));
       document.addEventListener(`mousedown`, handleMouseDown(state));
       document.addEventListener(`mousemove`, handleMouseMove(state));
       document.addEventListener(`mouseup`, handleMouseUp(state));
       document.addEventListener(`keypress`, handleKeyPress(state));
+      document.addEventListener(`visibilitychange`, handleVisibilityChange(state));
 
       const orbitOuter = document.querySelector(`.main>.inner>.orbit`);
       orbitOuter.addEventListener(`touchstart`, handleTouchStart(state));

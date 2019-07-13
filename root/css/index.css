@@ -276,7 +276,7 @@ body.mobile>.scrollbar {
 
   animation: bg-hex linear infinite;
   color: var(--dark);
-  opacity: 0.75;
+  opacity: 0.85;
 }
 
 @keyframes bg-hex-position {
