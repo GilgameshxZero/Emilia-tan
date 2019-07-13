@@ -390,6 +390,7 @@ addBackgroundHexagon = state => {
   return () => {
     //don't add hexagon if not viewed rn
     if (document.visibilityState !== `visible`) return;
+    if (state.currentHexagons >= state.props.totalHexagons) return;
 
     state.currentHexagons++;
     const newBackgroundHexagon = state.props.backgroundHexagon.cloneNode(true);
@@ -403,11 +404,9 @@ addBackgroundHexagon = state => {
     wrapper.style.transitionDuration = `${15 + Math.random() * 10}s`;
     newBackgroundHexagon.addEventListener(`animationend`, () => {
       state.props.background.removeChild(newBackgroundHexagon);
+      state.currentHexagons--;
       addBackgroundHexagon(state)();
     });
-
-    //clear interval if target reached
-    if (state.currentHexagons === state.props.totalHexagons) clearInterval(state.backgroundInterval);
   };
 };
 
