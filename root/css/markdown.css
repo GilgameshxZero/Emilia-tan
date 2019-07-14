@@ -6,7 +6,7 @@ a {
   color: white;
   text-decoration: none;
 
-  background-color: black;
+  background-color: transparent;
   border: 2px solid var(--medium);
   border-left: none;
   border-right: none;
