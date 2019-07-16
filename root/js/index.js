@@ -613,12 +613,20 @@ window.addEventListener(`load`, () => {
         document.querySelector(`body`).classList.add(`mobile`);
 
       //if there is hash location, process it now into state
-      if (window.location.hash) {
-        state.selectedIndex = window.location.hash.substring(1).split(`&`).map(s => parseInt(s));
-        if (state.selectedIndex.length > 1)
-          document.querySelector(`.return`).classList.add(`enabled`);
-        for (let a = 1; a < state.selectedIndex.length; a++)
-          state.orbitPlanets = getSubplanetsFromPlanetData(state.planetData[state.orbitPlanets[state.selectedIndex[a - 1]]]);
+      //catch any errors, and don't do anything
+      try {
+        if (window.location.hash) {
+          state.selectedIndex = window.location.hash.substring(1).split(`&`).map(s => parseInt(s));
+          if (state.selectedIndex.filter(x => isNan(x)).length) throw `Fragment is NaN`;
+          if (state.selectedIndex.length > 1)
+            document.querySelector(`.return`).classList.add(`enabled`);
+          for (let a = 1; a < state.selectedIndex.length; a++)
+            state.orbitPlanets = getSubplanetsFromPlanetData(state.planetData[state.orbitPlanets[state.selectedIndex[a - 1]]]);
+        }
+      } catch (error) {
+        console.log(`Error parsing fragment: ${error}`);
+        state.selectedIndex = [0];
+        state.orbitPlanets = state.props.rootPlanets;
       }
 
       //functions to prepare state into UI
