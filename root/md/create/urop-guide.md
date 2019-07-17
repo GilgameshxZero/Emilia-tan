@@ -1,11 +1,13 @@
 # [urop.guide](http://urop.guide)
 
+Jul. 17, 2019
+
 Originally envisioned by [Stella Yang](https://stella-yang.com) as a hackathon project, [urop.guide](http://urop.guide) presents advertised research opportunities at MIT (UROPs) in a much friendlier format than at the [original website](http://uaap.mit.edu/research-exploration/urop/apply/urop-advertised-opportunities) presented by the MIT UROP department.
 
 ![screenshot of urop.guide](assets/create/urop-guide/urop-guide.png)
 *urop.guide*
 
-Below, I will briefly present my perspective on the design challenges and choices made throughout the process.
+Below, I will briefly present my perspective on the design challenges and choices made throughout the process. Stella also has a short post on her website [about urop.guide](https://stella-yang.com/projects/uropguide.html).
 
 ---
 
