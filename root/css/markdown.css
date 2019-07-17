@@ -44,32 +44,14 @@ blockquote {
 }
 
 img {
-  max-width: 100%;
-  margin: 0 auto;
+  margin: 15px auto;
   display: block;
+
+  max-width: 100%;
 }
 
-.image {
-  overflow: hidden;
-
-  width: 300px;
-
-  min-width: 20%;
-  max-width: 100%;
-
+img + em {
   display: block;
-}
-
-.image>img {
-  border-radius: 5px;
-
-  max-width: 100%;
-}
-
-.center {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 15px;
 
   text-align: center;
 }

@@ -28,9 +28,31 @@
   line-height: 1.75;
 }
 
-.planet-content.small-images img {
-  width: 100%;
-  max-width: 500px;
+.planet-content.images-480px img {
+  max-width: 100%;
+}
+@media (min-width: 480px) {
+  .planet-content.images-480px img {
+    max-width: 480px;
+  }
+}
+
+.planet-content.images-768px img {
+  max-width: 100%;
+}
+@media (min-width: 768px) {
+  .planet-content.images-768px img {
+    max-width: 768px;
+  }
+}
+
+.planet-content.images-1024px img {
+  max-width: 100%;
+}
+@media (min-width: 1024px) {
+  .planet-content.images-1024px img {
+    max-width: 1024px;
+  }
 }
 
 .planet-content .center {

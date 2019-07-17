@@ -1,10 +1,10 @@
 :root {
-  --light: #e9d8ff;
-  --medium: #914ce0;
-  --dark: #2b1049;
+  --light: hsl(260, 70%, 90%);
+  --medium: hsl(260, 70%, 60%);
+  --dark: hsl(260, 70%, 15%);
 
-  --burning: #f757ff;
-  --code: #41414180;
+  --burning: hsl(300, 100%, 70%);
+  --code: hsla(0, 0%, 25%, 0.5);
 
   --hex-width: calc(3vmin + 49px);
   --entrance-transition: 0.75s;

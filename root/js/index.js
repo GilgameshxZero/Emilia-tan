@@ -617,7 +617,8 @@ window.addEventListener(`load`, () => {
       try {
         if (window.location.hash) {
           state.selectedIndex = window.location.hash.substring(1).split(`&`).map(s => parseInt(s));
-          if (state.selectedIndex.filter(x => isNan(x)).length) throw `Fragment is NaN`;
+          if (state.selectedIndex.filter(x => isNaN(x)).length)
+            throw `Fragment is NaN`;
           if (state.selectedIndex.length > 1)
             document.querySelector(`.return`).classList.add(`enabled`);
           for (let a = 1; a < state.selectedIndex.length; a++)
