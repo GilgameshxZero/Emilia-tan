@@ -398,10 +398,9 @@ addBackgroundHexagon = state => {
     state.props.background.appendChild(newBackgroundHexagon);
     newBackgroundHexagon.style.left = `calc(${Math.random() * 100}% - 0.125 * var(--hex-width))`;
     newBackgroundHexagon.style.animationDuration = `${15 + Math.random() * 10}s`;
-    wrapper.style.animationName = Math.random() < 0.5 ? `bg-hex-wrapper` : `bg-hex-wrapper-reverse`;
+    wrapper.style.animationDirection = Math.random() < 0.5 ? `normal` : `reverse`;
     wrapper.style.animationDuration = `${3 + Math.random() * 4}s`;
     wrapper.querySelector(`.hexagon`).style.animationDuration = `${3 + Math.random() * 4}s`;
-    wrapper.style.transitionDuration = `${15 + Math.random() * 10}s`;
     newBackgroundHexagon.addEventListener(`animationend`, () => {
       state.props.background.removeChild(newBackgroundHexagon);
       state.currentHexagons--;
@@ -596,7 +595,7 @@ window.addEventListener(`load`, () => {
     scrollTimeout: 1000, //ms since the last event that triggered scrollbar should it be hidden
     keyScrollAmount: 50, //amount to scroll with keyboard keys
     swipeThreshold: 10, //px threshold to orbit on swipe on mobile
-    totalHexagons: 40, //hexagons to add to background animation
+    totalHexagons: 20, //hexagons to add to background animation
     mainNode: document.querySelector(`.main`),
     orbitNode: document.querySelector(`.main>.inner>.orbit>.inner`),
     scrollbar: document.querySelector(`.scrollbar>.inner>.bar`),
@@ -635,7 +634,7 @@ window.addEventListener(`load`, () => {
       setPlanetNodes(state);
 
       //background animation
-      state.backgroundInterval = setInterval(addBackgroundHexagon(state), 1000);
+      state.backgroundInterval = setInterval(addBackgroundHexagon(state), 2000);
 
       //common event handlers
       document.querySelector(`.return`).addEventListener(`click`, handleReturnHexagonClick(state));

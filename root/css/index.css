@@ -265,8 +265,7 @@ body.mobile>.scrollbar {
   width: 100%;
   height: 100%;
 
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  animation: bg-hex-wrapper linear infinite;
 }
 
 .background>.hexagon-positioner>.hexagon-wrapper>.hexagon {
@@ -276,7 +275,7 @@ body.mobile>.scrollbar {
 
   animation: bg-hex linear infinite;
   color: var(--dark);
-  opacity: 0.65;
+  opacity: 0.75;
 }
 
 @keyframes bg-hex-position {
@@ -296,16 +295,6 @@ body.mobile>.scrollbar {
 
   100% {
     transform: rotate(360deg);
-  }
-}
-
-@keyframes bg-hex-wrapper-reverse {
-  0% {
-    transform: rotate(360deg);
-  }
-
-  100% {
-    transform: rotate(0deg);
   }
 }
 
