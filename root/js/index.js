@@ -651,9 +651,14 @@ window.addEventListener(`load`, () => {
       orbitOuter.addEventListener(`touchmove`, handleTouchMove(state));
       orbitOuter.addEventListener(`touchend`, handleTouchEnd(state));
 
-      //remove loading screen
-      document.querySelector(`.entrance>.top`).style.top = `-50%`;
-      document.querySelector(`.entrance>.bottom`).style.bottom = `-50%`;
+      //remove loading screen when the loading bar finishes
+      const loadingBar = document.querySelector(`.entrance .bar`);
+      const startEntranceTransition = () => {
+        document.querySelector(`.entrance>.top`).style.top = `-50%`;
+        document.querySelector(`.entrance>.bottom`).style.bottom = `-50%`;
+        loadingBar.removeEventListener(`transitionend`, startEntranceTransition);
+      };
+      loadingBar.addEventListener(`transitionend`, startEntranceTransition);
     });
   });
 });
