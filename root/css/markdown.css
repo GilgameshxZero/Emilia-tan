@@ -7,10 +7,12 @@ a {
   text-decoration: none;
 
   background-color: transparent;
-  border: 2px solid var(--medium);
-  border-left: none;
-  border-right: none;
-  border-top: none;
+  border-bottom: 2px solid var(--medium);
+  transition: border-color var(--transition-time);
+}
+
+a:hover {
+  border-color: var(--burning);
 }
 
 code {

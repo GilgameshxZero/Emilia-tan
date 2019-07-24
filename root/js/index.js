@@ -587,7 +587,7 @@ window.addEventListener(`load`, () => {
     backgroundInterval: null, //return of setInterval to add hexagons to background
   };
   const props = { //constants
-    totalPlanets: 12, //HARDCODED number of planets total, for the loading bar
+    totalPlanets: 13, //HARDCODED number of planets total, for the loading bar
     planetLoadRetry: 1000, //ms to wait between planet data request retries
     rootPlanets: [`become`, `interface`, `create`, `exist`, `emilia`], //planets visible at root orbit
     shrinkRatio: 0.5, //the size ratio of planet furthest away
