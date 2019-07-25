@@ -1,3 +1,7 @@
+li::marker {
+  color: var(--medium);
+}
+
 p {
   word-wrap: break-word;
 }
@@ -38,8 +42,47 @@ pre>code {
   width: calc(100% - 16px);
 }
 
+hr {
+  border: 2px solid var(--medium);
+  border-left: none;
+  border-right: none;
+}
+
+table {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+
+  font-size: 100%;
+  color: white;
+  border-collapse: collapse;
+  border-style: hidden;
+}
+
+table thead {
+  font-size: 125%;
+}
+
+table td {
+  padding: 10px;
+}
+
+table th {
+  padding: 10px;
+  border: 2px solid var(--medium);
+  border-left: none;
+  border-right: none;
+}
+
+table tr:nth-child(odd) td{
+  background-color: transparent
+}
+table tr:nth-child(even) td{
+  background-color: var(--dark-transparent);
+}
+
 blockquote {
-  border-left: 4px solid var(--dark);
+  border-left: 4px solid var(--medium);
   padding-left: 20px;
   font-style: italic;
   margin: 30px 0;

@@ -2,6 +2,7 @@
   --light: hsl(260, 70%, 85%);
   --medium: hsl(260, 70%, 60%);
   --dark: hsl(260, 70%, 15%);
+  --dark-transparent: hsla(260, 70%, 15%, 0.5);
 
   --burning: hsl(300, 100%, 70%);
   --code: hsla(0, 0%, 25%, 0.5);
@@ -233,11 +234,15 @@ body.mobile>.scrollbar {
 
   opacity: 0;
   background-color: var(--medium);
-  transition: opacity var(--transition-time), height var(--transition-time);
+  transition: opacity var(--transition-time), height var(--transition-time), background-color var(--transition-time);
 }
 
 .scrollbar>.inner>.bar.visible {
   opacity: 1;
+}
+
+.scrollbar>.inner>.bar:hover {
+  background-color: var(--burning);
 }
 
 .background {

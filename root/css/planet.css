@@ -22,7 +22,9 @@
 /*Planet content*/
 
 .planet-content {
-  margin: 4vmin 0;
+  margin: 3vmin auto 5vmin;
+  width: 100%;
+  max-width: 1024px;
 
   font-size: 100%;
   line-height: 1.75;
@@ -79,6 +81,10 @@
 }
 
 .planet-content h1 {
+  text-align: center;
+}
+
+.planet-content h2 {
   text-align: center;
 }
 
