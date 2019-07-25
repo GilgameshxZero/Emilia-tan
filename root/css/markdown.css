@@ -78,7 +78,7 @@ table tr:nth-child(odd) td{
   background-color: transparent
 }
 table tr:nth-child(even) td{
-  background-color: var(--dark-transparent);
+  background-color: var(--code);
 }
 
 blockquote {
