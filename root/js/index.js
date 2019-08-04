@@ -634,7 +634,7 @@ window.addEventListener(`load`, () => {
       setPlanetNodes(state);
 
       //background animation
-      state.backgroundInterval = setInterval(addBackgroundHexagon(state), 2000);
+      //state.backgroundInterval = setInterval(addBackgroundHexagon(state), 2000);
 
       //common event handlers
       document.querySelector(`.return`).addEventListener(`click`, handleReturnHexagonClick(state));
