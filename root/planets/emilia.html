@@ -31,16 +31,22 @@
       const version = body.getAttribute(versionAttribute);
       const modified = body.getAttribute(modifiedAttribute);
 
-      if (version) document.querySelector(`.planet-content .version`).textContent = version;
-      else getEmiliaInfo(`scripts/print-ver.exe`, response => {
-        document.querySelector(`.planet-content .version`).textContent = response;
+      const versionNode = document.querySelector(`.planet-content .version`);
+      if (version) {
+        versionNode.textContent = version;
+      } else getEmiliaInfo(`scripts/print-ver.exe`, response => {
+        if (!versionNode) return;
+        versionNode.textContent = response;
         body.setAttribute(versionAttribute, response);
       });
 
-      if (modified) document.querySelector(`.planet-content .modified`).textContent = modified;
-      else getEmiliaInfo(`scripts/print-last-mod.exe`, response => {
+      const modifiedNode = document.querySelector(`.planet-content .modified`);
+      if (modified) {
+        modifiedNode.textContent = modified;
+      } else getEmiliaInfo(`scripts/print-last-mod.exe`, response => {
+        if (!modifiedNode) return;
         response = response.split(' ')[0];
-        document.querySelector(`.planet-content .modified`).textContent = response;
+        modifiedNode.textContent = response;
         body.setAttribute(modifiedAttribute, response);
       });
     }

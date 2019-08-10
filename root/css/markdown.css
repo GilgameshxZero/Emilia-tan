@@ -94,7 +94,11 @@ img {
   max-width: 100%;
 }
 
-img + em {
+img + br {
+  display: none;
+}
+
+img + br + em {
   display: block;
 
   text-align: center;

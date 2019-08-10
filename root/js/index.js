@@ -93,6 +93,7 @@ handlePlanetNodeAnimationIteration = event => {
 
 //move the selected planet a certain amount in the orbit i.e. select another planet
 orbitPlanetNodes = state => {
+  state.orbiting = true;
   prepareMainChange(state);
 
   //move by one amount at a time
@@ -109,7 +110,6 @@ orbitPlanetNodes = state => {
 
   //shift state and reset planets in orbit
   state.selectedIndex[lastIndex] = (state.orbitPlanets.length + lastSelected + amount) % state.orbitPlanets.length;
-  state.orbiting = true;
   setPlanetNodes(state);
 };
 
@@ -140,13 +140,15 @@ handlePlanetNodeTransitionEnd = state => {
     if (event.propertyName === `color`) return;
 
     state.lastTransitionEndTime = event.timeStamp;
-    state.orbiting = false;
     if (state.orbitAmount !== 0) //finish up orbit with whatever's left
-      setTimeout(() => orbitPlanetNodes(state), 1);
-    else if (!state.diving) //don't update main while entering/leaving subplanets
+      setTimeout(() => orbitPlanetNodes(state), 0);
+    else if (!state.diving) { //don't update main while entering/leaving subplanets
       setCoreContent(state);
-    else //is diving, so continue the dive with defined function
+      state.orbiting = false;
+    } else { //is diving, so continue the dive with defined function
       state.onDivingEnd();
+      state.orbiting = false;
+    }
   };
 };
 
@@ -220,12 +222,15 @@ prepareOrbit = state => {
   });
 };
 
-setLocationHash = newHash => {
-  if (window.history.pushState) window.history.pushState(null, null, newHash);
-  else window.location.hash = newHash;
+updateQueryStringParameter = newQuery => {
+  if (window.history.pushState) {
+    window.history.pushState(null, null,
+      `${window.location.pathname}${newQuery == null ? '' : '?path=' + newQuery}`);
+  }
+  else window.location.search = newQuery;
 };
 
-//set core, window hash, as well as navigator status, based on current state
+//set core, query parameters, as well as navigator status, based on current state
 setCoreContent = state => {
   const core = state.props.mainNode.querySelector(`.inner>.core`);
 
@@ -247,6 +252,9 @@ setCoreContent = state => {
   const script = core.querySelector(`script`);
   if (script) eval(script.innerHTML);
 
+  //scroll to hash location again
+  window.location.hash = window.location.hash;
+
   const selectedPlanetNode = state.planetNodes[state.orbitPlanets[state.selectedIndex[state.selectedIndex.length - 1]]];
 
   //if subplanets, enable enter by spinning selected planet
@@ -255,8 +263,8 @@ setCoreContent = state => {
     selectedPlanetNode.classList.add(`spinning`);
 
   //set window location hash
-  if (state.selectedIndex.length === 1 && state.selectedIndex[0] === 0) setLocationHash(` `);
-  else setLocationHash(`#${state.selectedIndex.join(`&`)}`);
+  if (state.selectedIndex.length === 1 && state.selectedIndex[0] === 0) updateQueryStringParameter();
+  else updateQueryStringParameter(state.selectedIndex.join(`-`));
 
   //prepare scrollbar if necessary
   onMainScrolled(state, Date.now());
@@ -469,22 +477,27 @@ handleMouseUp = state => {
 //callback on document
 handleKeyPress = state => {
   return event => {
-    if (state.orbiting || state.diving) return;
     switch (event.code) {
       case "KeyW":
+        if (state.orbiting || state.diving) break;
         state.props.mainNode.scrollBy(0, -state.props.keyScrollAmount);
         onMainScrolled(state, event.timeStamp);
         break;
       case "KeyS":
+        if (state.orbiting || state.diving) break;
         state.props.mainNode.scrollBy(0, state.props.keyScrollAmount);
         onMainScrolled(state, event.timeStamp);
         break;
       case "KeyA":
+        if (state.diving) break;
         state.orbitAmount = -1;
+        if (state.orbiting) break;
         orbitPlanetNodes(state);
         break;
       case "KeyD":
+        if (state.diving) break;
         state.orbitAmount = 1;
+        if (state.orbiting) break;
         orbitPlanetNodes(state);
         break;
       case "KeyQ":
@@ -509,14 +522,16 @@ handleSwipeDown = state => {
 };
 
 handleSwipeLeft = state => {
-  if (state.orbiting || state.diving) return;
+  if (state.diving) return;
   state.orbitAmount = -1;
+  if (state.orbiting) return;
   orbitPlanetNodes(state);
 };
 
 handleSwipeRight = state => {
-  if (state.orbiting || state.diving) return;
+  if (state.diving) return;
   state.orbitAmount = 1;
+  if (state.orbiting) return;
   orbitPlanetNodes(state);
 };
 
@@ -611,20 +626,21 @@ window.addEventListener(`load`, () => {
       if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
         document.querySelector(`body`).classList.add(`mobile`);
 
-      //if there is hash location, process it now into state
+      //if there is query param, process it now into state
       //catch any errors, and don't do anything
       try {
-        if (window.location.hash) {
-          state.selectedIndex = window.location.hash.substring(1).split(`&`).map(s => parseInt(s));
+        if (window.location.search) {
+          const queryParams = new URLSearchParams(window.location.search);
+          state.selectedIndex = queryParams.get(`path`).split(`-`).map(s => parseInt(s));
           if (state.selectedIndex.filter(x => isNaN(x)).length)
-            throw `Fragment is NaN`;
+            throw `Query is NaN`;
           if (state.selectedIndex.length > 1)
             document.querySelector(`.return`).classList.add(`enabled`);
           for (let a = 1; a < state.selectedIndex.length; a++)
             state.orbitPlanets = getSubplanetsFromPlanetData(state.planetData[state.orbitPlanets[state.selectedIndex[a - 1]]]);
         }
       } catch (error) {
-        console.log(`Error parsing fragment: ${error}`);
+        console.log(`Error parsing query: ${error}`);
         state.selectedIndex = [0];
         state.orbitPlanets = state.props.rootPlanets;
       }

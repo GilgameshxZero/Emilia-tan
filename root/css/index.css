@@ -1,15 +1,20 @@
 :root {
-  --light: hsl(260, 70%, 85%);
-  --medium: hsl(260, 70%, 60%);
-  --dark: hsl(260, 70%, 15%);
-  --dark-transparent: hsla(260, 70%, 15%, 0.5);
+  --hue: 272;
+  --burning-hue: calc(var(--hue) + 30);
+  
+  --light: hsl(var(--hue), 70%, 85%);
+  --medium: hsl(var(--hue), 70%, 60%);
+  --dark: hsl(var(--hue), 70%, 15%);
+  --dark-transparent: hsla(var(--hue), 70%, 15%, 0.5);
 
-  --burning: hsl(300, 100%, 70%);
+  --burning: hsl(var(--burning-hue), 100%, 70%);
   --code: hsla(0, 0%, 25%, 0.5);
 
   --hex-width: calc(3vmin + 49px);
   --entrance-transition: 0.75s;
-  --transition-time: 0.4s;
+  --transition-time: 0.35s;
+
+  --orbit-transition: ease-in-out;
 }
 
 .meta {
@@ -363,7 +368,7 @@ body.mobile>.scrollbar {
   left: calc(50% - 0.5 * var(--hex-width));
   transform: scale(0.75);
 
-  transition: top var(--transition-time), left var(--transition-time), transform var(--transition-time);
+  transition: top var(--transition-time) var(--orbit-transition), left var(--transition-time) var(--orbit-transition), transform var(--transition-time) var(--orbit-transition);
 
   cursor: pointer;
 }

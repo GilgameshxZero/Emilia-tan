@@ -2,6 +2,37 @@
 
 Jun. 29, 2018
 
+- [Predictive Text RNNs and n-grams for MIT Confessions](#predictive-text-rnns-and-n-grams-for-mit-confessions)
+  - [Overview](#overview)
+  - [Data](#data)
+    - [Sources](#sources)
+    - [Acquisition (Scraping)](#acquisition-scraping)
+    - [Cleaning & Preparation](#cleaning--preparation)
+  - [Char-RNN](#char-rnn)
+    - [Basics](#basics)
+      - [Training, Validation, and Test Data](#training-validation-and-test-data)
+    - [Temperature](#temperature)
+    - [Sampling](#sampling)
+  - [First Model: 2x256 LSTM](#first-model-2x256-lstm)
+    - [Layers](#layers)
+    - [Other Specs](#other-specs)
+    - [Final Model](#final-model)
+    - [Thoughts](#thoughts)
+  - [Second Model: 1x512 LSTM](#second-model-1x512-lstm)
+    - [Layers](#layers-1)
+    - [Other Specs](#other-specs-1)
+    - [Final Model](#final-model-1)
+    - [Thoughts](#thoughts-1)
+  - [Third Model: 2x512 GRU](#third-model-2x512-gru)
+    - [Layers](#layers-2)
+    - [Other Specs](#other-specs-2)
+    - [Final Model](#final-model-2)
+    - [Thoughts](#thoughts-2)
+  - [Char-N-Gram](#char-n-gram)
+    - [Samples](#samples)
+  - [Deployment](#deployment)
+  - [Final Thoughts](#final-thoughts)
+
 There are few things more human than language. Inspired by Karpathy's famous [RNN Post](http://karpathy.github.io/2015/05/21/rnn-effectiveness/) and my recent acquisition of a high-end GPU, I decided that it would be a good time to gain some hands-on RNN experience myself.
 
 ## Overview
@@ -105,7 +136,7 @@ Each `char-RNN` model outputs a distribution of probabilities for each of the 55
 
 This model was trained with an earlier iteration of data cleaning, with a smaller alphabet and without confession number prefixes.
 
-#### Layers
+### Layers
 
 1. LSTM: 256
 2. Dropout: 0.2
@@ -115,7 +146,7 @@ This model was trained with an earlier iteration of data cleaning, with a smalle
 
 Largely based on [this](https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/) post.
 
-#### Other Specs
+### Other Specs
 
 * **Optimizer**: `adam` (`lr` = 0.001)
 * **Loss**: `categorical_crossentropy`
@@ -125,7 +156,7 @@ Largely based on [this](https://machinelearningmastery.com/text-generation-lstm-
 	* Small batch sizes slowed down training when compared to later models. However, smaller batch sizes are less prone to overfitting while large batch sizes might lead loss to converge at a higher value than the true minimum.
 * **Validation**: None
 
-#### Final Model
+### Final Model
 
 * **Weights**: [.hdf5](assets/create/mit-confessions-simulator/first-model-weights.hdf5)
 * **Loss**: 1.530 training, N/A validation
@@ -137,7 +168,7 @@ Largely based on [this](https://machinelearningmastery.com/text-generation-lstm-
 	* Posts are delimited with `\n----------------\n` for easy visual cues (instead of a `\0` character)
 	* The first model was trained on data with a slightly smaller alphabet than later models and no confession numbers in posts (hence the lack thereof in samples).
 
-#### Thoughts
+### Thoughts
 
 ![](assets/create/mit-confessions-simulator/course-6.png)
 
@@ -174,9 +205,9 @@ Don't worry, samples get better with the incorporation of temperature in later m
 
 Not sure where the seals came from...
 
-### Second Model: 1x512 LSTM
+## Second Model: 1x512 LSTM
 
-#### Layers
+### Layers
 
 1. LSTM: 512
 2. Dropout: 0.4
@@ -186,7 +217,7 @@ I thought perhaps the high loss was due to the 2-layer network being too difficu
 
 I don't believe dropout affects loss minima, but only the time required to reach it. In smaller models with just `summer` data, it seemed like a dropout of 0.4 resulted in the fastest loss convergences.
 
-#### Other Specs
+### Other Specs
 
 * **Optimizer**: `adam` (`lr` = 0.001, `lr` = 0.00001 after epoch 18)
 	* Loss plateaued at ~1.814 around epoch 18. Learning rates too high might lead to loss convergence at a value higher than the true minima, which learning rates too low will still converge to the true minima but slower. Since loss was already plateauing, I decided to lower the learning rate in case we were not approaching the true minima. In hindsight, this was the right move.
@@ -198,7 +229,7 @@ I don't believe dropout affects loss minima, but only the time required to reach
 * **Validation**: 5% of training datapoints
 	* It should have been helpful to split the training data into training and validation data, especially to prevent overfitting with the larger batch size.
 
-#### Final Model
+### Final Model
 
 * **Weights**: [.hdf5](assets/create/mit-confessions-simulator/second-model-weights.hdf5)
 * **Loss**: 1.681 training, 1.570 validation
@@ -207,7 +238,7 @@ I don't believe dropout affects loss minima, but only the time required to reach
 * **Samples**: Unavailable
 	* Samples aren't very interesting here with respect to the two other models. You could always generate them yourself with the weights provided.
 
-#### Thoughts
+### Thoughts
 
 ![model-training](assets/create/mit-confessions-simulator/model-training.png)
 
@@ -215,11 +246,11 @@ Shhh, the model is training!
 
 Unfortunately, loss seemed to converge at a higher number for this model than the last. Samples generated were significantly better, however, with the incorporation of temperature and choosing from the output distribution. I found `0.35` to be a solid temperature choice for the final iteration of this model.
 
-### Third Model: 2x512 GRU
+## Third Model: 2x512 GRU
 
 Feeling a bit stumped after the last model, I gave my friend **Tony** a call and he offered me a few hyperparameter suggestions for this third model regarding network architecture, GRUs, batch normalization, and learning rates for Adam.
 
-#### Layers
+### Layers
 
 1. GRU: 512
 2. BatchNorm
@@ -233,7 +264,7 @@ It's commonly assumed that batch normalization is a low-cost way to prevent inte
 
 I am not familiar with the mathematics behind GRUs; however, research suggests that they do not lower the potential of a network compared to LSTMs while being much faster to train. This was indeed the case, as this two-layer network trained just as fast as the one-layer network from the second model.
 
-#### Other Specs
+### Other Specs
 
 * **Optimizer**: `adam` (`lr` = 0.0003 ([Karpathy constant](https://twitter.com/karpathy/status/801621764144971776?lang=en)))
 	* Seems like `3e-4` is the commonly used learning rate for `adam` as opposed to the original paper's suggestion of `0.001`.
@@ -244,7 +275,7 @@ I am not familiar with the mathematics behind GRUs; however, research suggests t
 * **Validation**: 10% of training datapoints
 	* Due to the correlation between training and validation datapoints, validation loss probably was not a very good indicator of overfitting. However, some validation is better than none.
 
-#### Final Model
+### Final Model
 
 * **Weights**: [.hdf5](assets/create/mit-confessions-simulator/third-model-weights.hdf5)
 * **Loss**: 1.426 training, 1.364 validation
@@ -262,7 +293,7 @@ I am not familiar with the mathematics behind GRUs; however, research suggests t
 
 Praying for loss to continue decreasing...
 
-#### Thoughts
+### Thoughts
 
 With the right temperature, generated text quality seemed to be on par with Karpathy's models. I think, even if I trained for more epochs, I wouldn't see too significant of a rise in quality. Tony's suggestions were very helpful in knocking down loss to this level.
 
