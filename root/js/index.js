@@ -1,19 +1,21 @@
 /*jshint esversion: 6 */
 
 //given a planet's html data, return its label
-getPlanetNodeLabel = planetNode => {
-  return planetNode.querySelector(`.meta>.label`).innerHTML;
+const getPlanetLabelFromPlanetData = planetData => {
+  const planetParser = new DOMParser().parseFromString(planetData, `text/html`);
+  return planetParser.querySelector(`.meta>.label`).innerHTML;
 };
 
 //given planet's html data, return a list of subplanet names
-getSubplanetsFromPlanetData = planetData => {
+const getSubplanetsFromPlanetData = planetData => {
+  const planetParser = new DOMParser().parseFromString(planetData, `text/html`);
   //spread notation to convert NodeList into array
-  return [...planetData.querySelectorAll(`.meta>.subplanets>span`)]
+  return [...planetParser.querySelectorAll(`.meta>.subplanets>span`)]
     .map(subplanetSpan => subplanetSpan.textContent);
 };
 
 //send xhr for planet data
-requestPlanetData = (planet, onResponse) => {
+const requestPlanetData = (planet, onResponse) => {
   const xhr = new XMLHttpRequest();
   xhr.open(`GET`, `planets/${planet}.html`, true);
   xhr.onreadystatechange = () => {
@@ -26,19 +28,18 @@ requestPlanetData = (planet, onResponse) => {
 
 //cache planet data and subplanet data into state by sending xhr request
 //calls onAllFinished when all ongoing xhrs have returned
-cachePlanet = (state, planet, onAllFinished) => {
+const cachePlanet = (state, planet, onAllFinished) => {
   state.cLoadingPlanets++;
   requestPlanetData(planet, response => {
     //if planet load fails, retry after a second
     if (response === null) {
-      console.log(`Planet '${planet}' failed to load; retrying...`);
+      console.error(`Planet '${planet}' failed to load; retrying...`);
       state.cLoadingPlanets--;
       setTimeout(() => cachePlanet(state, planet, onAllFinished), state.props.planetLoadRetry);
       return;
     }
 
-    state.planetData[planet] = document.createElement(`div`);
-    state.planetData[planet].innerHTML = response;
+    state.planetData[planet] = response;
 
     //adjust the loading bar accordingly
     [...document.querySelectorAll(`.entrance>*>.edge>.bar`)].forEach(edge =>
@@ -53,7 +54,7 @@ cachePlanet = (state, planet, onAllFinished) => {
 };
 
 //scroll main to 0, smoothly
-smoothScrollMainTop = state => {
+const smoothScrollMainTop = state => {
   document.querySelector(`.main`).scrollTo({
     top: 0,
     left: 0,
@@ -63,13 +64,13 @@ smoothScrollMainTop = state => {
 };
 
 //called when an animation is beginning which will change core
-prepareMainChange = state => {
+const prepareMainChange = state => {
   smoothScrollMainTop(state);
   document.querySelector(`.main>.inner>.core`).classList.add(`invisible`);
 };
 
 //move planets to positions and assign zoom based on state
-setPlanetNodes = state => {
+const setPlanetNodes = state => {
   //move planets to new positions and zooms
   const shrinkRange = 1 - state.props.shrinkRatio;
   Object.values(state.planetNodes).forEach(planetNode => {
@@ -85,14 +86,14 @@ setPlanetNodes = state => {
   });
 };
 
-handlePlanetNodeAnimationIteration = event => {
+const handlePlanetNodeAnimationIteration = event => {
   const planetNode = event.target.parentNode.parentNode;
   planetNode.classList.remove(`spinning`);
   planetNode.querySelector(`.inner>.hexagon-wrapper`).removeEventListener(`animationiteration`, handlePlanetNodeAnimationIteration);
 };
 
 //move the selected planet a certain amount in the orbit i.e. select another planet
-orbitPlanetNodes = state => {
+const orbitPlanetNodes = state => {
   state.orbiting = true;
   prepareMainChange(state);
 
@@ -114,7 +115,7 @@ orbitPlanetNodes = state => {
 };
 
 //shrink planets in orbit to center
-shrinkPlanetNodes = state => {
+const shrinkPlanetNodes = state => {
   prepareMainChange(state);
 
   Object.values(state.planetNodes).forEach(planetNode => {
@@ -125,12 +126,12 @@ shrinkPlanetNodes = state => {
 };
 
 //remove planets in orbit
-removePlanetNodes = state => {
+const removePlanetNodes = state => {
   Object.values(state.planetNodes).forEach(planetNode => planetNode.remove());
 };
 
 //event listener on planet nodes for when they finish orbiting
-handlePlanetNodeTransitionEnd = state => {
+const handlePlanetNodeTransitionEnd = state => {
   return event => {
     //don't process event twice
     if (event.timeStamp - state.lastTransitionEndTime < state.props.sameTransitionTimeThreshold)
@@ -152,7 +153,7 @@ handlePlanetNodeTransitionEnd = state => {
   };
 };
 
-diveIn = (state, index = state.selectedIndex[state.selectedIndex.length - 1], diveTo = -1) => {
+const diveIn = (state, index = state.selectedIndex[state.selectedIndex.length - 1], diveTo = -1) => {
   const planet = state.orbitPlanets[index];
 
   if (getSubplanetsFromPlanetData(state.planetData[planet]).length === 0) return;
@@ -166,8 +167,9 @@ diveIn = (state, index = state.selectedIndex[state.selectedIndex.length - 1], di
     removePlanetNodes(state);
 
     //set new state and update planets
+    const planetParser = new DOMParser().parseFromString(state.planetData[planet], `text/html`);
     if (diveTo === -1) {
-      [...state.planetData[planet].querySelectorAll(`.meta>.subplanets>span`)]
+      [...planetParser.querySelectorAll(`.meta>.subplanets>span`)]
       .forEach((subplanet, index) => {
         if (subplanet.classList.contains(`default`)) state.selectedIndex.push(index);
       });
@@ -186,7 +188,7 @@ diveIn = (state, index = state.selectedIndex[state.selectedIndex.length - 1], di
   };
 };
 
-handlePlanetNodeClick = (state, index) => {
+const handlePlanetNodeClick = (state, index) => {
   return event => {
     //if already selected, see if there are subplanets
     if (state.selectedIndex[state.selectedIndex.length - 1] === index) diveIn(state, index);
@@ -204,12 +206,12 @@ handlePlanetNodeClick = (state, index) => {
   };
 };
 
-prepareOrbit = state => {
+const prepareOrbit = state => {
   //prepare orbit with orbit planets
   state.orbitPlanets.forEach((planet, index) => {
     const orbitNode = document.querySelector(`.templates>.planet`).cloneNode(true);
     state.props.orbitNode.appendChild(orbitNode);
-    orbitNode.querySelector(`.inner>.label`).innerHTML = getPlanetNodeLabel(state.planetData[planet]);
+    orbitNode.querySelector(`.inner>.label`).innerHTML = getPlanetLabelFromPlanetData(state.planetData[planet]);
     orbitNode.querySelector(`.inner>.index`).textContent = index;
     state.planetNodes[planet] = orbitNode;
 
@@ -222,22 +224,21 @@ prepareOrbit = state => {
   });
 };
 
-updateQueryStringParameter = newQuery => {
+const updateQueryStringParameter = newQuery => {
   if (window.history.pushState) {
     window.history.pushState(null, null,
       `${window.location.pathname}${newQuery == null ? '' : '?path=' + newQuery}`);
-  }
-  else window.location.search = newQuery;
+  } else window.location.search = newQuery;
 };
 
 //set core, query parameters, as well as navigator status, based on current state
-setCoreContent = state => {
+const setCoreContent = state => {
   const core = state.props.mainNode.querySelector(`.inner>.core`);
 
   core.classList.remove(`invisible`);
 
   const currentSelection = state.selectedIndex[state.selectedIndex.length - 1];
-  core.innerHTML = state.planetData[state.orbitPlanets[currentSelection]].innerHTML;
+  core.innerHTML = state.planetData[state.orbitPlanets[currentSelection]];
 
   //set diveable actions
   core.querySelectorAll(`.diveable`).forEach(diveable => {
@@ -270,7 +271,7 @@ setCoreContent = state => {
   onMainScrolled(state, Date.now());
 };
 
-diveOut = state => {
+const diveOut = state => {
   if (state.selectedIndex.length === 1 || state.diving) return;
 
   //reset state and orbit and main
@@ -304,12 +305,12 @@ diveOut = state => {
 };
 
 //callback for clicking on return hexagon
-handleReturnHexagonClick = state => {
+const handleReturnHexagonClick = state => {
   return event => diveOut(state);
 };
 
 //normalizes wheel events; from https://github.com/facebookarchive/fixed-data-table/blob/master/src/vendor_upstream/dom/normalizeWheel.js
-normalizeWheel = event => {
+const normalizeWheel = event => {
   const PIXEL_STEP = 10;
   const LINE_HEIGHT = 40;
   const PAGE_HEIGHT = 800;
@@ -359,7 +360,7 @@ normalizeWheel = event => {
 };
 
 //called to check if scrollbar should be hidden (if last event which showed scrollbar was longer than some amount ago)
-checkHideScrollbar = (state, lastScrollShowTime) => {
+const checkHideScrollbar = (state, lastScrollShowTime) => {
   return () => {
     if (state.lastScrollShow === lastScrollShowTime)
       state.props.scrollbar.classList.remove(`visible`);
@@ -367,14 +368,14 @@ checkHideScrollbar = (state, lastScrollShowTime) => {
 };
 
 //show scrollbar and set timeout for it to hide
-showScrollbar = (state, time) => {
+const showScrollbar = (state, time) => {
   state.props.scrollbar.classList.add(`visible`);
   state.lastScrollShow = time;
   setTimeout(checkHideScrollbar(state, time), state.props.scrollTimeout);
 }
 
 //callback for when main is scrolled
-onMainScrolled = (state, time) => {
+const onMainScrolled = (state, time) => {
   const scrollHeight = state.props.mainNode.scrollHeight,
     clientHeight = state.props.mainNode.clientHeight,
     scrollTop = state.props.mainNode.scrollTop,
@@ -394,7 +395,7 @@ onMainScrolled = (state, time) => {
 };
 
 //add a hexagon to background animation
-addBackgroundHexagon = state => {
+const addBackgroundHexagon = state => {
   return () => {
     //don't add hexagon if not viewed rn
     if (document.visibilityState !== `visible`) return;
@@ -418,7 +419,7 @@ addBackgroundHexagon = state => {
 };
 
 //callback for wheel events
-handleWheel = state => {
+const handleWheel = state => {
   return event => {
     const wheelData = normalizeWheel(event);
     state.props.mainNode.scrollBy(wheelData.pixelX, wheelData.pixelY);
@@ -427,7 +428,7 @@ handleWheel = state => {
 };
 
 //callback on document
-handleMouseDown = state => {
+const handleMouseDown = state => {
   return event => {
     if (event.target === state.props.scrollbar) {
       state.isDraggingScrollbar = true;
@@ -441,7 +442,7 @@ handleMouseDown = state => {
 };
 
 //callback for mouse moving in document
-handleMouseMove = state => {
+const handleMouseMove = state => {
   return event => {
     if (state.scrollbarEnabled) showScrollbar(state, event.timeStamp);
     if (state.isDraggingScrollbar) {
@@ -462,7 +463,7 @@ handleMouseMove = state => {
 };
 
 //callback on document
-handleMouseUp = state => {
+const handleMouseUp = state => {
   return event => {
     if (state.isDraggingScrollbar) {
       state.isDraggingScrollbar = false;
@@ -474,8 +475,8 @@ handleMouseUp = state => {
   };
 };
 
-//callback on document
-handleKeyPress = state => {
+//callbacks on document
+const handleKeyPress = state => {
   return event => {
     switch (event.code) {
       case "KeyW":
@@ -490,13 +491,13 @@ handleKeyPress = state => {
         break;
       case "KeyA":
         if (state.diving) break;
-        state.orbitAmount = -1;
+        state.orbitAmount = (state.orbitAmount - 1) % state.orbitPlanets.length;
         if (state.orbiting) break;
         orbitPlanetNodes(state);
         break;
       case "KeyD":
         if (state.diving) break;
-        state.orbitAmount = 1;
+        state.orbitAmount = (state.orbitAmount + 1) % state.orbitPlanets.length;
         if (state.orbiting) break;
         orbitPlanetNodes(state);
         break;
@@ -511,54 +512,59 @@ handleKeyPress = state => {
 };
 
 //touch events don't work right now
-handleSwipeUp = state => {
+const handleSwipeUp = state => {
   //do nothing
   return;
 };
 
-handleSwipeDown = state => {
+const handleSwipeDown = state => {
   //do nothing
   return;
 };
 
-handleSwipeLeft = state => {
+const handleSwipeLeft = state => {
   if (state.diving) return;
-  state.orbitAmount = -1;
+  state.orbitAmount = (state.orbitAmount - 1) % state.orbitPlanets.length;
   if (state.orbiting) return;
   orbitPlanetNodes(state);
 };
 
-handleSwipeRight = state => {
+const handleSwipeRight = state => {
   if (state.diving) return;
-  state.orbitAmount = 1;
+  state.orbitAmount = (state.orbitAmount + 1) % state.orbitPlanets.length;
   if (state.orbiting) return;
   orbitPlanetNodes(state);
 };
 
 //callback on document for mobile swipes
-handleTouchStart = state => {
+const handleTouchStart = state => {
   return event => {
     const firstTouch = event.changedTouches[0];
     state.touchDragCoords = { x: firstTouch.clientX, y: firstTouch.clientY };
+    state.touchDeltas = { x: 0, y: 0 };
   };
 };
 
 //callback on document for mobile swipes
-handleTouchMove = state => {
+const handleTouchMove = state => {
   return event => {
     const touch = event.changedTouches[0],
       dx = state.touchDragCoords.x - touch.clientX,
       dy = state.touchDragCoords.y - touch.clientY;
+    state.touchDeltas.x += dx;
+    state.touchDeltas.y += dy;
+    console.log(state.touchDeltas);
 
     //interpret swipe based on most significant axis change
-    if (Math.abs(dx) > Math.abs(dy)) {
-      event.preventDefault();
-      if (Math.abs(dx) < state.props.swipeThreshold) return;
-      if (dx > 0) handleSwipeRight(state);
-      else handleSwipeLeft(state);
-    } else {
-      if (dy > 0) handleSwipeUp(state);
-      else handleSwipeDown(state);
+    if (Math.abs(state.touchDeltas.x) > Math.abs(state.touchDeltas.y) &&
+      Math.abs(state.touchDeltas.x) > state.props.swipeThreshold) {
+      if (dx > 0) {
+        handleSwipeRight(state);
+        state.touchDeltas.x -= state.props.swipeThreshold;
+      } else {
+        handleSwipeLeft(state);
+        state.touchDeltas.x += state.props.swipeThreshold;
+      }
     }
 
     //reset values
@@ -567,13 +573,11 @@ handleTouchMove = state => {
 };
 
 //callback on document for mobile swipes
-handleTouchEnd = state => {
-  return event => {
-    state.touchDragCoords = null;
-  };
+const handleTouchEnd = state => {
+  return event => {};
 };
 
-handleVisibilityChange = state => {
+const handleVisibilityChange = state => {
   return event => {
     const visible = document.visibilityState === `visible`;
     state.props.background.querySelectorAll(`.hexagon-positioner`)
@@ -598,6 +602,7 @@ window.addEventListener(`load`, () => {
     isDraggingScrollbar: false, //true if user is dragging the scrollbar
     scrollDragCoords: null, //mouse coordinates during last event processed of scroll dragging
     touchDragCoords: null, //mobile dragging event start coordinates
+    touchDeltas: {}, //accumulated deltas for touch events before end
     currentHexagons: 0, //hexagons in the background right now
     backgroundInterval: null, //return of setInterval to add hexagons to background
   };
@@ -609,7 +614,7 @@ window.addEventListener(`load`, () => {
     sameTransitionTimeThreshold: 100, //ms threshold during which new transitionend events cannot overlap processing; should be less than transition length
     scrollTimeout: 1000, //ms since the last event that triggered scrollbar should it be hidden
     keyScrollAmount: 50, //amount to scroll with keyboard keys
-    swipeThreshold: 10, //px threshold to orbit on swipe on mobile
+    swipeThreshold: 100, //px threshold to orbit on swipe on mobile
     totalHexagons: 20, //hexagons to add to background animation
     mainNode: document.querySelector(`.main`),
     orbitNode: document.querySelector(`.main>.inner>.orbit>.inner`),
@@ -640,7 +645,7 @@ window.addEventListener(`load`, () => {
             state.orbitPlanets = getSubplanetsFromPlanetData(state.planetData[state.orbitPlanets[state.selectedIndex[a - 1]]]);
         }
       } catch (error) {
-        console.log(`Error parsing query: ${error}`);
+        console.error(`Error parsing query: ${error}`);
         state.selectedIndex = [0];
         state.orbitPlanets = state.props.rootPlanets;
       }
@@ -662,10 +667,9 @@ window.addEventListener(`load`, () => {
       document.addEventListener(`keypress`, handleKeyPress(state));
       document.addEventListener(`visibilitychange`, handleVisibilityChange(state));
 
-      const orbitOuter = document.querySelector(`.main>.inner>.orbit`);
-      orbitOuter.addEventListener(`touchstart`, handleTouchStart(state));
-      orbitOuter.addEventListener(`touchmove`, handleTouchMove(state));
-      orbitOuter.addEventListener(`touchend`, handleTouchEnd(state));
+      document.addEventListener(`touchstart`, handleTouchStart(state));
+      document.addEventListener(`touchmove`, handleTouchMove(state));
+      document.addEventListener(`touchend`, handleTouchEnd(state));
 
       //remove loading screen when the loading bar finishes
       const loadingBar = document.querySelector(`.entrance .bar`);
