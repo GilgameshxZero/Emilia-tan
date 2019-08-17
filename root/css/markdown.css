@@ -73,10 +73,11 @@ table th {
   border-right: none;
 }
 
-table tr:nth-child(odd) td{
+table tr:nth-child(odd) td {
   background-color: transparent
 }
-table tr:nth-child(even) td{
+
+table tr:nth-child(even) td {
   background-color: var(--code);
 }
 
@@ -94,11 +95,11 @@ img {
   max-width: 100%;
 }
 
-img + br {
+img+br {
   display: none;
 }
 
-img + br + em {
+img+br+em {
   display: block;
 
   text-align: center;
