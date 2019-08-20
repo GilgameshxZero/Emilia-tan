@@ -68,6 +68,7 @@ table {
   color: white;
   border-collapse: collapse;
   border-style: hidden;
+  line-height: inherit;
 }
 
 table thead {
