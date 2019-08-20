@@ -7,16 +7,21 @@ p {
 }
 
 a {
-  color: white;
+  color: var(--light);
   text-decoration: none;
 
   background-color: transparent;
-  border-bottom: 2px solid var(--medium);
-  transition: border-color var(--transition-time);
+  border-bottom: 2px solid transparent;
+  transition: border-color var(--transition-time), color var(--transition-time);
 }
 
 a:hover {
-  border-color: var(--burning);
+  border-color: var(--medium);
+}
+
+pre>code {
+  padding: 8px 12px;
+  width: calc(100% - 25.6px);
 }
 
 code {
@@ -37,13 +42,20 @@ code {
   padding: 0 5px;
 }
 
-pre>code {
-  padding: 8px 12px;
-  width: calc(100% - 16px);
+h1 {
+  border-bottom: 2px solid var(--medium);
+}
+
+h2 {
+  color: var(--medium);
+}
+
+h3 {
+  color: var(--medium);
 }
 
 hr {
-  border: 2px solid var(--medium);
+  border: 1px dashed var(--medium);
   border-left: none;
   border-right: none;
 }

@@ -7,7 +7,6 @@
   height: 100%;
 
   display: flex;
-  color: white;
   font-size: 200%;
 }
 
@@ -27,7 +26,6 @@
   max-width: 1024px;
 
   font-size: 100%;
-  line-height: 1.75;
 }
 
 .planet-content.images-480px img {
@@ -94,7 +92,7 @@
   font-family: inherit;
   font-size: inherit;
   background-color: inherit;
-  color: white;
+  color: inherit;
   border: none;
   border-bottom: 2px solid var(--medium);
   border-radius: 0;
@@ -112,7 +110,7 @@
 
   font-family: inherit;
   font-size: inherit;
-  color: white;
+  color: inherit;
   background-color: transparent;
   border: 2px solid var(--medium);
   border-top: none;

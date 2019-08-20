@@ -1,4 +1,4 @@
-# [urop.guide](http://urop.guide)
+# urop.guide
 
 Jul. 17, 2019
 

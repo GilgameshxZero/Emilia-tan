@@ -32,22 +32,25 @@
       const modified = body.getAttribute(modifiedAttribute);
 
       const versionNode = document.querySelector(`.planet-content .version`);
-      if (version) {
-        versionNode.textContent = version;
-      } else getEmiliaInfo(`scripts/print-ver.exe`, response => {
-        if (!versionNode) return;
-        versionNode.textContent = response;
-        body.setAttribute(versionAttribute, response);
-      });
-
       const modifiedNode = document.querySelector(`.planet-content .modified`);
-      if (modified) {
+      if (version && modified) {
+        versionNode.textContent = version;
         modifiedNode.textContent = modified;
-      } else getEmiliaInfo(`scripts/print-last-mod.exe`, response => {
-        if (!modifiedNode) return;
-        response = response.split(' ')[0];
-        modifiedNode.textContent = response;
-        body.setAttribute(modifiedAttribute, response);
+      } else getEmiliaInfo(`scripts/print-properties.exe`, response => {
+        if (!versionNode || !modifiedNode) return;
+
+        const propertyParser = new DOMParser().parseFromString(response, `text/html`);
+        versionNode.textContent = propertyParser
+          .evaluate(`//h2[text()="Emilia Server Version"]/following-sibling::pre[1]`, propertyParser)
+          .iterateNext()
+          .textContent;
+        body.setAttribute(versionAttribute, versionNode.textContent);
+        modifiedNode.textContent = propertyParser
+          .evaluate(`//h2[text()="Emilia-tan Last Modified Time"]/following-sibling::pre[1]`, propertyParser)
+          .iterateNext()
+          .textContent
+          .split(` `)[0];
+        body.setAttribute(modifiedAttribute, modifiedNode.textContent);
       });
     }
     onPlanetContentLoad();
