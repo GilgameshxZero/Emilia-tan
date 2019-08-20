@@ -254,7 +254,7 @@ const setCoreContent = state => {
   if (script) eval(script.innerHTML);
 
   //scroll to hash location again
-  window.location.hash = window.location.hash;
+  if (window.location.hash) window.location.hash = window.location.hash;
 
   const selectedPlanetNode = state.planetNodes[state.orbitPlanets[state.selectedIndex[state.selectedIndex.length - 1]]];
 

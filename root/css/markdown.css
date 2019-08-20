@@ -16,7 +16,7 @@ a {
 }
 
 a:hover {
-  border-color: var(--medium);
+  border-color: var(--light);
 }
 
 pre>code {

@@ -36,7 +36,7 @@
       if (version && modified) {
         versionNode.textContent = version;
         modifiedNode.textContent = modified;
-      } else getEmiliaInfo(`scripts/print-properties.exe`, response => {
+      } else getEmiliaInfo(`scripts/server-info.exe`, response => {
         if (!versionNode || !modifiedNode) return;
 
         const propertyParser = new DOMParser().parseFromString(response, `text/html`);
