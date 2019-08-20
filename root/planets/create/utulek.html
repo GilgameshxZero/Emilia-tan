@@ -1,17 +1,54 @@
 <html>
 
-<head></head>
+<head>
+  <script>
+    sendXhr = (address, callback) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open(`GET`, address, true);
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState !== 4) return;
+        if (xhr.status !== 200) return;
+        else callback(xhr.responseText);
+      };
+      xhr.send();
+    };
+
+    onXhrComplete = (script, papers) => {
+      eval(script);
+      const md = window.markdownit();
+      const parser = new DOMParser().parseFromString(papers, `text/html`);
+      const html = md.render(parser.querySelector(`body`).textContent);
+      const papersNode = document.createElement(`div`);
+      papersNode.innerHTML = html;
+      document.querySelector(`.planet-content`).appendChild(papersNode.firstChild);
+    };
+
+    onPlanetContentLoad = () => {
+      let script = ``;
+      let papers = ``;
+      sendXhr(`https://cdnjs.cloudflare.com/ajax/libs/markdown-it/9.1.0/markdown-it.min.js`, response => {
+        script = response;
+        if (papers.length) onXhrComplete(script, papers);
+      });
+      sendXhr(`/scripts/utulek-papers.exe`, response => {
+        papers = response;
+        if (script.length) onXhrComplete(script, papers);
+      });
+    };
+    onPlanetContentLoad();
+  </script>
+</head>
 
 <body>
   <div class="meta">
     <div class="label">
-      <span>V</span>
+      <span>Ú</span>
     </div>
   </div>
   <div class="planet-content">
     <h1>Útulek</h1>
     <p>This page is under construction. Please check back later...</p>
-    
+    <p>Here are the papers I've been reading...</p>
   </div>
 </body>
 

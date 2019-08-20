@@ -1,7 +1,7 @@
 /*
 Emilia-tan Script
 
-This script prints the environment variables.
+This script prints properties about the request and the server.
 */
 
 #include "rain-aeternum/rain-libraries.h"

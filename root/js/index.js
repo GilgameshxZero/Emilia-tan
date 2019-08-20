@@ -250,8 +250,8 @@ const setCoreContent = state => {
   });
 
   //execute any scripts in the innerHTML
-  const script = core.querySelector(`script`);
-  if (script) eval(script.innerHTML);
+  const scripts = core.querySelectorAll(`script`);
+  scripts.forEach(script => eval(script.innerHTML));
 
   //scroll to hash location again
   if (window.location.hash) window.location.hash = window.location.hash;
