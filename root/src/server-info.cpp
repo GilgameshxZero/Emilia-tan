@@ -44,7 +44,7 @@ content-type:text/html
 <html>
 
 <head>
-  <title>GILGAMESH: print-properties</title>
+  <title>GILGAMESH: server-info</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 
