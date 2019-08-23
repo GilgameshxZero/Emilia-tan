@@ -18,9 +18,7 @@
       const md = window.markdownit();
       const parser = new DOMParser().parseFromString(papers, `text/html`);
       const html = md.render(parser.querySelector(`body`).textContent);
-      const papersNode = document.createElement(`div`);
-      papersNode.innerHTML = html;
-      document.querySelector(`.planet-content`).appendChild(papersNode.firstChild);
+      document.querySelector(`.papers-table`).innerHTML = html;
     };
 
     onPlanetContentLoad = () => {
@@ -49,6 +47,7 @@
     <h1>Útulek</h1>
     <p>This page is under construction. Please check back later...</p>
     <p>Here are the papers I've been reading...</p>
+    <div class="papers-table">...</div>
   </div>
 </body>
 

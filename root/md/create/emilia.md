@@ -1,4 +1,4 @@
-# A Brief History of Emilia
+# [A Brief History of Emilia](https://github.com/GilgameshxZero/emilia)
 
 Dec. 25, 2018
 
