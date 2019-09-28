@@ -25,6 +25,10 @@
   display: none;
 }
 
+.burning {
+  color: var(--burning);
+}
+
 html {
   overflow-y: auto;
   -webkit-text-size-adjust: 100%;
@@ -141,7 +145,7 @@ body.mobile>.scrollbar {
 
 .main>.inner>.orbit {
   position: relative;
-  flex: 0 0 calc(20vmin + 120px + 5%);
+  flex: 0 0 calc(20vmin + 120px + 6.5%);
   width: 100%;
   max-width: 125vh;
   margin: 0 auto;
