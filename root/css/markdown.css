@@ -60,6 +60,10 @@ h1 {
   border-bottom: 2px solid var(--medium);
 }
 
+h1+p {
+  text-align: center;
+}
+
 h2 {
   margin: 0.85em auto 0;
   padding-top: 0;
@@ -131,7 +135,7 @@ blockquote {
 }
 
 img {
-  margin: 45px auto 20px;
+  margin: 20px auto;
   display: block;
 
   max-width: 100%;
@@ -144,7 +148,7 @@ img+br {
 img+br+em,
 img+em {
   display: block;
-  margin: auto auto 45px;
+  margin: -10px auto 20px;
 
   text-align: center;
 }
