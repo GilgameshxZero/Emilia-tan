@@ -58,9 +58,13 @@ code {
 
 h1 {
   border-bottom: 2px solid var(--medium);
+  margin-bottom: 0.3em;
+  padding-bottom: 0.1em;
 }
 
 h1+p {
+  margin-top: 0;
+  padding-top: 0;
   text-align: center;
 }
 
