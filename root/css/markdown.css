@@ -1,5 +1,5 @@
 .markdown {
-  line-height: 1.5;
+  line-height: 1.75;
 }
 
 .serif {
@@ -51,7 +51,7 @@ code {
   border-radius: 2px;
   color: inherit;
   font-weight: 300;
-  line-height: 1.5;
+  line-height: inherit;
 
   padding: 0 5px;
 }

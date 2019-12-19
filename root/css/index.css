@@ -1,11 +1,12 @@
 :root {
-  --hue: 272;
-  --burning-hue: calc(var(--hue) + 30);
+  --hue: 120;
+  --sat: 55%;
+  --burning-hue: 60;
   
-  --light: hsl(var(--hue), 70%, 85%);
-  --medium: hsl(var(--hue), 70%, 60%);
-  --dark: hsl(var(--hue), 70%, 15%);
-  --dark-transparent: hsla(var(--hue), 70%, 15%, 0.5);
+  --light: hsl(var(--hue), var(--sat), 85%);
+  --medium: hsl(var(--hue), var(--sat), 50%);
+  --dark: hsl(var(--hue), var(--sat), 15%);
+  --dark-transparent: hsla(var(--hue), var(--sat), 15%, 0.5);
 
   --burning: hsl(var(--burning-hue), 100%, 70%);
   --code: hsla(0, 0%, 25%, 0.5);
@@ -14,7 +15,7 @@
   --entrance-transition: 0.75s;
   --transition-time: 0.35s;
 
-  --orbit-transition: ease-in-out;
+  --orbit-transition: ease;
 }
 
 .meta {
@@ -248,6 +249,11 @@ body.mobile>.scrollbar {
 
 .scrollbar>.inner>.bar.visible {
   opacity: 1;
+}
+
+.scrollbar>.inner>.bar.held {
+  opacity: 1;
+  background-color: var(--burning);
 }
 
 .scrollbar>.inner>.bar:hover {

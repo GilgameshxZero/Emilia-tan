@@ -154,6 +154,9 @@ const handlePlanetNodeTransitionEnd = state => {
 };
 
 const diveIn = (state, index = state.selectedIndex[state.selectedIndex.length - 1], diveTo = -1) => {
+  // disallow diving if already diving
+  if (state.diving) return;
+
   const planet = state.orbitPlanets[index];
 
   if (getSubplanetsFromPlanetData(state.planetData[planet]).length === 0) return;
@@ -433,6 +436,7 @@ const handleMouseDown = state => {
     if (event.target === state.props.scrollbar) {
       state.isDraggingScrollbar = true;
       state.scrollDragCoords = { x: event.clientX, y: event.clientY };
+      state.props.scrollbar.classList.add(`held`);
       showScrollbar(state, event.timeStamp);
 
       //set all text unselectable during dragging
@@ -467,6 +471,7 @@ const handleMouseUp = state => {
   return event => {
     if (state.isDraggingScrollbar) {
       state.isDraggingScrollbar = false;
+      state.props.scrollbar.classList.remove(`held`);
       showScrollbar(state, event.timeStamp);
 
       //render text selectable again
