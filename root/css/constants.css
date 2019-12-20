@@ -1,7 +1,7 @@
 :root {
-  --hue: 120;
+  --hue: 265;
   --sat: 50%;
-  --burning-hue: 120;
+  --burning-hue: 265;
 
   --light: hsl(var(--hue), var(--sat), 85%);
   --medium: hsl(var(--hue), var(--sat), 50%);
