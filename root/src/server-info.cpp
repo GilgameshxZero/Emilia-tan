@@ -4,7 +4,7 @@ Emilia-tan Script
 This script prints properties about the request and the server.
 */
 
-#include "rain-aeternum/rain-libraries.h"
+#include "../rain/cpp/rain.hpp"
 
 int main(int argc, char *argv[]) {
   _setmode(_fileno(stdout), _O_BINARY);
@@ -70,7 +70,7 @@ content-type:text/html
             << std::getenv("EMILIA_VERSION") << R""""(</code></pre>
   <h2>Emilia-tan Last Modified Time</h2>
   <pre><code>)""""
-            << Rain::getTime("%F %T%z", Rain::getFileLastModifyTime("../../.emilia/index.idx")) << R""""(</code></pre>
+            << Rain::getTime(Rain::getFileLastModifyTime("../../.emilia/index.idx"), "%F %T%z") << R""""(</code></pre>
   <h2>GET Query Parameters</h2>
   <pre><code>)""""
             << getQueryParameters << R""""(</code></pre>

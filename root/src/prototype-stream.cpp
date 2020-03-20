@@ -4,7 +4,7 @@ Emilia-tan Script
 This script continuously transfers mp3 files into cout.
 */
 
-#include "rain-aeternum/rain-libraries.h"
+#include "../rain/cpp/rain.hpp"
 
 int main(int argc, char *argv[]) {
   _setmode(_fileno(stdin), _O_BINARY);

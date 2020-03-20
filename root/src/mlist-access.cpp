@@ -4,7 +4,7 @@ Emilia-tan Script
 This script either toggles an email on the mailing list or checks status of an email.
 */
 
-#include "rain-aeternum/rain-libraries.h"
+#include "../rain/cpp/rain.hpp"
 
 int main(int argc, char *argv[]) {
   const static std::string DATA_FILE = "..\\..\\data\\mlist-subs.ini";

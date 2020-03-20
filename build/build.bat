@@ -16,6 +16,6 @@ call cl ^
 /MT ^
 /MP ^
 /incremental ^
-rain-aeternum\*.cpp ^
+..\rain\cpp\*.cpp ^
 "%filename%.cpp"
 cd ..\..\build

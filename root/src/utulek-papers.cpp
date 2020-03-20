@@ -4,7 +4,7 @@ Emilia-tan Script
 Fetches Markdown for papers Utulek Labs.
 */
 
-#include "rain-aeternum/rain-libraries.h"
+#include "../rain/cpp/rain.hpp"
 
 int main(int argc, char *argv[]) {
   _setmode(_fileno(stdout), _O_BINARY);

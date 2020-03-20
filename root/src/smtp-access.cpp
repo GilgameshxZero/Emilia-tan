@@ -4,7 +4,7 @@ Emilia-tan Script
 This script uses the internal SMTP server to send an email with the parameters in the GET query.
 */
 
-#include "rain-aeternum/rain-libraries.h"
+#include "../rain/cpp/rain.hpp"
 
 struct CSMParam {
   HANDLE dcEvent;
