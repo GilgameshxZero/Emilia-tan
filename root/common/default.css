@@ -1,0 +1,297 @@
+/*
+	Options:
+
+	* .garamond: `font-family: Garamond, Georgia, serif;`
+	* .markdown: Apply default markdown styling to elements.
+		* .subtitled-h1: <h1> tags are grouped with the next <p> tag such that <p> appears to be a subtitle of <h1>.
+		* .subtitled-h2: <h2> tags are grouped with the next <p> tag such that <p> appears to be a subtitle of <h2>.
+		* --paragraph-spacing: Vertical spacing between each <p> tag.
+		* --paragraph-indent: Indent on the first line of <p> tag.
+*/
+
+/* Classes. */
+.no-display {
+	display: none !important;
+}
+
+.no-select {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.no-focus {
+	outline-style: none;
+	box-shadow: none;
+	border-color: transparent;
+}
+
+.no-scrollbar {
+	-ms-overflow-style: none;
+	overflow: -moz-scrollbars-none;
+	scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+	display: none;
+}
+
+/* HTML defaults. */
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	position: relative;
+	overflow-x: hidden;
+
+	font-family: Georgia, serif;
+	line-height: 1.25;
+	font-size: 1rem;
+}
+
+:root {
+	--border-color: rgba(0, 0, 0, 0.18);
+}
+
+/* Visual studio code theme compatibility. */
+.vscode-light {
+	--border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark {
+	--border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Printing. */
+@media print {
+	@page {
+		margin: 25mm;
+	}
+
+	.pagebreak {
+		clear: both;
+		break-after: always;
+		page-break-after: always;
+	}
+
+	table,
+	img,
+	svg {
+		break-inside: avoid;
+		page-break-inside: avoid;
+	}
+}
+
+/* .garamond */
+.garamond {
+	font-family: Garamond, Georgia, serif;
+}
+
+/* .markdown */
+.markdown {
+	--paragraph-spacing: 0.5em;
+	--paragraph-indent: 0ch;
+
+	padding: 1em 2em;
+}
+
+@media print {
+	.markdown {
+		margin: 0;
+
+		font-size: 1.2em;
+	}
+}
+
+.markdown p {
+	margin: calc(var(--paragraph-spacing) / 2) 0;
+
+	text-indent: var(--paragraph-indent);
+	word-wrap: break-word;
+}
+
+.markdown p:first-of-type {
+	margin-top: 0;
+}
+
+.markdown .no-indent,
+.markdown .no-indent p {
+	text-indent: 0;
+}
+
+.markdown code {
+	display: inline-block;
+	max-width: 100%;
+
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	font-family: "Roboto Mono", monospace;
+	font-size: 90%;
+	text-indent: 0;
+	tab-size: 2ch;
+	-moz-tab-size: 2ch;
+
+	color: inherit;
+	font-weight: 300;
+	line-height: inherit;
+}
+
+.markdown h1 {
+	margin: 1em 0 0.4em;
+	padding-bottom: 0.1em;
+
+	border-bottom: 0.05em solid var(--border-color);
+}
+
+.markdown h1:first-of-type {
+	margin-top: 0;
+}
+
+.markdown h2 {
+	margin: 1em 0 0.4em;
+	padding-bottom: 0.2em;
+	width: 80%;
+
+	border-bottom: 0.05em solid var(--border-color);
+}
+
+.markdown h1+h2 {
+	margin-top: 1em;
+}
+
+.markdown h3 {
+	margin: 0.5em 0;
+
+	font-weight: bolder;
+}
+
+.markdown h4 {
+	margin: 0.5em 0;
+}
+
+.markdown h5 {
+	margin: 0.5em 0;
+}
+
+.markdown h6 {
+	margin: 0.5em 0;
+}
+
+.markdown hr {
+	width: 75%;
+	height: 0;
+	margin: 1em auto;
+
+	border: none;
+	border-top: 0.1em solid var(--border-color);
+}
+
+.markdown table {
+	margin: 1em auto;
+
+	font-size: 1em;
+	border-collapse: collapse;
+	border-style: hidden;
+	line-height: inherit;
+}
+
+.markdown table thead {
+	font-size: 1.1em;
+}
+
+.markdown table td {
+	padding: 1em;
+}
+
+.markdown table th {
+	padding: 0.5em;
+
+	border: 0.1em solid var(--border-color);
+	border-left: none;
+	border-right: none;
+}
+
+.markdown table tr td {
+	padding: 0.4em;
+}
+
+.markdown table tr:nth-child(odd) td {
+	background-color: transparent;
+}
+
+.markdown table tr:nth-child(even) td {
+	background-color: var(--border-color);
+}
+
+.markdown blockquote {
+	--paragraph-indent: 0ch;
+
+	padding: 0.5em 1em;
+	margin: 0.5em 0;
+
+	font-style: italic;
+	border-left: 0.25em solid;
+	background-color: var(--border-color);
+}
+
+.markdown img,
+.markdown svg {
+	display: block;
+	max-width: 100%;
+	max-height: 50em;
+	margin: 1em auto;
+}
+
+.markdown img+em {
+	display: block;
+	margin: -0.5em auto 1em;
+
+	text-align: center;
+}
+
+.markdown iframe {
+	margin: 1em auto;
+}
+
+/* .subtitled-h1 */
+.markdown.subtitled-h1 h1,
+.markdown .subtitled-h1 h1 {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border: none;
+}
+
+.markdown.subtitled-h1 h1+*,
+.markdown .subtitled-h1 h1+* {
+	margin-bottom: 0.7em;
+	padding-bottom: 0.3em;
+	width: 80%;
+
+	border-bottom: 0.1em solid var(--border-color);
+	text-indent: 0;
+}
+
+/* .subtitled-h2 */
+.markdown.subtitled-h2 h2,
+.markdown .subtitled-h2 h2 {
+	margin-bottom: 0;
+	padding-bottom: 0;
+
+	border: none;
+}
+
+.markdown.subtitled-h2 h2+*,
+.markdown .subtitled-h2 h2+* {
+	margin-bottom: 0.7em;
+	padding-bottom: 0.3em;
+	width: 80%;
+
+	border-bottom: 0.1em solid var(--border-color);
+	text-indent: 0;
+}
