@@ -60,6 +60,7 @@
 
 .planet-content .center {
   text-align: center;
+  justify-content: center;
 }
 
 .planet-content .left {

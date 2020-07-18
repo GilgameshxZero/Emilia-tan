@@ -1,12 +1,15 @@
 /*
 	Options:
 
+	* .adaptive: Apply dark or light theme depending on user's system preference. Must be set on root. For setting to work correctly, need to ensure that .vscode-light and .vscode-dark are not set on <body> when outside of VS Code. You may use `./vscode-md-in-browser.js` to accomplish this.
 	* .garamond: `font-family: Garamond, Georgia, serif;`
 	* .markdown: Apply default markdown styling to elements.
 		* .subtitled-h1: <h1> tags are grouped with the next <p> tag such that <p> appears to be a subtitle of <h1>.
 		* .subtitled-h2: <h2> tags are grouped with the next <p> tag such that <p> appears to be a subtitle of <h2>.
+		* .custom-hr: <hr> tags do not have a border, but instead contain user-defined content via the --custom-hr parameter.
 		* --paragraph-spacing: Vertical spacing between each <p> tag.
 		* --paragraph-indent: Indent on the first line of <p> tag.
+		* --custom-hr: Text content to place in place of <hr> when .custom-hr is applied.
 */
 
 /* Classes. */
@@ -39,6 +42,53 @@
 	display: none;
 }
 
+/* Some root variables for .markdown to counter selector specificity. */
+:root {
+	--paragraph-spacing: 0.5em;
+	--paragraph-indent: 0ch;
+	--custom-hr: '§';
+}
+
+/* When vscode stylesheets aren't loaded (i.e. in-browser markdown), these are used as defaults. */
+:root {
+	/* These variables are modified if .adaptive is set and the user prefers dark. */
+	--vscode-editor-background: white;
+	--vscode-editor-foreground: black;
+	--vscode-textLink-foreground: rgb(0, 106, 177);
+	--vscode-textLink-activeForeground: rgb(0, 106, 177);
+	--vscode-textBlockQuote-background: rgba(127, 127, 127, 0.1);
+	--vscode-textBlockQuote-border: rgba(0, 122, 204, 0.5);
+
+	/* These variables are not defined in VS Code, and thus may not adapt well between themes. */
+	--pre-background: rgba(220, 220, 220, 0.4);
+	--border-color: rgba(0, 0, 0, 0.18);
+}
+
+:root .vscode-dark {
+	--pre-background: rgba(10, 10, 10, 0.4);
+	--border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Printing. */
+@media print {
+	@page {
+		margin: 20mm;
+	}
+}
+
+.page-break {
+	clear: both;
+	break-after: always;
+	page-break-after: always;
+}
+
+table,
+img,
+svg {
+	break-inside: avoid;
+	page-break-inside: avoid;
+}
+
 /* HTML defaults. */
 html,
 body {
@@ -53,38 +103,27 @@ body {
 	font-family: Georgia, serif;
 	line-height: 1.25;
 	font-size: 1rem;
+	background-color: var(--vscode-editor-background);
+	color: var(--vscode-editor-foreground);
 }
 
-:root {
-	--border-color: rgba(0, 0, 0, 0.18);
-}
+/* .adaptive */
+@media (prefers-color-scheme: dark) {
+	:root.adaptive {
+		--vscode-editor-background: rgb(30, 30, 30);
+		--vscode-editor-foreground: rgb(212, 212, 212);
+		--vscode-textLink-foreground: rgb(55, 148, 255);
+		--vscode-textLink-activeForeground: rgb(55, 148, 255);
+		--vscode-textBlockQuote-background: rgba(127, 127, 127, 0.1);
+		--vscode-textBlockQuote-border: rgba(0, 122, 204, 0.5);
 
-/* Visual studio code theme compatibility. */
-.vscode-light {
-	--border-color: rgba(0, 0, 0, 0.18);
-}
-
-.vscode-dark {
-	--border-color: rgba(255, 255, 255, 0.18);
-}
-
-/* Printing. */
-@media print {
-	@page {
-		margin: 25mm;
+		--pre-background: rgba(10, 10, 10, 0.4);
+		--border-color: rgba(255, 255, 255, 0.18);
 	}
 
-	.pagebreak {
-		clear: both;
-		break-after: always;
-		page-break-after: always;
-	}
-
-	table,
-	img,
-	svg {
-		break-inside: avoid;
-		page-break-inside: avoid;
+	:root.adaptive .vscode-light {
+		--pre-background: rgba(220, 220, 220, 0.4);
+		--border-color: rgba(0, 0, 0, 0.18);
 	}
 }
 
@@ -95,9 +134,7 @@ body {
 
 /* .markdown */
 .markdown {
-	--paragraph-spacing: 0.5em;
-	--paragraph-indent: 0ch;
-
+	margin: 0;
 	padding: 1em 2em;
 }
 
@@ -125,19 +162,29 @@ body {
 	text-indent: 0;
 }
 
+.markdown a {
+	color: var(--vscode-textLink-foreground);
+}
+
+.markdown a:hover {
+	color: var(--vscode-textLink-activeForeground);
+}
+
+.markdown pre {
+	background-color: var(--pre-background);
+}
+
 .markdown code {
-	display: inline-block;
 	max-width: 100%;
 
 	white-space: pre-wrap;
 	word-wrap: break-word;
-	font-family: "Roboto Mono", monospace;
-	font-size: 90%;
+	font-family: Consolas, monaco, monospace;
+	font-size: 0.8em;
 	text-indent: 0;
 	tab-size: 2ch;
 	-moz-tab-size: 2ch;
-
-	color: inherit;
+	color: var(--vscode-editor-foreground);
 	font-weight: 300;
 	line-height: inherit;
 }
@@ -192,6 +239,22 @@ body {
 	border-top: 0.1em solid var(--border-color);
 }
 
+.markdown.custom-hr hr,
+.markdown .custom-hr hr {
+	margin: 1.2em auto;
+	overflow: visible;
+
+	border: none;
+	text-align: center;
+}
+
+.markdown.custom-hr hr:after,
+.markdown .custom-hr hr:after {
+	position: relative;
+	top: -0.6em;
+	content: var(--custom-hr);
+}
+
 .markdown table {
 	margin: 1em auto;
 
@@ -226,18 +289,20 @@ body {
 }
 
 .markdown table tr:nth-child(even) td {
-	background-color: var(--border-color);
+	background-color: var(--vscode-textBlockQuote-background);
 }
 
 .markdown blockquote {
-	--paragraph-indent: 0ch;
+	--paragraph-indent: 0;
+	--paragraph-spacing: 0;
 
 	padding: 0.5em 1em;
 	margin: 0.5em 0;
 
 	font-style: italic;
-	border-left: 0.25em solid;
-	background-color: var(--border-color);
+	color: (--vscode-editor-foreground);
+	border-left: 0.25em solid var(--vscode-textBlockQuote-border);
+	background-color: var(--vscode-textBlockQuote-background);
 }
 
 .markdown img,
@@ -255,8 +320,14 @@ body {
 	text-align: center;
 }
 
+.markdown .katex {
+	font-size: 0.95em;
+}
+
 .markdown iframe {
 	margin: 1em auto;
+
+	border: none;
 }
 
 /* .subtitled-h1 */

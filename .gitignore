@@ -1,14 +1,11 @@
-**/__pycache__/
+**/.vs/
+**/.vscode/
+**/bin/
+**/obj/
 
-**/.dropbox.attr
-
-/.emilia/
-/data/
-/deploy/
-/logs/
-/obj/
-/root/prototype/
-/root/scripts/
-/servers/
-
-/.DS_Store
+**.aps
+**.db
+**.dropbox.attr
+**.DS_Store
+**.stackdump
+**.user

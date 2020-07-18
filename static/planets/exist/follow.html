@@ -108,13 +108,13 @@
           const checkStatus = () => {
             if (state.xhr) state.xhr.abort();
             state.xhr = new XMLHttpRequest();
-            state.xhr.open(`GET`, `scripts/mlist-access.exe?action=check&email=${value}`, true);
+            state.xhr.open(`GET`, `newsletter/check/${value}`, true);
             state.xhr.onreadystatechange = () => {
               if (state.xhr.readyState !== 4) return;
               if (state.xhr.status !== 200) return;
               else {
                 clearInterval(state.intervalId);
-                state.props.buttonFX.setText(state.xhr.responseText === "Subscribed" ?
+                state.props.buttonFX.setText(state.xhr.responseText === "subscribed" ?
                   "unsubscribe" : "subscribe");
                 state.isButtonReady = true;
                 state.xhr = null;
@@ -140,7 +140,7 @@
           const newText = state.props.button.textContent === "subscribe" ?
             "unsubscribe" : "subscribe";
           const xhr = new XMLHttpRequest();
-          xhr.open(`GET`, `scripts/mlist-access.exe?action=toggle&email=${state.props.input.value}`, true);
+          xhr.open(`GET`, `newsletter/toggle/${state.props.input.value}`, true);
           xhr.onreadystatechange = () => {
             if (xhr.readyState !== 4) return;
             if (xhr.status !== 200) state.props.buttonFX.setText("try again");
@@ -178,7 +178,7 @@
       };
       props.buttonFX = new TextScramble(props.button);
       props.animateButton = () => { //animate button if not ready
-        if (!state.isButtonReady) state.props.buttonFX.setText(`nsubscribe`);
+        if (!state.isButtonReady) state.props.buttonFX.setText(`subscribe`);
       };
       state.props = props;
 
