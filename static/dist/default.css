@@ -340,6 +340,7 @@ body {
 
 .markdown.subtitled-h1 h1+*,
 .markdown .subtitled-h1 h1+* {
+	margin-top: 0.1em;
 	margin-bottom: 0.7em;
 	padding-bottom: 0.3em;
 	width: 80%;
@@ -359,6 +360,7 @@ body {
 
 .markdown.subtitled-h2 h2+*,
 .markdown .subtitled-h2 h2+* {
+	margin-top: 0.1em;
 	margin-bottom: 0.7em;
 	padding-bottom: 0.3em;
 	width: 80%;
