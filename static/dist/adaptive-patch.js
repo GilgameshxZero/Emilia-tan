@@ -6,7 +6,7 @@
 		const isSafari = /constructor/i.test(window.HTMLElement) || (function(p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
 		const isIE = /*@cc_on!@*/ false || !!document.documentMode;
 		const isEdge = !isIE && !!window.StyleMedia;
-		const isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+		const isChrome = !!window.chrome;
 		const isEdgeChromium = isChrome && (navigator.userAgent.indexOf("Edg") != -1);
 		const isBlink = (isChrome || isOpera) && !!window.CSS;
 		return {

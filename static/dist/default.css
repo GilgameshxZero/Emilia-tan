@@ -42,6 +42,14 @@
 	display: none;
 }
 
+.align-left {
+	text-align: left;
+}
+
+.align-right {
+	text-align: right;
+}
+
 /* Some root variables for .markdown to counter selector specificity. */
 :root {
 	--paragraph-spacing: 0.5em;
@@ -143,6 +151,21 @@ body {
 		margin: 0;
 
 		font-size: 1.2em;
+	}
+
+	/* Set light theme on printing. */
+	:root {
+		/* These variables are modified if .adaptive is set and the user prefers dark. */
+		--vscode-editor-background: white;
+		--vscode-editor-foreground: black;
+		--vscode-textLink-foreground: rgb(0, 106, 177);
+		--vscode-textLink-activeForeground: rgb(0, 106, 177);
+		--vscode-textBlockQuote-background: rgba(127, 127, 127, 0.1);
+		--vscode-textBlockQuote-border: rgba(0, 122, 204, 0.5);
+	
+		/* These variables are not defined in VS Code, and thus may not adapt well between themes. */
+		--pre-background: rgba(220, 220, 220, 0.4);
+		--border-color: rgba(0, 0, 0, 0.18);
 	}
 }
 
@@ -270,6 +293,8 @@ body {
 
 .markdown table td {
 	padding: 1em;
+
+	border: none;
 }
 
 .markdown table th {
@@ -322,6 +347,11 @@ body {
 
 .markdown .katex {
 	font-size: 0.95em;
+}
+
+.markdown .katex img,
+.markdown .katex svg {
+	margin: auto;
 }
 
 .markdown iframe {
