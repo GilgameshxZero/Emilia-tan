@@ -360,6 +360,13 @@ body {
 	text-align: center;
 }
 
+.markdown img+br+em {
+	display: block;
+	margin: -1.5em auto 1em;
+
+	text-align: center;
+}
+
 .markdown .katex {
 	font-size: 0.95em;
 }

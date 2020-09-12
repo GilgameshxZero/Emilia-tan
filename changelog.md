@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.4
+
+* Apply correct styling to `img+br+em`.
+
 ## 5.0.3
 
 * `default.css`
