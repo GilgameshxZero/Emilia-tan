@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.0.3
+
+* `default.css`
+  * Added more comment documentation.
+  * Added system sans-serif font stack class.
+  * Distinguished `h4` with bolder font-weight.
+
 ## 5.0.2
 
 * `default.css`

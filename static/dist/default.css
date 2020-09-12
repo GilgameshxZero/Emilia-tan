@@ -1,8 +1,14 @@
 /*
 	Options:
 
-	* .adaptive: Apply dark or light theme depending on user's system preference. Must be set on root. For setting to work correctly, need to ensure that .vscode-light and .vscode-dark are not set on <body> when outside of VS Code. You may use `./vscode-md-in-browser.js` to accomplish this.
+	* .adaptive: Apply dark or light theme depending on user's system preference. Must be set on root. For setting to work correctly, need to ensure that .vscode-light and .vscode-dark are not set on <body> when outside of VS Code. You may use `./adaptive-patch.js` to accomplish this.
+	* .no-display: hide element.
+	* .no-select: unselectable element (can't highlight words).
+	* .no-focus: element can't take focus.
+	* .no-scrollbar: hide scrollbar for scrollable element.
+	* .align-left, .align-right: text alignment classes.
 	* .garamond: `font-family: Garamond, Georgia, serif;`
+	* .system-sans-serif: the system font stack: `font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";`
 	* .markdown: Apply default markdown styling to elements.
 		* .subtitled-h1: <h1> tags are grouped with the next <p> tag such that <p> appears to be a subtitle of <h1>.
 		* .subtitled-h2: <h2> tags are grouped with the next <p> tag such that <p> appears to be a subtitle of <h2>.
@@ -140,6 +146,11 @@ body {
 	font-family: Garamond, Georgia, serif;
 }
 
+/* .system-sans-serif */
+.system-sans-serif {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
 /* .markdown */
 .markdown {
 	margin: 0;
@@ -162,7 +173,7 @@ body {
 		--vscode-textLink-activeForeground: rgb(0, 106, 177);
 		--vscode-textBlockQuote-background: rgba(127, 127, 127, 0.1);
 		--vscode-textBlockQuote-border: rgba(0, 122, 204, 0.5);
-	
+
 		/* These variables are not defined in VS Code, and thus may not adapt well between themes. */
 		--pre-background: rgba(220, 220, 220, 0.4);
 		--border-color: rgba(0, 0, 0, 0.18);
@@ -194,6 +205,8 @@ body {
 }
 
 .markdown pre {
+	margin: 1em 0;
+
 	background-color: var(--pre-background);
 }
 
@@ -243,6 +256,8 @@ body {
 
 .markdown h4 {
 	margin: 0.5em 0;
+
+	font-weight: bolder;
 }
 
 .markdown h5 {
