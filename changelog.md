@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.5
+
+* Added more font options to `default.css`.
+
 ## 5.0.4
 
 * Apply correct styling to `img+br+em`.
