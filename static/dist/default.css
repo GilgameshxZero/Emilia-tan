@@ -8,10 +8,13 @@
 	* .no-scrollbar: hide scrollbar for scrollable element.
 	* .align-left, .align-right: text alignment classes.
 	* Fonts:
-		* .garamond: `font-family: Garamond, Georgia, serif;`
-		* .system-sans-serif: the system font stack: `font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";`
+		* .garamond
+		* .times-new-roman
+		* .system-sans-serif
+		* .montserrat
 		* .consolas
 		* .courier-new
+		* .petit-formal-script
 	* .markdown: Apply default markdown styling to elements.
 		* .subtitled-h1: <h1> tags are grouped with the next <p> tag such that <p> appears to be a subtitle of <h1>.
 		* .subtitled-h2: <h2> tags are grouped with the next <p> tag such that <p> appears to be a subtitle of <h2>.
@@ -20,6 +23,8 @@
 		* --paragraph-indent: Indent on the first line of <p> tag.
 		* --custom-hr: Text content to place in place of <hr> when .custom-hr is applied.
 */
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat|Petit+Formal+Script");
 
 /* Classes. */
 .no-display {
@@ -149,8 +154,17 @@ body {
 	font-family: Garamond, Georgia, serif;
 }
 
+.times-new-roman {
+	font-family: "Times New Roman", Times, serif;
+}
+
 .system-sans-serif {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-size: 0.9em;
+}
+
+.montserrat {
+	font-family: Montserrat, sans-serif;
 	font-size: 0.9em;
 }
 
@@ -160,8 +174,13 @@ body {
 }
 
 .courier-new {
-	font-family: 'Courier New', monospace;
+	font-family: "Courier New", Courier, monospace;
 	font-size: 0.9em;
+}
+
+.petit-formal-script {
+	font-family: "Petit Formal Script", sans-serif;
+	font-size: 0.8em;
 }
 
 /* .markdown */

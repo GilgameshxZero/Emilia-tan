@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.0.6
+
+* Added fonts:
+  * `.montserrat`
+  * `.petit-formal-script`
+  * `.times-new-roman`
+
 ## 5.0.5
 
 * Added more font options to `default.css`.
