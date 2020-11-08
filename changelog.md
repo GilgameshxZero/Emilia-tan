@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.7
+
+* Added option to adjust page print margin from default `20mm`.
+
 ## 5.0.6
 
 * Added fonts:
