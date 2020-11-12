@@ -22,8 +22,6 @@
 		* --paragraph-spacing: Vertical spacing between each <p> tag.
 		* --paragraph-indent: Indent on the first line of <p> tag.
 		* --custom-hr: Text content to place in place of <hr> when .custom-hr is applied.
-	* Options:
-		* --print-page-margin.
 */
 
 @import url("https://fonts.googleapis.com/css?family=Montserrat|Petit+Formal+Script");
@@ -71,7 +69,6 @@
 	--paragraph-spacing: 0.5em;
 	--paragraph-indent: 0ch;
 	--custom-hr: '§';
-	--print-page-margin: 20mm;
 }
 
 /* When vscode stylesheets aren't loaded (i.e. in-browser markdown), these are used as defaults. */
@@ -97,7 +94,7 @@
 /* Printing. */
 @media print {
 	@page {
-		margin: var(--print-page-margin);
+		margin: 20mm;
 	}
 }
 

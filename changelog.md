@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.8
+
+* Removed print page margin option since it isn't working in Chrome and reset default margin to `20mm`.
+
 ## 5.0.7
 
 * Added option to adjust page print margin from default `20mm`.
