@@ -1,4 +1,4 @@
-This is a test page for `snapshot.css`.
+This is a test page for `silver.css`.
 
 ```c++
 #include <iostream>

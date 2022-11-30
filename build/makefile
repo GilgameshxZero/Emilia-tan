@@ -22,7 +22,7 @@ _default: laminate
 laminate:
 	@<<laminate.bat
 @ECHO OFF
-FOR %%F IN (..\*.html) DO (
+FOR %%F IN (..\snapshots\*.html) DO (
 	sed -E -i -z -e "s/<head>.*<body class=\"vscode-body vscode-light\">(.*)<\/body>/<head><meta charset=\"utf-8\"\/><\/head><body><template>\1<\/template><\/body>/g" %%F
 )
 <<NOKEEP
@@ -38,7 +38,7 @@ else
 .PHONY: __default _default laminate
 _default: laminate
 laminate:
-	@for f in ../*.html; do\
+	@for f in ../snapshots/*.html; do\
 		sed -E -i -z -e "s/<head>.*<body class=\"vscode-body vscode-light\">(.*)<\/body>/<head><meta charset=\"utf-8\"\/><\/head><body><template>\1<\/template><\/body>/g" $$f;\
 	done
 

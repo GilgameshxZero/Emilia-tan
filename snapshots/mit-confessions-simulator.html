@@ -158,7 +158,7 @@ bef, but you'se beeo in sa! lit lasieur teams of shoutoi of this ostglng ciefeen
 <p><img src="mit-confessions-simulator.md-assets/seals.png" alt=""><br>
 <em>Not sure where the seals came from...</em></p>
 <h2 id="second-model-1x512-lstm">Second Model: 1x512 LSTM</h2>
-<h3 id="layers-1">Layers</h3>
+<h3 id="layers">Layers</h3>
 <ol>
 <li>LSTM: 512</li>
 <li>Dropout: 0.4</li>
@@ -166,7 +166,7 @@ bef, but you'se beeo in sa! lit lasieur teams of shoutoi of this ostglng ciefeen
 </ol>
 <p>I thought perhaps the high loss was due to the 2-layer network being too difficult to train, so for the second model, I (mistakenly) reduced the network to just one layer.</p>
 <p>I don't believe dropout affects loss minima, but only the time required to reach it. In smaller models with just <code>summer</code> data, it seemed like a dropout of 0.4 resulted in the fastest loss convergences.</p>
-<h3 id="other-specs-1">Other Specs</h3>
+<h3 id="other-specs">Other Specs</h3>
 <ul>
 <li><strong>Optimizer</strong>: <code>adam</code> (<code>lr</code> = 0.001, <code>lr</code> = 0.00001 after epoch 18)
 <ul>
@@ -190,7 +190,7 @@ bef, but you'se beeo in sa! lit lasieur teams of shoutoi of this ostglng ciefeen
 </ul>
 </li>
 </ul>
-<h3 id="final-model-1">Final Model</h3>
+<h3 id="final-model">Final Model</h3>
 <ul>
 <li><strong>Loss</strong>: 1.681 training, 1.570 validation
 <ul>
@@ -204,13 +204,13 @@ bef, but you'se beeo in sa! lit lasieur teams of shoutoi of this ostglng ciefeen
 </ul>
 </li>
 </ul>
-<h3 id="thoughts-1">Thoughts</h3>
+<h3 id="thoughts">Thoughts</h3>
 <p><img src="mit-confessions-simulator.md-assets/model-training.png" alt=""><br>
 <em>Shhh, the model is training!</em></p>
 <p>Unfortunately, loss seemed to converge at a higher number for this model than the last. Samples generated were significantly better, however, with the incorporation of temperature and choosing from the output distribution. I found <code>0.35</code> to be a solid temperature choice for the final iteration of this model.</p>
 <h2 id="third-model-2x512-gru">Third Model: 2x512 GRU</h2>
 <p>Feeling a bit stumped after the last model, I gave my friend <strong>Tony</strong> a call and he offered me a few hyperparameter suggestions for this third model regarding network architecture, GRUs, batch normalization, and learning rates for Adam.</p>
-<h3 id="layers-2">Layers</h3>
+<h3 id="layers">Layers</h3>
 <ol>
 <li>GRU: 512</li>
 <li>BatchNorm</li>
@@ -222,7 +222,7 @@ bef, but you'se beeo in sa! lit lasieur teams of shoutoi of this ostglng ciefeen
 </ol>
 <p>It's commonly assumed that batch normalization is a low-cost way to prevent internal covariate shift; however, recent research suggests otherwise. Regardless, batch normalization is considered non-harmful and usually helpful.</p>
 <p>I am not familiar with the mathematics behind GRUs; however, research suggests that they do not lower the potential of a network compared to LSTMs while being much faster to train. This was indeed the case, as this two-layer network trained just as fast as the one-layer network from the second model.</p>
-<h3 id="other-specs-2">Other Specs</h3>
+<h3 id="other-specs">Other Specs</h3>
 <ul>
 <li><strong>Optimizer</strong>: <code>adam</code> (<code>lr</code> = 0.0003 (<a href="https://twitter.com/karpathy/status/801621764144971776?lang=en">Karpathy constant</a>))
 <ul>
@@ -242,7 +242,7 @@ bef, but you'se beeo in sa! lit lasieur teams of shoutoi of this ostglng ciefeen
 </ul>
 </li>
 </ul>
-<h3 id="final-model-2">Final Model</h3>
+<h3 id="final-model">Final Model</h3>
 <ul>
 <li><strong>Loss</strong>: 1.426 training, 1.364 validation
 <ul>
@@ -263,7 +263,7 @@ bef, but you'se beeo in sa! lit lasieur teams of shoutoi of this ostglng ciefeen
 </ul>
 <p><img src="mit-confessions-simulator.md-assets/loss-epochs.png" alt=""><br>
 <em>Praying for loss to continue decreasing...</em></p>
-<h3 id="thoughts-2">Thoughts</h3>
+<h3 id="thoughts">Thoughts</h3>
 <p>With the right temperature, generated text quality seemed to be on par with Karpathy's models. I think, even if I trained for more epochs, I wouldn't see too significant of a rise in quality. Tony's suggestions were very helpful in knocking down loss to this level.</p>
 <p>Unfortunately, even at this point, generated text still fairly unconvincing compared to text from the <code>char-n-gram</code>, which we will go over later.</p>
 <p>Here's some samples at <code>temperature = 0.15</code>:</p>

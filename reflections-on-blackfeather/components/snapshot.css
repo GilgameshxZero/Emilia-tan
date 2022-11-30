@@ -1,8 +1,8 @@
 @import "../colors.css";
-@import "../snapshot.css";
+@import "../silver/silver.css";
 
 /* Force dark theme. */
-@import "../snapshot.force.dark.css";
+@import "../silver/force/dark.css";
 
 :host {
 	/* TODO: this is a hotfix. */

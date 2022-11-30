@@ -1,0 +1,2 @@
+/* This file redirects silver CSS correctly for both in-browser and VSCode use. */
+@import "../silver/silver.css";

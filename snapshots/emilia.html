@@ -51,7 +51,7 @@
 <p><video src="emilia.md-assets/coder.webm" autoplay loop muted></video><br>
 <em>Example use of <code>Coder</code>.</em></p>
 <p>A you can imagine, all the components in <code>Coder</code> also had to be custom styled. To give an idea of what that means, here's the inside of the redraw function for the rectangle buttons from <code>TurboWord</code>. This redraw reads the state of the button and redraws it accordingly. It is called on any state change, which happens on mouse events. Most of the work of the code is in setting up all the drawing objects and registering with the WinAPI, and so very little is the actual drawing logic.</p>
-<pre><code class="language-c++"><div>HPEN pen = <span class="hljs-built_in">CreatePen</span> (PS_SOLID, <span class="hljs-number">1</span>, <span class="hljs-built_in">RGB</span> (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)), orig_pen;
+<pre><code class="language-c++">HPEN pen = <span class="hljs-built_in">CreatePen</span> (PS_SOLID, <span class="hljs-number">1</span>, <span class="hljs-built_in">RGB</span> (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)), orig_pen;
 HDC DCMem, DC = <span class="hljs-built_in">GetDC</span> (<span class="hljs-keyword">this</span>-&gt;button_wnd);
 HBRUSH brush, orig_brush;
 HBITMAP BMMem, BMOld;
@@ -64,7 +64,7 @@ RECT cRect;
 
 DCMem = <span class="hljs-built_in">CreateCompatibleDC</span> (DC);
 BMMem = <span class="hljs-built_in">CreateCompatibleBitmap</span> (DC, cRect.right - cRect.left, cRect.bottom - cRect.top);
-BMOld = <span class="hljs-keyword">reinterpret_cast</span>&lt;HBITMAP&gt;(<span class="hljs-built_in">SelectObject</span> (DCMem, BMMem));
+BMOld = <span class="hljs-built_in">reinterpret_cast</span>&lt;HBITMAP&gt;(<span class="hljs-built_in">SelectObject</span> (DCMem, BMMem));
 
 <span class="hljs-built_in">FillRect</span> (DCMem, &amp;cRect, <span class="hljs-built_in">CreateSolidBrush</span> (<span class="hljs-built_in">RGB</span> (<span class="hljs-number">255</span>,<span class="hljs-number">255</span>,<span class="hljs-number">255</span>)));
 
@@ -82,14 +82,14 @@ font = <span class="hljs-built_in">CreateFont</span> (-<span class="hljs-built_i
 
 <span class="hljs-built_in">SetTextColor</span> (DCMem, <span class="hljs-built_in">RGB</span> (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>));
 <span class="hljs-built_in">SetBkMode</span> (DCMem, TRANSPARENT);
-orig_brush = <span class="hljs-keyword">reinterpret_cast</span>&lt;HBRUSH&gt;(<span class="hljs-built_in">SelectObject</span> (DCMem, brush));
-orig_pen = <span class="hljs-keyword">reinterpret_cast</span>&lt;HPEN&gt;(<span class="hljs-built_in">SelectObject</span> (DCMem, pen));
-orig_font = <span class="hljs-keyword">reinterpret_cast</span>&lt;HFONT&gt;(<span class="hljs-built_in">SelectObject</span> (DCMem, font));
+orig_brush = <span class="hljs-built_in">reinterpret_cast</span>&lt;HBRUSH&gt;(<span class="hljs-built_in">SelectObject</span> (DCMem, brush));
+orig_pen = <span class="hljs-built_in">reinterpret_cast</span>&lt;HPEN&gt;(<span class="hljs-built_in">SelectObject</span> (DCMem, pen));
+orig_font = <span class="hljs-built_in">reinterpret_cast</span>&lt;HFONT&gt;(<span class="hljs-built_in">SelectObject</span> (DCMem, font));
 
 <span class="hljs-comment">//Draw the Button.</span>
 <span class="hljs-built_in">Rectangle</span> (DCMem, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, cx, cy);
-<span class="hljs-built_in">GetTextExtentPoint32</span> (DCMem, button_text.<span class="hljs-built_in">c_str</span> (), <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int</span>&gt;(button_text.<span class="hljs-built_in">length</span> ()), &amp;tsize);
-<span class="hljs-built_in">TextOut</span> (DCMem, (cx - tsize.cx) / <span class="hljs-number">2</span>, (cy - tsize.cy) / <span class="hljs-number">2</span>, button_text.<span class="hljs-built_in">c_str</span> (), <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">int</span>&gt;(button_text.<span class="hljs-built_in">length</span> ()));
+<span class="hljs-built_in">GetTextExtentPoint32</span> (DCMem, button_text.<span class="hljs-built_in">c_str</span> (), <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(button_text.<span class="hljs-built_in">length</span> ()), &amp;tsize);
+<span class="hljs-built_in">TextOut</span> (DCMem, (cx - tsize.cx) / <span class="hljs-number">2</span>, (cy - tsize.cy) / <span class="hljs-number">2</span>, button_text.<span class="hljs-built_in">c_str</span> (), <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(button_text.<span class="hljs-built_in">length</span> ()));
 
 <span class="hljs-comment">//Off-screen DC.</span>
 <span class="hljs-built_in">BitBlt</span> (DC, cRect.left, cRect.top, cRect.right - cRect.left, cRect.bottom - cRect.top, DCMem, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, SRCCOPY);
@@ -104,7 +104,7 @@ orig_font = <span class="hljs-keyword">reinterpret_cast</span>&lt;HFONT&gt;(<spa
 <span class="hljs-built_in">DeleteObject</span> (pen);
 <span class="hljs-built_in">DeleteObject</span> (font);
 <span class="hljs-built_in">ReleaseDC</span> (<span class="hljs-keyword">this</span>-&gt;button_wnd, DC);
-</div></code></pre>
+</code></pre>
 <p>One of these had to be defined for every distinct component in the applications above, along with all their message handlers, and so on. Annoying, right?</p>
 <h3 id="keylogger">Keylogger</h3>
 <blockquote>
@@ -115,16 +115,16 @@ orig_font = <span class="hljs-keyword">reinterpret_cast</span>&lt;HFONT&gt;(<spa
 <p><video src="emilia.md-assets/keylogger.webm" autoplay loop muted></video><br>
 <em>Demonstration of the keylogger, which saves its log to a local file <code>hi.txt</code>.</em></p>
 <p>I've attached a snippet of the beginning of the low-level keyboard hook function code below.</p>
-<pre><code class="language-c++"><div>__declspec(dllexport) <span class="hljs-function">LRESULT CALLBACK <span class="hljs-title">handlekeys</span><span class="hljs-params">(<span class="hljs-keyword">int</span> code, WPARAM wp, LPARAM lp)</span>
+<pre><code class="language-c++">__declspec(dllexport) <span class="hljs-function">LRESULT CALLBACK <span class="hljs-title">handlekeys</span><span class="hljs-params">(<span class="hljs-type">int</span> code, WPARAM wp, LPARAM lp)</span>
 </span>{
     <span class="hljs-keyword">if</span> (code == HC_ACTION &amp;&amp; (wp == WM_SYSKEYDOWN || wp == WM_KEYDOWN)) {
-        <span class="hljs-keyword">static</span> <span class="hljs-keyword">bool</span> capslock = <span class="hljs-literal">false</span>;
-        <span class="hljs-keyword">static</span> <span class="hljs-keyword">bool</span> shift = <span class="hljs-literal">false</span>;
-        <span class="hljs-keyword">char</span> tmp[<span class="hljs-number">0xFF</span>] = {<span class="hljs-number">0</span>};
+        <span class="hljs-type">static</span> <span class="hljs-type">bool</span> capslock = <span class="hljs-literal">false</span>;
+        <span class="hljs-type">static</span> <span class="hljs-type">bool</span> shift = <span class="hljs-literal">false</span>;
+        <span class="hljs-type">char</span> tmp[<span class="hljs-number">0xFF</span>] = {<span class="hljs-number">0</span>};
         std::string str;
         DWORD msg = <span class="hljs-number">1</span>;
         KBDLLHOOKSTRUCT st_hook = *((KBDLLHOOKSTRUCT*)lp);
-        <span class="hljs-keyword">bool</span> printable;
+        <span class="hljs-type">bool</span> printable;
 
         <span class="hljs-comment">/*
          * Get key name as string
@@ -133,12 +133,12 @@ orig_font = <span class="hljs-keyword">reinterpret_cast</span>&lt;HFONT&gt;(<spa
         msg += (st_hook.flags &lt;&lt; <span class="hljs-number">24</span>);
         <span class="hljs-built_in">GetKeyNameText</span>(msg, tmp, <span class="hljs-number">0xFF</span>);
         str = std::<span class="hljs-built_in">string</span>(tmp);
-</div></code></pre>
+</code></pre>
 <p>There's a bunch of Windows macros as well as fixed-width redefinitions of C++ types (<code>DWORD</code> is a 4-byte unsigned integer, I believe). The function, hooked into a low-level keyboard hook, would be called when any key was pressed (almost, unless another hook is below this one, like when Task Manager starts).</p>
 <p>I had no idea what this code did back then. It was just a mishmash of hacks I found online. The full application actually ended up working - the only problem was that it stored all the logged keys on a local file.</p>
 <h3 id="transferring-keylogs">Transferring keylogs</h3>
 <p>Surely it would be too much to ask for me, the hacker, to have to transfer files onto a physical USB every time I wanted to see what my user had been typing. At the time, I thought the easiest method to obtain the logfile from my own computer would have to been through email. So I looked online for how to do this. You'll probably find similar code if you perform the obvious search.</p>
-<pre><code class="language-c++"><div><span class="hljs-comment">// Get the mail service port</span>
+<pre><code class="language-c++"><span class="hljs-comment">// Get the mail service port</span>
 lpServEntry = <span class="hljs-built_in">getservbyname</span>(<span class="hljs-string">&quot;mail&quot;</span>, <span class="hljs-number">0</span>);
 
 <span class="hljs-comment">// Use the SMTP default port if no other port is specified</span>
@@ -153,7 +153,7 @@ SockAddr.sin_port   = iProtocolPort;
 SockAddr.sin_addr   = *((LPIN_ADDR)*lpHostEntry-&gt;h_addr_list);
 
 <span class="hljs-comment">// Connect the Socket</span>
-<span class="hljs-keyword">if</span>(<span class="hljs-built_in">connect</span>(hServer, (PSOCKADDR) &amp;SockAddr, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(SockAddr)))
+<span class="hljs-keyword">if</span>(<span class="hljs-built_in">connect</span>(hServer, (PSOCKADDR) &amp;SockAddr, <span class="hljs-built_in">sizeof</span>(SockAddr)))
 {
     cout &lt;&lt; <span class="hljs-string">&quot;Error connecting to Server socket&quot;</span> &lt;&lt; endl;
 
@@ -161,20 +161,20 @@ SockAddr.sin_addr   = *((LPIN_ADDR)*lpHostEntry-&gt;h_addr_list);
 }
 
 <span class="hljs-comment">// Receive initial response from SMTP server</span>
-<span class="hljs-built_in">Check</span>(<span class="hljs-built_in">recv</span>(hServer, szBuffer, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(szBuffer), <span class="hljs-number">0</span>), <span class="hljs-string">&quot;recv() Reply&quot;</span>);
+<span class="hljs-built_in">Check</span>(<span class="hljs-built_in">recv</span>(hServer, szBuffer, <span class="hljs-built_in">sizeof</span>(szBuffer), <span class="hljs-number">0</span>), <span class="hljs-string">&quot;recv() Reply&quot;</span>);
 
 <span class="hljs-comment">// Send HELO server.com</span>
 <span class="hljs-built_in">sprintf</span>(szMsgLine, <span class="hljs-string">&quot;HELO %s%s&quot;</span>, szSmtpServerName, CRLF);
 <span class="hljs-built_in">Check</span>(<span class="hljs-built_in">send</span>(hServer, szMsgLine, <span class="hljs-built_in">strlen</span>(szMsgLine), <span class="hljs-number">0</span>), <span class="hljs-string">&quot;send() HELO&quot;</span>);
-<span class="hljs-built_in">Check</span>(<span class="hljs-built_in">recv</span>(hServer, szBuffer, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span>(szBuffer), <span class="hljs-number">0</span>), <span class="hljs-string">&quot;recv() HELO&quot;</span>);
-</div></code></pre>
+<span class="hljs-built_in">Check</span>(<span class="hljs-built_in">recv</span>(hServer, szBuffer, <span class="hljs-built_in">sizeof</span>(szBuffer), <span class="hljs-number">0</span>), <span class="hljs-string">&quot;recv() HELO&quot;</span>);
+</code></pre>
 <p>Knowing what I know now, this code actually might almost work - perhaps with a few system-specific adjustments. But back then, I knew nothing about what this was doing. Why did it misspell &quot;hello&quot; (of course, &quot;EHLO&quot; is an even worse mispelling in that case...)?</p>
 <p>Of course, there are numerous threads online about sending emails in C++. It turns out that it's quite a complicated process. I spent hours trying all the code I could find, but none of them worked (or opened up Outlook, which a virus definitely does not want to do). Other code used pre-built libraries. I remember that I attempted to download some of these libraries for my program, but not being able to figure out include paths and such. It should be simple, right? Why did I have to download a full-fledged library just to send an email?</p>
 <p>Eventually, I gave up on ever being able to send an email with my C++ code. Sure, no one wants to give up. But besides Google, I had no one to ask for help, and there were no more leads to follow.</p>
 <h3 id="rainlibrary0">RainLibrary0</h3>
 <p>One of the most influential things to come out of the GUI exploration was <code>RainLibrary0</code>. The Rain libraries are a series of libraries that build an abstraction layer atop the WinAPI, which makes coding future applications much easier. The development of Emilia parallels the development of the Rain libraries.</p>
 <p>Here's a summary of <code>RainLibrary0</code>, the first iteration, which was used in <code>Coder</code> and <code>TurboWord</code>. You can download it <a href="emilia.md-assets/RainLibrary0.zip">here</a>.</p>
-<pre><code><code><div>02/17/14  19:46             5,805 Button.cpp
+<pre><code>02/17/14  19:46             5,805 Button.cpp
 03/13/14  13:00             1,912 Button.h
 08/24/13  13:35            12,102 FileEdit.cpp
 08/10/13  16:54             4,046 FileEdit.h
@@ -188,7 +188,7 @@ SockAddr.sin_addr   = *((LPIN_ADDR)*lpHostEntry-&gt;h_addr_list);
 05/22/14  06:53             4,555 TextEdit.h
 02/14/14  16:49             8,835 Window.cpp
 02/08/14  06:33             3,943 Window.h
-</div></code></code></pre>
+</code></pre>
 <h2 id="军旗-luzhanqi-and-sockets">军旗 (Luzhanqi) and Sockets</h2>
 <p>Two years later, my father and I were playing 军旗, known as Luzhanqi in the states. It's a two-player game, like chess. However, playing 军旗 often requires a third person: the judge. This is because each player's pieces are not revealed to the other player. So when there is a conflict between pieces, there must be a judge to look at both pieces and resolve the conflict. If a player acted as the judge, he would gain unfair information about the other player's pieces.</p>
 <p><img src="emilia.md-assets/junqi.jpg" alt=""><br>
@@ -196,27 +196,27 @@ SockAddr.sin_addr   = *((LPIN_ADDR)*lpHostEntry-&gt;h_addr_list);
 <p>Being an only child, the requirement of a judge meant that every game of 军旗 would need to engage the entire family. This meant that often, because one of my parents were busy, we were unable to play. How great would it be if a computer could serve as the judge, so that even if my mother were busy, my father and I could still play? This would require us to sit at different computers so we couldn't see each others' pieces, but we would also need to communicate to each other about the moves we were making. Surely there would be a better way to communicate moves without yelling to each other and inputting the opponent's moves ourselves? I remember distinctly that my father pushing me, saying that as a programmer, I should be able to figure it out. Well, here I am, dad, writing this tech post.</p>
 <h3 id="basic-winsock">Basic Winsock</h3>
 <p>It must've been this <strong>cross-communication</strong> focus rather than email focus that led me to the solution. Because general socket communications are so much easier to implement than the SMTP protocol, my Google skills were able to lead me to the solution. Unfortunately, I was not aware of the ease of sockets compared to SMTP when I was implementing my keylogger. I wrote winsock code like the following into my program:</p>
-<pre><code class="language-c++"><div><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">InitSocket</span> <span class="hljs-params">(SOCKET &amp;s)</span>
+<pre><code class="language-c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">InitSocket</span> <span class="hljs-params">(SOCKET &amp;s)</span>
 </span>{
     s = <span class="hljs-built_in">socket</span> (AF_INET, SOCK_STREAM, <span class="hljs-number">0</span>);
     <span class="hljs-keyword">if</span> (s == INVALID_SOCKET)
         <span class="hljs-built_in">ErrorAndExit</span> ();
 }
 
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">BindSocket</span> <span class="hljs-params">(SOCKET &amp;s)</span>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BindSocket</span> <span class="hljs-params">(SOCKET &amp;s)</span>
 </span>{
-    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">server</span>;</span>
+    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">sockaddr_in</span> server;
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
     server.sin_port = <span class="hljs-built_in">htons</span> (<span class="hljs-number">8888</span>);
 
-    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">bind</span> (s, (struct sockaddr *)&amp;server, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span> (server)) == SOCKET_ERROR)
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">bind</span> (s, (<span class="hljs-keyword">struct</span> sockaddr *)&amp;server, <span class="hljs-built_in">sizeof</span> (server)) == SOCKET_ERROR)
         <span class="hljs-built_in">ErrorAndExit</span> ();
 }
-</div></code></pre>
+</code></pre>
 <p>After setting up the sockets and listening, my local client was able to connect to my local server. However, when I moved the server to my father's computer, I was unable to connect. It turns out that I would have to deal with this problem numerous times going forward.</p>
 <p>The reason I was unable to connect was because the antivirus on my father's computer had blocked outgoing connections through shady programs (like mine, I suppose). This definitely took some thinking to find, and once we added a rule through the antivirus, the program was able to connect as expected. We were able to send messages to each other, like a 1-1 messaging system! Unfortunately, I never finished the game. This is as far as I got:</p>
-<pre><code class="language-c++"><div>SOCKET s, new_socket;
+<pre><code class="language-c++">SOCKET s, new_socket;
 
 <span class="hljs-built_in">InitWSA</span> ();
 cout &lt;&lt; <span class="hljs-string">&quot;WSA Initialized...\n&quot;</span>;
@@ -242,14 +242,14 @@ string text;
 
 <span class="hljs-built_in">CloseSocket</span> (s);
 <span class="hljs-built_in">EndWSA</span> ();
-</div></code></pre>
+</code></pre>
 <p>It's not much, but it turns out game logic is difficult to write. And what if the other player was able to inject packages pretending to be my application to make illegal moves? I'd have to check that, and design a way to deal with that, and deal with inconsistent network connections, and find out how I would connect to external IPs instead of internal...</p>
 <p><video src="emilia.md-assets/junqi.webm" autoplay loop muted></video><br>
 <em>Connecting the client to the server, and having the server send messages to the client.</em></p>
 <p>However, this 军旗 application was a major step forward for me. This is the first time I was able to set up communications between two computers on the network (albeit, local). But I knew nothing about the big, vast IP network out there and how to communicate with it. Neither did I have the motivation to do so, when a browser would work just fine. It took me another three years to take my first step onto the web.</p>
 <h3 id="rainlibrary1">RainLibrary1</h3>
 <p>The development of the 军旗 application, among other things, led to the development of <code>RainLibrary1</code>, which contained much of the boilerplate code to setup WSA/winsock. Here's the summary of the library (which is in general not backwards-compatible):</p>
-<pre><code><code><div>02/17/14  19:46             5,805 Button.cpp
+<pre><code>02/17/14  19:46             5,805 Button.cpp
 03/13/14  13:00             1,912 Button.h
 11/20/16  18:55               167 ErrorReport.cpp
 01/01/17  23:02               213 ErrorReport.h
@@ -289,7 +289,7 @@ string text;
 01/01/17  23:03               688 WSA2RecvParam.h
 01/01/17  23:03             7,848 WSA2Utility.cpp
 01/01/17  23:04             3,853 WSA2Utility.h
-</div></code></code></pre>
+</code></pre>
 <p>As you can see, there's a lot more files here. There are many more files for basic GUI controls, as well as a flurry of files dealing with WSA. Here's the <a href="emilia.md-assets/RainLibrary1.zip">download</a>.</p>
 <h2 id="the-pixiv-breakthrough">The Pixiv Breakthrough</h2>
 <p><img src="emilia.md-assets/pixiv.jpg" alt=""><br>
@@ -304,7 +304,7 @@ string text;
 <em>Chrome's Network tab, showing the headers of both the request and response for the main page above.</em></p>
 <p>It was also at this internship that I learned to use Selenium, a library to control web browsers through code. While Selenium would have definitely been the easier way to go for this scraping project, it didn't feel <em>clean</em>. It loaded too much unnecessary stuff in the background, and couldn't control multiple tabs at once, and would display an ugly browser in the background to process the images (I didn't know about <code>headless</code> mode back then). Doing it in C++, I could fully customize what I wanted and didn't want, and how it was shown to me and how it was stored. I suppose this is probably the point of no return, where I abandoned the thought of using pre-built libraries to browse the web but instead to code it all from scratch. In hindsight, I wish I had given the other option more consideration. But reinventing the wheel turned out okay, I think.</p>
 <p>Knowing what I knew about sockets, I set out to try to send some requests to Pixiv.</p>
-<pre><code class="language-c++"><div>Rain::WSARecvParam *recvparam = <span class="hljs-keyword">new</span> Rain::<span class="hljs-built_in">WSARecvParam</span> ();
+<pre><code class="language-c++">Rain::WSARecvParam *recvparam = <span class="hljs-keyword">new</span> Rain::<span class="hljs-built_in">WSARecvParam</span> ();
 MRSIParam *mrsiparam = <span class="hljs-keyword">new</span> <span class="hljs-built_in">MRSIParam</span> ();
 mrsiparam-&gt;conn = <span class="hljs-keyword">new</span> <span class="hljs-built_in">SOCKET</span> ();
 
@@ -322,12 +322,12 @@ mrsiparam-&gt;code = code;
 <span class="hljs-built_in">PrepMRSIParams</span> (mrsiparam, recvparam, uparam);
 
 Rain::<span class="hljs-built_in">SendText</span> (*(mrsiparam-&gt;conn), getreq.<span class="hljs-built_in">c_str</span> (), getreq.<span class="hljs-built_in">length</span> ());
-</div></code></pre>
+</code></pre>
 <p>The code above sets up some pointers to establish new parameters first, to pass to the thread once a connection is established with the server. Somewhere else in the code, we would call <code>recv</code>, and then pass the parameters declared here to the handlers to handle the buffer returned from <code>recv</code>. The rest of the code here creates the <code>GET</code> request, sets the <code>recv</code> handlers, and sends the request to the established socket.</p>
 <p>Getting the first reply back from Pixiv was perhaps one of the most exhilarating events I've ever experienced. I remember it was a 400 error, as expected; but even hearing anything back from within my program was a success to me. I had figured out how to target a webserver and send a response. I was quickly able to observe the differences between my request and Chrome's, modify my code, and receive a 200 (success) response.</p>
 <h3 id="response-parsing">Response &quot;Parsing&quot;</h3>
 <p>From that point forward, it was a simple matter of string parsing and saving the image from there.</p>
-<pre><code class="language-c++"><div>MRSIParam *mrsiparam = <span class="hljs-keyword">reinterpret_cast</span>&lt;MRSIParam *&gt;(param);
+<pre><code class="language-c++">MRSIParam *mrsiparam = <span class="hljs-built_in">reinterpret_cast</span>&lt;MRSIParam *&gt;(param);
 std::string &amp;fmess = *(mrsiparam-&gt;fmess);
 
 <span class="hljs-built_in">DecCacheThread</span> (mrsiparam-&gt;uparam);
@@ -356,7 +356,7 @@ std::string &amp;fmess = *(mrsiparam-&gt;fmess);
     }
 
     <span class="hljs-comment">//parse fmess for original image(s)</span>
-    std::<span class="hljs-keyword">size_t</span> orig = fmess.<span class="hljs-built_in">find</span> (<span class="hljs-string">&quot;_illust_modal _hidden ui-modal-close-box&quot;</span>);
+    std::<span class="hljs-type">size_t</span> orig = fmess.<span class="hljs-built_in">find</span> (<span class="hljs-string">&quot;_illust_modal _hidden ui-modal-close-box&quot;</span>);
 
     <span class="hljs-keyword">if</span> (orig == std::string::npos) <span class="hljs-comment">//is a manga/multiple image submission</span>
         <span class="hljs-built_in">MarkParseMangaSubmission</span> (mrsiparam-&gt;code, mrsiparam-&gt;uparam);
@@ -364,7 +364,7 @@ std::string &amp;fmess = *(mrsiparam-&gt;fmess);
     {
         <span class="hljs-comment">//create vector in bsfq for image name storage</span>
         mrsiparam-&gt;uparam-&gt;munivparam.<span class="hljs-built_in">lock</span> ();
-        mrsiparam-&gt;uparam-&gt;bfsq-&gt;<span class="hljs-built_in">push</span> (std::<span class="hljs-built_in">make_pair</span> (mrsiparam-&gt;code, <span class="hljs-keyword">new</span> std::vector&lt;std::string&gt; ()));
+        mrsiparam-&gt;uparam-&gt;bfsq-&gt;<span class="hljs-built_in">push</span> (std::<span class="hljs-built_in">make_pair</span> (mrsiparam-&gt;code, <span class="hljs-keyword">new</span> std::<span class="hljs-built_in">vector</span>&lt;std::string&gt; ()));
         mrsiparam-&gt;uparam-&gt;inqueue-&gt;<span class="hljs-built_in">insert</span> (mrsiparam-&gt;code);
         mrsiparam-&gt;uparam-&gt;munivparam.<span class="hljs-built_in">unlock</span> ();
 
@@ -374,13 +374,13 @@ std::string &amp;fmess = *(mrsiparam-&gt;fmess);
 }
 
 <span class="hljs-built_in">FreeAndCloseMRSI</span> (mrsiparam);
-</div></code></pre>
+</code></pre>
 <p>The earlier parts of this code translates the parameters packaged from before into usable pointers. Then, it manages the threadpool, removing the current thread from it, since we're going to cache the image now and close the connection soon.</p>
 <p>The rest of my first HTML parser is about what you might expect. I hone in straight on the image link with a <code>find</code> on the response string, check for some common errors from Pixiv, and send out another request based on the image link. If the image link is a &quot;manga&quot; image, then I'll need to parse it further; otherwise, I can just request the image file directly from pixiv now that I know its URL.</p>
 <p>At first, image file requests would fail, but I eventually learned from more Chrome observing and some testing with the Advanced REST Client (ARC) that I had to send a <code>Referer</code> header with my requests lest they be rejected. I also observed that the <code>_tt</code> header contained a token representing my account. From this, I even built a switch to reject R-18 images by simply creating two accounts on Pixiv, and setting one of them as R-18. Then, by sending the request with one <code>_tt</code> header or another, I was able to detect which images were R-18, and filther them out accordingly (or not, haha). You can also see this in the code above.</p>
 <h3 id="recommender">Recommender</h3>
 <p>However, I hit a roadbump when I tried to look for recommended images. While they're clearly visible in Chrome, nowhere in the Network tab did I spot a request for those images. It turns out that even with &quot;Disable cache&quot; checked, Chrome would still cache the recommended images in another site cache. By clearing that every time I needed to verify my code, I was able to view the call to the recommender API, and imitate that within my program.</p>
-<pre><code class="language-c++"><div>Rain::WSARecvParam *recvparam = <span class="hljs-keyword">new</span> Rain::<span class="hljs-built_in">WSARecvParam</span> ();
+<pre><code class="language-c++">Rain::WSARecvParam *recvparam = <span class="hljs-keyword">new</span> Rain::<span class="hljs-built_in">WSARecvParam</span> ();
 MRSIParam *mrsiparam = <span class="hljs-keyword">new</span> <span class="hljs-built_in">MRSIParam</span> ();
 mrsiparam-&gt;conn = <span class="hljs-keyword">new</span> <span class="hljs-built_in">SOCKET</span> ();
 
@@ -398,12 +398,12 @@ recvparam-&gt;OnRecvEnd = OnMRSRExit;
 <span class="hljs-built_in">PrepMRSIParams</span> (mrsiparam, recvparam, uparam);
 
 Rain::<span class="hljs-built_in">SendText</span> (*(mrsiparam-&gt;conn), getreq.<span class="hljs-built_in">c_str</span> (), getreq.<span class="hljs-built_in">length</span> ());
-</div></code></pre>
+</code></pre>
 <p>As you can probably see, the requests are becoming more and more confusing for the developer. That big mess of a line with <code>getreq</code> actually worked, but was definitely not something I wanted to try to debug in the future, if any of their API changed.</p>
 <h3 id="automated-versioning">Automated Versioning</h3>
 <p>Another important development with <code>PixivBot</code> was automated build versioning. By setting the following batch file as a Pre-Build Event in Visual Studio, I was able to increment a number in the VersionBuildInc.h file each time I built which would be imported indirectly into my resource file and appended to my program metadata.</p>
 <h4 id="buildbat">build.bat</h4>
-<pre><code class="language-bat"><div>@<span class="hljs-built_in">echo</span> off
+<pre><code class="language-bat">@<span class="hljs-built_in">echo</span> off
 <span class="hljs-built_in">setlocal</span> enabledelayedexpansion
 <span class="hljs-built_in">set</span> filename=../rc/build.h
 <span class="hljs-keyword">if</span> <span class="hljs-keyword">exist</span> &quot;<span class="hljs-variable">%filename%</span>.temp&quot; <span class="hljs-built_in">del</span> &quot;<span class="hljs-variable">%filename%</span>.temp&quot;
@@ -422,44 +422,44 @@ Rain::<span class="hljs-built_in">SendText</span> (*(mrsiparam-&gt;conn), getreq
 )
 <span class="hljs-built_in">del</span> &quot;<span class="hljs-variable">%filename%</span>&quot;
 <span class="hljs-built_in">ren</span> &quot;<span class="hljs-variable">%filename%</span>.temp&quot; &quot;<span class="hljs-variable">%filename%</span>&quot;
-</div></code></pre>
+</code></pre>
 <p>I didn't write the batch file myself, but instead found it on the internet. The file looks for a line containing the <code>BUILD_INCREMENT</code> token, takes the number after that token, and increments it by one.</p>
 <h4 id="versionbuildinch">VersionBuildInc.h</h4>
-<pre><code class="language-c++"><div><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> BUILD_INCREMENT 797</span>
-</div></code></pre>
+<pre><code class="language-c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> BUILD_INCREMENT 797</span>
+</code></pre>
 <p>This is the file which would be incremented by the batch file.</p>
 <h4 id="versionidh">VersionID.h</h4>
-<pre><code class="language-c++"><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;VersionBuildInc.h&quot;</span></span>
+<pre><code class="language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;VersionBuildInc.h&quot;</span></span>
 
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> STRINGIZE2(s) #s</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> STRINGIZE(s) STRINGIZE2(s)</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> STRINGIZE2(s) #s</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> STRINGIZE(s) STRINGIZE2(s)</span>
 
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> STRINGIZE2(s) #s</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> STRINGIZE(s) STRINGIZE2(s)</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> STRINGIZE2(s) #s</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> STRINGIZE(s) STRINGIZE2(s)</span>
 
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VERSION_MAJOR            1</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VERSION_MINOR            1</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VERSION_REVISION         3</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VERSION_BUILD            BUILD_INCREMENT</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VERSION_MAJOR            1</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VERSION_MINOR            1</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VERSION_REVISION         3</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VERSION_BUILD            BUILD_INCREMENT</span>
 
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VER_FILE_DESCRIPTION_STR <span class="hljs-meta-string">&quot;PixivBot&quot;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VER_FILE_VERSION         VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION, VERSION_BUILD</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VER_FILE_VERSION_STR     STRINGIZE(VERSION_MAJOR)     \
-                                    <span class="hljs-meta-string">&quot;.&quot;</span> STRINGIZE(VERSION_MINOR) \
-                                    <span class="hljs-meta-string">&quot;.&quot;</span> STRINGIZE(VERSION_REVISION) \
-                                    <span class="hljs-meta-string">&quot;.&quot;</span> STRINGIZE(VERSION_BUILD) \
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VER_FILE_DESCRIPTION_STR <span class="hljs-string">&quot;PixivBot&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VER_FILE_VERSION         VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION, VERSION_BUILD</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VER_FILE_VERSION_STR     STRINGIZE(VERSION_MAJOR)     \
+                                    <span class="hljs-string">&quot;.&quot;</span> STRINGIZE(VERSION_MINOR) \
+                                    <span class="hljs-string">&quot;.&quot;</span> STRINGIZE(VERSION_REVISION) \
+                                    <span class="hljs-string">&quot;.&quot;</span> STRINGIZE(VERSION_BUILD) \
 </span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VER_PRODUCTNAME_STR      VER_FILE_DESCRIPTION_STR</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VER_PRODUCT_VERSION      VER_FILE_VERSION</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VER_PRODUCT_VERSION_STR  VER_FILE_VERSION_STR</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VER_ORIGINAL_FILENAME_STR   VER_PRODUCTNAME_STR <span class="hljs-meta-string">&quot;.exe&quot;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VER_INTERNAL_NAME_STR    VER_ORIGINAL_FILENAME_STR</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VER_COPYRIGHT_STR        <span class="hljs-meta-string">&quot;Yang Yan&quot;</span></span>
-</div></code></pre>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VER_PRODUCTNAME_STR      VER_FILE_DESCRIPTION_STR</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VER_PRODUCT_VERSION      VER_FILE_VERSION</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VER_PRODUCT_VERSION_STR  VER_FILE_VERSION_STR</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VER_ORIGINAL_FILENAME_STR   VER_PRODUCTNAME_STR <span class="hljs-string">&quot;.exe&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VER_INTERNAL_NAME_STR    VER_ORIGINAL_FILENAME_STR</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VER_COPYRIGHT_STR        <span class="hljs-string">&quot;Yang Yan&quot;</span></span>
+</code></pre>
 <p>This header defines more macros based on the <code>BUILD_INCREMENT</code> modified by the batch file above.</p>
 <h4 id="resourcerc">resource.rc</h4>
-<pre><code class="language-c++"><div><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;resource.h&quot;</span></span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;VersionID.h&quot;</span></span>
+<pre><code class="language-c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;resource.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;VersionID.h&quot;</span></span>
 
 VS_VERSION_INFO VERSIONINFO
 FILEVERSION     VER_FILE_VERSION
@@ -488,14 +488,14 @@ BEGIN
 VALUE <span class="hljs-string">&quot;Translation&quot;</span>, <span class="hljs-number">0x409</span>, <span class="hljs-number">1200</span>
 END
 END
-</div></code></pre>
+</code></pre>
 <p>As mentioned, the resource file here imports the version information and saves it in a block into the generated EXE. Here's what it looks like:</p>
 <p><img src="emilia.md-assets/pixivbot-version.jpg" alt=""><br>
 <em>Version information visible in the built EXE.</em></p>
 <p>I learned to optimize this routine later on, but automatic build versioning would stay with Emilia moving forward.</p>
 <h3 id="rainlibrary2">RainLibrary2</h3>
 <p>The <code>1.1.3</code> version of <code>PixivBot</code> once again iterated on the Rain library. Earlier versions used <code>RainLibrary1</code>. Here's the summary of <code>RainLibrary2</code>:</p>
-<pre><code><code><div>03/04/18  08:20               432 RainError.cpp
+<pre><code>03/04/18  08:20               432 RainError.cpp
 03/04/18  08:20               227 RainError.h
 01/01/17  23:12                31 RainGdiplusInclude.cpp
 01/01/17  23:37               218 RainGdiplusInclude.h
@@ -519,20 +519,20 @@ END
 03/04/18  08:21             2,141 RainWSA2SendRecv.h
 03/04/18  08:19             4,253 RainWSA2Utility.cpp
 03/04/18  08:15             1,165 RainWSA2Utility.h
-</div></code></code></pre>
+</code></pre>
 <p><code>RainLibrary2</code> moves away from the older GUI routines and focuses on console routines. The GUI routines were not up-to-date with my newest programming philosophies and not commonly used, so they were not incorporated into future Rain libraries. <a href="emilia.md-assets/RainLibrary2.zip">Here's the download</a>.</p>
 <h2 id="monochrome-2--3">Monochrome 2 &amp; 3</h2>
 <p><code>PixivBot</code> was a network client, and servers are a different beast. Knowing now that I could connect with remote servers with Winsock, I dove out to try to write a server of my own which, instead of imitating the client-side requests that I saw in Chrome, would imitate the server-side responses. I wrote my first webserver in C++ as the third (2, because we're coders) program of a series of experimental programs I called Monochrome.</p>
 <p>This is the main code responsible for <code>Monochrome2</code>, beyond the Rain library code. <code>Monochrome2</code> uses <code>RainLibrary1</code>. The code below contains most of the logic surrounding handling new connections to the server and sending bytes.</p>
-<pre><code class="language-c++"><div><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> _CRT_SECURE_NO_WARNINGS</span>
+<pre><code class="language-c++"><span class="hljs-meta">#<span class="hljs-keyword">define</span> _CRT_SECURE_NO_WARNINGS</span>
 
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;Main.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;Main.h&quot;</span></span>
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span>
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span> <span class="hljs-params">()</span>
 </span>{
-    <span class="hljs-keyword">int</span> error;
+    <span class="hljs-type">int</span> error;
     WSADATA wsadata;
-    <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">addrinfo</span> *<span class="hljs-title">saddr</span>;</span>
+    <span class="hljs-keyword">struct</span> <span class="hljs-title class_">addrinfo</span> *saddr;
     SOCKET listen;
     std::string tmp, port;
 
@@ -557,7 +557,7 @@ END
     std::vector&lt;Rain::RecvParam *&gt; recvparam;
     std::vector&lt;Mono2::FuncParam *&gt; funcparam;
     std::vector&lt;HANDLE&gt; recvthread;
-    <span class="hljs-keyword">int</span> requestnum = <span class="hljs-number">0</span>;
+    <span class="hljs-type">int</span> requestnum = <span class="hljs-number">0</span>;
 
     <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)
     {
@@ -590,9 +590,9 @@ END
 
 <span class="hljs-keyword">namespace</span> Mono2
 {
-    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">ProcMess</span> <span class="hljs-params">(<span class="hljs-keyword">void</span> *param)</span>
+    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">ProcMess</span> <span class="hljs-params">(<span class="hljs-type">void</span> *param)</span>
     </span>{
-        Mono2::FuncParam &amp;fparam = *<span class="hljs-keyword">reinterpret_cast</span>&lt;Mono2::FuncParam *&gt;(param);
+        Mono2::FuncParam &amp;fparam = *<span class="hljs-built_in">reinterpret_cast</span>&lt;Mono2::FuncParam *&gt;(param);
 
         fparam.fmess += fparam.message;
         <span class="hljs-keyword">if</span> (fparam.fmess.<span class="hljs-built_in">substr</span> (fparam.fmess.<span class="hljs-built_in">size</span> () - <span class="hljs-number">4</span>, <span class="hljs-number">4</span>) == <span class="hljs-string">&quot;\r\n\r\n&quot;</span>) <span class="hljs-comment">//GET is done</span>
@@ -600,9 +600,9 @@ END
             <span class="hljs-comment">//std::cout &lt;&lt; fparam.fmess;</span>
             std::cout &lt;&lt; <span class="hljs-string">&quot;GET request #&quot;</span> &lt;&lt; ++(*fparam.requestnum) &lt;&lt; <span class="hljs-string">&quot; received! Replying...\n&quot;</span>;
 
-            <span class="hljs-keyword">time_t</span> rawtime;
-            <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">tm</span> *<span class="hljs-title">timeinfo</span>;</span>
-            <span class="hljs-keyword">char</span> *timestr;
+            <span class="hljs-type">time_t</span> rawtime;
+            <span class="hljs-keyword">struct</span> <span class="hljs-title class_">tm</span> *timeinfo;
+            <span class="hljs-type">char</span> *timestr;
             <span class="hljs-built_in">time</span> (&amp;rawtime);
             timeinfo = <span class="hljs-built_in">localtime</span> (&amp;rawtime);
             timestr = <span class="hljs-built_in">asctime</span> (timeinfo);
@@ -662,12 +662,12 @@ END
         <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnRecvEnd</span> <span class="hljs-params">(<span class="hljs-keyword">void</span> *param)</span>
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">OnRecvEnd</span> <span class="hljs-params">(<span class="hljs-type">void</span> *param)</span>
     </span>{
         std::cout &lt;&lt; <span class="hljs-string">&quot;Client terminating...\n&quot;</span>;
     }
 
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnExit</span> <span class="hljs-params">()</span>
+    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">OnExit</span> <span class="hljs-params">()</span>
     </span>{<span class="hljs-comment">/*
         WaitForSingleObject (recvthread, INFINITE);
         derror = CloseHandle (recvthread);
@@ -682,7 +682,7 @@ END
         std::<span class="hljs-built_in">getline</span> (std::cin, tmp);
     }
 }
-</div></code></pre>
+</code></pre>
 <p>It might look quite long, but it's pretty short for a C++ webserver. <code>Monochrome2</code> ignored the entire request that it would receive. Instead, it would send back a static HTML string (which you can see in the code above) each time, on each connection, then close it immediately.</p>
 <p>At the same time, I registered the domain name <code>emilia-tan.com</code>, pointed it to my home IP, and linked my external port 80 to my internal port 80 and suddenly (after more firewall/router tweaking) my website was viewable online. I could access it with any web browser from anywhere, and see the plaintext I had sent back with my program.</p>
 <p>This is also the landmark when the name <code>Emilia</code> became used. At this point, however, the webserver was still called <code>Monochrome2</code>. Below is a GIF showing the webserver in action.</p>
@@ -692,8 +692,8 @@ END
 <h3 id="monochrome-3">Monochrome 3</h3>
 <p>The next iteration of the Emilia webserver was <code>Monochrome3</code>, which actually served a file directory instead of static strings. This meant that I actually had to parse the request sent by the browser and dynamically set my headers based on which file was requested!</p>
 <p>The following is a code snippet from the project, called whenever we received new data from the socket connection.</p>
-<pre><code class="language-c++"><div><span class="hljs-keyword">int</span> error;
-<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> BUFLEN = <span class="hljs-number">1024</span>;
+<pre><code class="language-c++"><span class="hljs-type">int</span> error;
+<span class="hljs-type">const</span> <span class="hljs-type">int</span> BUFLEN = <span class="hljs-number">1024</span>;
 std::string tmp, tmp2, requrl, httpver, reqtype;
 std::map&lt;std::string, std::string&gt; headermap;
 std::string reqfile, param;
@@ -720,7 +720,7 @@ std::string reqfile, param;
     {
         <span class="hljs-keyword">if</span> (tmp.<span class="hljs-built_in">back</span> () == <span class="hljs-string">&#x27;:&#x27;</span>)
             tmp.<span class="hljs-built_in">pop_back</span> ();
-        <span class="hljs-keyword">for</span> (std::<span class="hljs-keyword">size_t</span> a = <span class="hljs-number">0</span>;a &lt; tmp.<span class="hljs-built_in">size</span> ();a++)
+        <span class="hljs-keyword">for</span> (std::<span class="hljs-type">size_t</span> a = <span class="hljs-number">0</span>;a &lt; tmp.<span class="hljs-built_in">size</span> ();a++)
             tmp[a] = <span class="hljs-built_in">tolower</span> (tmp[a]);
         <span class="hljs-keyword">while</span> (ss.<span class="hljs-built_in">peek</span> () == <span class="hljs-string">&#x27; &#x27;</span>)
             ss.<span class="hljs-built_in">get</span> ();
@@ -755,7 +755,7 @@ std::string reqfile, param;
 <span class="hljs-keyword">else</span>
 {
     <span class="hljs-comment">//cut off file at a &#x27;?&#x27; if it exists - anything after that is the parameter</span>
-    <span class="hljs-keyword">int</span> quesind = <span class="hljs-number">0</span>;
+    <span class="hljs-type">int</span> quesind = <span class="hljs-number">0</span>;
     requrl = requrl.<span class="hljs-built_in">substr</span> (<span class="hljs-number">1</span>, requrl.<span class="hljs-built_in">size</span> () - <span class="hljs-number">1</span>);
     <span class="hljs-keyword">for</span> (; quesind &lt; requrl.<span class="hljs-built_in">size</span> (); quesind++)
         <span class="hljs-keyword">if</span> (requrl[quesind] == <span class="hljs-string">&#x27;?&#x27;</span>)
@@ -766,10 +766,10 @@ std::string reqfile, param;
 }
 
 <span class="hljs-comment">//depending on the extension of the file, serve it to the browser in different ways</span>
-<span class="hljs-keyword">const</span> std::string rootdir = <span class="hljs-string">&quot;C:\\Main\\Active\\Documents\\Programming\\Rain\\Developing\\Monochrome0x\\3. HTTPServerFull\\&quot;</span>;
+<span class="hljs-type">const</span> std::string rootdir = <span class="hljs-string">&quot;C:\\Main\\Active\\Documents\\Programming\\Rain\\Developing\\Monochrome0x\\3. HTTPServerFull\\&quot;</span>;
 std::string fullpath = rootdir + reqfile, fileext;
 reqfile = Rain::<span class="hljs-built_in">GetShortName</span> (fullpath);
-<span class="hljs-keyword">for</span> (std::<span class="hljs-keyword">size_t</span> a = reqfile.<span class="hljs-built_in">length</span> () - <span class="hljs-number">1</span>; a &gt;= <span class="hljs-number">0</span>; a--)
+<span class="hljs-keyword">for</span> (std::<span class="hljs-type">size_t</span> a = reqfile.<span class="hljs-built_in">length</span> () - <span class="hljs-number">1</span>; a &gt;= <span class="hljs-number">0</span>; a--)
 {
     <span class="hljs-keyword">if</span> (reqfile[a] == <span class="hljs-string">&#x27;.&#x27;</span>)
     {
@@ -778,7 +778,7 @@ reqfile = Rain::<span class="hljs-built_in">GetShortName</span> (fullpath);
     }
 }
 
-<span class="hljs-keyword">for</span> (std::<span class="hljs-keyword">size_t</span> a = <span class="hljs-number">0</span>;a &lt; fileext.<span class="hljs-built_in">length</span> ();a++)
+<span class="hljs-keyword">for</span> (std::<span class="hljs-type">size_t</span> a = <span class="hljs-number">0</span>;a &lt; fileext.<span class="hljs-built_in">length</span> ();a++)
     fileext[a] = <span class="hljs-built_in">tolower</span> (fileext[a]);
 
 <span class="hljs-comment">//try to get the right contenttype</span>
@@ -813,7 +813,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 
     <span class="hljs-comment">//pipe output of script to a local string</span>
     SECURITY_ATTRIBUTES sa;
-    sa.nLength = <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span> (SECURITY_ATTRIBUTES);
+    sa.nLength = <span class="hljs-built_in">sizeof</span> (SECURITY_ATTRIBUTES);
     sa.bInheritHandle = TRUE;
     sa.lpSecurityDescriptor = <span class="hljs-literal">NULL</span>;
 
@@ -830,9 +830,9 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 
     STARTUPINFO sinfo;
     PROCESS_INFORMATION pinfo;
-    <span class="hljs-built_in">ZeroMemory</span> (&amp;sinfo, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span> (sinfo));
-    <span class="hljs-built_in">ZeroMemory</span> (&amp;pinfo, <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span> (pinfo));
-    sinfo.cb = <span class="hljs-built_in"><span class="hljs-keyword">sizeof</span></span> (sinfo);
+    <span class="hljs-built_in">ZeroMemory</span> (&amp;sinfo, <span class="hljs-built_in">sizeof</span> (sinfo));
+    <span class="hljs-built_in">ZeroMemory</span> (&amp;pinfo, <span class="hljs-built_in">sizeof</span> (pinfo));
+    sinfo.cb = <span class="hljs-built_in">sizeof</span> (sinfo);
     sinfo.dwFlags |= STARTF_USESTDHANDLES;
     sinfo.hStdOutput = g_hChildStd_OUT_Wr;
     sinfo.hStdInput = g_hChildStd_IN_Rd;
@@ -843,7 +843,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
         <span class="hljs-literal">NULL</span>,
         TRUE,
         CREATE_NO_WINDOW,
-        <span class="hljs-keyword">reinterpret_cast</span>&lt;LPVOID&gt;(<span class="hljs-keyword">const_cast</span>&lt;<span class="hljs-keyword">char</span> *&gt;(envir.<span class="hljs-built_in">c_str</span> ())),
+        <span class="hljs-built_in">reinterpret_cast</span>&lt;LPVOID&gt;(<span class="hljs-built_in">const_cast</span>&lt;<span class="hljs-type">char</span> *&gt;(envir.<span class="hljs-built_in">c_str</span> ())),
         fullpath.<span class="hljs-built_in">substr</span> (<span class="hljs-number">0</span>, fullpath.<span class="hljs-built_in">length</span> () - reqfile.<span class="hljs-built_in">length</span> ()).<span class="hljs-built_in">c_str</span> (),
         &amp;sinfo,
         &amp;pinfo);
@@ -855,7 +855,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
     DWORD dwRead, dwWritten;
     <span class="hljs-keyword">if</span> (reqtype == <span class="hljs-string">&quot;POST&quot;</span>)
     {
-        <span class="hljs-keyword">for</span> (std::<span class="hljs-keyword">size_t</span> a = <span class="hljs-number">0</span>; a &lt; rfparam-&gt;POSTlen;)
+        <span class="hljs-keyword">for</span> (std::<span class="hljs-type">size_t</span> a = <span class="hljs-number">0</span>; a &lt; rfparam-&gt;POSTlen;)
         {
             <span class="hljs-keyword">if</span> (a + BUFLEN &gt;= rfparam-&gt;POSTlen)
                 bSuccess = <span class="hljs-built_in">WriteFile</span> (g_hChildStd_IN_Wr,
@@ -962,7 +962,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
     <span class="hljs-comment">//try to open in browser, and download if not possible</span>
     std::ifstream in;
     std::string headerinfo;
-    <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> filelen = <span class="hljs-number">0</span>;
+    <span class="hljs-type">long</span> <span class="hljs-type">long</span> filelen = <span class="hljs-number">0</span>;
     in.<span class="hljs-built_in">open</span> (fullpath, std::ios::binary);
 
     <span class="hljs-keyword">if</span> (in.<span class="hljs-built_in">fail</span> ()) <span class="hljs-comment">//404 error</span>
@@ -970,7 +970,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
     <span class="hljs-keyword">else</span>
     {
         in.<span class="hljs-built_in">seekg</span> (<span class="hljs-number">0</span>, in.end);
-        filelen = <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(in.<span class="hljs-built_in">tellg</span> ());
+        filelen = <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(in.<span class="hljs-built_in">tellg</span> ());
         in.<span class="hljs-built_in">seekg</span> (<span class="hljs-number">0</span>, in.beg);
 
         headerinfo = std::<span class="hljs-built_in">string</span> (<span class="hljs-string">&quot;HTTP/1.1 200 OK\r\n&quot;</span>) +
@@ -987,9 +987,9 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
     <span class="hljs-keyword">if</span> (error) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
 
     <span class="hljs-comment">//send the file with buffering</span>
-    <span class="hljs-keyword">char</span> buffer[BUFLEN];
+    <span class="hljs-type">char</span> buffer[BUFLEN];
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> a = <span class="hljs-number">0</span>;a &lt; filelen;a += BUFLEN)
+    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> a = <span class="hljs-number">0</span>;a &lt; filelen;a += BUFLEN)
     {
         <span class="hljs-keyword">if</span> (a + BUFLEN &gt; filelen)
         {
@@ -1006,7 +1006,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 }
 
 <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; <span class="hljs-comment">//close connection once a full message has been processed</span>
-</div></code></pre>
+</code></pre>
 <p>The beginning of the code handles special processing for <code>POST requests</code>, which we want to delay until the entire <code>POST</code> request arrives. The rest of the code is wrapped in a large <code>if</code>. The <code>if</code> segment deals with the case where the browser requests a callable script (CGI, which we'll cover soon); in which case we want to make the necessary preparations to run the script and pipe its output back to the browser. The <code>else</code> segment responds to a file request, in which case we send back the fildata.</p>
 <p><code>Monochrome3</code> was pretty janky. As you can see above, I basically ignore all the headers that the browser sends, and simply send back the requested file and close the socket. There's a long series of <code>if</code>s in the middle of the code which set the <code>content-type</code> header of the HTTP response.</p>
 <p>For all that work, the front-end didn't look that different. It was only that this time, I could edit the webpage as an HTML instead of C++. And it's much more adaptable. The GIF below showcases <code>Monochrome3</code>.</p>
@@ -1027,21 +1027,21 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 <p>With all of this file transfer work, I decided that it would be cool to build a backup service for myself. I named this <code>EmiliaBackup</code>. In a way, this paralleled the development of <code>Monochrome3</code> by allowing me to familiarize myself with the WinAPI calls associated with the filesystem, but not having to deal with any HTTP or SMTP protocols. Instead, I build my own grassroots file transfer protocol.</p>
 <p>However, as with any program, bugs are pretty common. More than once did I destroy my entire file directory in the process of implementing the server. This was because the server would only keep the most up-to-date files, but if the checking logic for that was wrong, then sometimes files would be deleted by accident. Luckily, I was quite aware that this might happen before emarking on <code>EmiliaBackup</code>, and was able to restore from my backup multiple times during development. As a result, however, development was slow and arduous, setting the mood for all deployment routines I would code going forward, with the exception of perhaps the modern iteration of Emilia (I hope).</p>
 <p>You can see the message parser for the server-side of <code>EmiliaBackup</code> below. The code is extremely dense with logic and also extremely long. Instead of reading it, it's best just to scroll past.</p>
-<pre><code class="language-c++"><div><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">ProcFullMess</span> <span class="hljs-params">(<span class="hljs-keyword">void</span> *funcparam)</span>
+<pre><code class="language-c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">ProcFullMess</span> <span class="hljs-params">(<span class="hljs-type">void</span> *funcparam)</span>
 </span>{
-    ExtMessParam *emp = <span class="hljs-keyword">reinterpret_cast</span>&lt;ExtMessParam *&gt;(funcparam);
+    ExtMessParam *emp = <span class="hljs-built_in">reinterpret_cast</span>&lt;ExtMessParam *&gt;(funcparam);
 
     <span class="hljs-keyword">if</span> (emp-&gt;recvfile) <span class="hljs-comment">//receiving parts of a file, block stream until all are here</span>
     {
         emp-&gt;filebuf += emp-&gt;fullmess;
         emp-&gt;curfilesz += emp-&gt;fullmess.<span class="hljs-built_in">size</span> ();
 
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(emp-&gt;filebuf.<span class="hljs-built_in">size</span> ()) &gt; emp-&gt;fileinfobuf || emp-&gt;curfilesz == emp-&gt;filelen) <span class="hljs-comment">//output file</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(emp-&gt;filebuf.<span class="hljs-built_in">size</span> ()) &gt; emp-&gt;fileinfobuf || emp-&gt;curfilesz == emp-&gt;filelen) <span class="hljs-comment">//output file</span>
         {
             emp-&gt;outfile &lt;&lt; emp-&gt;filebuf;
             emp-&gt;filebuf.<span class="hljs-built_in">clear</span> ();
 
-            <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> curpct;
+            <span class="hljs-type">long</span> <span class="hljs-type">long</span> curpct;
             
             <span class="hljs-keyword">if</span> (emp-&gt;filelen == <span class="hljs-number">0</span>)
                 curpct = <span class="hljs-number">100</span>;
@@ -1061,7 +1061,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
             emp-&gt;outfile.<span class="hljs-built_in">close</span> ();
 
             <span class="hljs-comment">//set new filetime</span>
-            <span class="hljs-keyword">wchar_t</span> unicode[MAX_PATH];
+            <span class="hljs-type">wchar_t</span> unicode[MAX_PATH];
             <span class="hljs-built_in">MultiByteToWideChar</span> (CP_UTF8, <span class="hljs-number">0</span>, emp-&gt;abspath.<span class="hljs-built_in">c_str</span> (), <span class="hljs-number">-1</span>, unicode, MAX_PATH);
             HANDLE hfile = <span class="hljs-built_in">CreateFileW</span> (unicode, GENERIC_WRITE, <span class="hljs-number">0</span>, <span class="hljs-literal">NULL</span>, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, <span class="hljs-literal">NULL</span>);
             <span class="hljs-built_in">SetFileTime</span> (hfile, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, &amp;(emp-&gt;newfiletime));
@@ -1084,7 +1084,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
         }
         <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (query == <span class="hljs-string">&quot;listdir&quot;</span>)
         {
-            <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> cdirs, cfiles;
+            <span class="hljs-type">long</span> <span class="hljs-type">long</span> cdirs, cfiles;
             fmss &gt;&gt; cdirs &gt;&gt; cfiles;
 
             <span class="hljs-function">std::vector&lt;std::string&gt; <span class="hljs-title">files</span> <span class="hljs-params">(cfiles)</span>, <span class="hljs-title">dirs</span> <span class="hljs-params">(cdirs)</span></span>;
@@ -1092,9 +1092,9 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
             std::string dirpath = Rain::<span class="hljs-built_in">GetExePath</span> () + <span class="hljs-string">&quot;\\&quot;</span> + emp-&gt;addr + <span class="hljs-string">&quot;\\&quot;</span>, tmp;
 
             std::<span class="hljs-built_in">getline</span> (fmss, tmp);
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> a = <span class="hljs-number">0</span>; a &lt; cdirs; a++)
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">long</span> <span class="hljs-type">long</span> a = <span class="hljs-number">0</span>; a &lt; cdirs; a++)
                 std::<span class="hljs-built_in">getline</span> (fmss, dirs[a]);
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> a = <span class="hljs-number">0</span>; a &lt; cfiles; a++)
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">long</span> <span class="hljs-type">long</span> a = <span class="hljs-number">0</span>; a &lt; cfiles; a++)
             {
                 std::<span class="hljs-built_in">getline</span> (fmss, files[a]);
                 fmss &gt;&gt; lastmod[a].dwLowDateTime &gt;&gt; lastmod[a].dwHighDateTime;
@@ -1103,8 +1103,8 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 
             <span class="hljs-comment">//make a copy of the files list, sort it, and compare it with a sorted list of files on server. delete files on server which are not on the files list</span>
             <span class="hljs-function">std::vector&lt;std::string&gt; <span class="hljs-title">filescopy</span> <span class="hljs-params">(files)</span>, serverfiles</span>;
-            std::vector&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt; needdelete;
-            <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ptr1, ptr2;
+            std::vector&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt; needdelete;
+            <span class="hljs-type">long</span> <span class="hljs-type">long</span> ptr1, ptr2;
 
             <span class="hljs-comment">//make sure dirpath exists</span>
             <span class="hljs-built_in">CreateDirToFile</span> (dirpath);
@@ -1113,7 +1113,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
             std::<span class="hljs-built_in">sort</span> (filescopy.<span class="hljs-built_in">begin</span> (), filescopy.<span class="hljs-built_in">end</span> ());
             std::<span class="hljs-built_in">sort</span> (serverfiles.<span class="hljs-built_in">begin</span> (), serverfiles.<span class="hljs-built_in">end</span> ());
             ptr1 = ptr2 = <span class="hljs-number">0</span>;
-            <span class="hljs-keyword">for</span> (; ptr1 &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(filescopy.<span class="hljs-built_in">size</span> ()) &amp;&amp; ptr2 &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(serverfiles.<span class="hljs-built_in">size</span> ());)
+            <span class="hljs-keyword">for</span> (; ptr1 &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(filescopy.<span class="hljs-built_in">size</span> ()) &amp;&amp; ptr2 &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(serverfiles.<span class="hljs-built_in">size</span> ());)
             {
                 <span class="hljs-keyword">if</span> (serverfiles[ptr2] &lt; filescopy[ptr1])
                     needdelete.<span class="hljs-built_in">push_back</span> (ptr2++);
@@ -1124,12 +1124,12 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
             }
 
             <span class="hljs-comment">//any files after and at pt2 are also gone</span>
-            <span class="hljs-keyword">for</span> (;ptr2 &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(serverfiles.<span class="hljs-built_in">size</span> ());ptr2++)
+            <span class="hljs-keyword">for</span> (;ptr2 &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(serverfiles.<span class="hljs-built_in">size</span> ());ptr2++)
                 needdelete.<span class="hljs-built_in">push_back</span> (ptr2);
 
-            <span class="hljs-keyword">wchar_t</span> unicode[MAX_PATH];
+            <span class="hljs-type">wchar_t</span> unicode[MAX_PATH];
             std::cout &lt;&lt; <span class="hljs-string">&quot;Deleting &quot;</span> &lt;&lt; needdelete.<span class="hljs-built_in">size</span> () &lt;&lt; <span class="hljs-string">&quot; files from &quot;</span> &lt;&lt; emp-&gt;addr &lt;&lt; <span class="hljs-string">&quot; backup...\n&quot;</span>;
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> a = <span class="hljs-number">0</span>;a &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(needdelete.<span class="hljs-built_in">size</span> ());a++)
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">long</span> <span class="hljs-type">long</span> a = <span class="hljs-number">0</span>;a &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(needdelete.<span class="hljs-built_in">size</span> ());a++)
             {
                 <span class="hljs-built_in">MultiByteToWideChar</span> (CP_UTF8, <span class="hljs-number">0</span>, serverfiles[needdelete[a]].<span class="hljs-built_in">c_str</span> (), <span class="hljs-number">-1</span>, unicode, MAX_PATH);
                 <span class="hljs-comment">//std::cout &lt;&lt; &quot;Deleting &quot; &lt;&lt; unicode &lt;&lt; &quot; from &quot; &lt;&lt; emp-&gt;addr &lt;&lt; &quot;...\n&quot;;</span>
@@ -1140,14 +1140,14 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 
             <span class="hljs-comment">//match directory list as well, and delete extra dirs, which should now be empty</span>
             std::vector&lt;std::string&gt; serverdirs;
-            std::vector&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt; needcreate;
+            std::vector&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt; needcreate;
             Rain::<span class="hljs-built_in">GetRelDirPathRec</span> (dirpath, serverdirs, <span class="hljs-string">&quot;*&quot;</span>);
             std::<span class="hljs-built_in">sort</span> (dirs.<span class="hljs-built_in">begin</span> (), dirs.<span class="hljs-built_in">end</span> ());
             std::<span class="hljs-built_in">sort</span> (serverdirs.<span class="hljs-built_in">begin</span> (), serverdirs.<span class="hljs-built_in">end</span> ());
 
             needdelete.<span class="hljs-built_in">clear</span> ();
             ptr1 = ptr2 = <span class="hljs-number">0</span>;
-            <span class="hljs-keyword">for</span> (; ptr1 &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(dirs.<span class="hljs-built_in">size</span> ()) &amp;&amp; ptr2 &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(serverdirs.<span class="hljs-built_in">size</span> ());)
+            <span class="hljs-keyword">for</span> (; ptr1 &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(dirs.<span class="hljs-built_in">size</span> ()) &amp;&amp; ptr2 &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(serverdirs.<span class="hljs-built_in">size</span> ());)
             {
                 <span class="hljs-keyword">if</span> (serverdirs[ptr2] &lt; dirs[ptr1])
                     needdelete.<span class="hljs-built_in">push_back</span> (ptr2++);
@@ -1157,13 +1157,13 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
                     needcreate.<span class="hljs-built_in">push_back</span> (ptr1++);
             }
 
-            <span class="hljs-keyword">for</span> (; ptr2 &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(serverdirs.<span class="hljs-built_in">size</span> ()); ptr2++)
+            <span class="hljs-keyword">for</span> (; ptr2 &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(serverdirs.<span class="hljs-built_in">size</span> ()); ptr2++)
                 needdelete.<span class="hljs-built_in">push_back</span> (ptr2);
-            <span class="hljs-keyword">for</span> (; ptr1 &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(dirs.<span class="hljs-built_in">size</span> ()); ptr1++)
+            <span class="hljs-keyword">for</span> (; ptr1 &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(dirs.<span class="hljs-built_in">size</span> ()); ptr1++)
                 needcreate.<span class="hljs-built_in">push_back</span> (ptr1);
 
             std::cout &lt;&lt; <span class="hljs-string">&quot;Creating &quot;</span> &lt;&lt; needcreate.<span class="hljs-built_in">size</span> () &lt;&lt; <span class="hljs-string">&quot; directories for &quot;</span> &lt;&lt; emp-&gt;addr &lt;&lt; <span class="hljs-string">&quot; backup...\n&quot;</span>;
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> a = <span class="hljs-number">0</span>; a &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(needcreate.<span class="hljs-built_in">size</span> ()); a++)
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">long</span> <span class="hljs-type">long</span> a = <span class="hljs-number">0</span>; a &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(needcreate.<span class="hljs-built_in">size</span> ()); a++)
             {
                 <span class="hljs-built_in">MultiByteToWideChar</span> (CP_UTF8, <span class="hljs-number">0</span>, dirs[needcreate[a]].<span class="hljs-built_in">c_str</span> (), <span class="hljs-number">-1</span>, unicode, MAX_PATH);
                 <span class="hljs-comment">//std::cout &lt;&lt; &quot;Creating directory &quot; &lt;&lt; unicode &lt;&lt; &quot; for &quot; &lt;&lt; emp-&gt;addr &lt;&lt; &quot;...\n&quot;;</span>
@@ -1172,7 +1172,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
             }
 
             std::cout &lt;&lt; <span class="hljs-string">&quot;Deleting &quot;</span> &lt;&lt; needdelete.<span class="hljs-built_in">size</span> () &lt;&lt; <span class="hljs-string">&quot; directories from &quot;</span> &lt;&lt; emp-&gt;addr &lt;&lt; <span class="hljs-string">&quot; backup...\n&quot;</span>;
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> a = <span class="hljs-number">0</span>; a &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(needdelete.<span class="hljs-built_in">size</span> ()); a++)
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">long</span> <span class="hljs-type">long</span> a = <span class="hljs-number">0</span>; a &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(needdelete.<span class="hljs-built_in">size</span> ()); a++)
             {
                 <span class="hljs-built_in">MultiByteToWideChar</span> (CP_UTF8, <span class="hljs-number">0</span>, serverdirs[needdelete[a]].<span class="hljs-built_in">c_str</span> (), <span class="hljs-number">-1</span>, unicode, MAX_PATH);
                 <span class="hljs-comment">//std::cout &lt;&lt; &quot;Deleting directory &quot; &lt;&lt; unicode &lt;&lt; &quot; from &quot; &lt;&lt; emp-&gt;addr &lt;&lt; &quot;...\n&quot;;</span>
@@ -1185,19 +1185,19 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
             <span class="hljs-comment">//go to each files and match FILETIME. if not match, add it to array to eventually send back to client, to request that file</span>
             std::vector&lt;FILETIME&gt; curlastmod;
             std::vector&lt;std::string&gt; fileslong;
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> a = <span class="hljs-number">0</span>; a &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(files.<span class="hljs-built_in">size</span> ()); a++)
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">long</span> <span class="hljs-type">long</span> a = <span class="hljs-number">0</span>; a &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(files.<span class="hljs-built_in">size</span> ()); a++)
                 fileslong.<span class="hljs-built_in">push_back</span> (dirpath + files[a]);
             Rain::<span class="hljs-built_in">GetLastModTime</span> (fileslong, curlastmod);
 
-            std::vector&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt; needupdate;
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> a = <span class="hljs-number">0</span>; a &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(lastmod.<span class="hljs-built_in">size</span> ()); a++)
+            std::vector&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt; needupdate;
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">long</span> <span class="hljs-type">long</span> a = <span class="hljs-number">0</span>; a &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(lastmod.<span class="hljs-built_in">size</span> ()); a++)
                 <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">SameFileTime</span> (lastmod[a], curlastmod[a]))
                     needupdate.<span class="hljs-built_in">push_back</span> (a);
 
             <span class="hljs-comment">//send list of requests to client</span>
             std::string outtext;
-            outtext = <span class="hljs-string">&quot;updatefiles &quot;</span> + Rain::<span class="hljs-built_in">LLToStr</span> (<span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(needupdate.<span class="hljs-built_in">size</span> ()));
-            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> a = <span class="hljs-number">0</span>; a &lt; <span class="hljs-keyword">static_cast</span>&lt;<span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span>&gt;(needupdate.<span class="hljs-built_in">size</span> ()); a++)
+            outtext = <span class="hljs-string">&quot;updatefiles &quot;</span> + Rain::<span class="hljs-built_in">LLToStr</span> (<span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(needupdate.<span class="hljs-built_in">size</span> ()));
+            <span class="hljs-keyword">for</span> (<span class="hljs-type">long</span> <span class="hljs-type">long</span> a = <span class="hljs-number">0</span>; a &lt; <span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">long</span> <span class="hljs-type">long</span>&gt;(needupdate.<span class="hljs-built_in">size</span> ()); a++)
                 outtext += <span class="hljs-string">&quot; &quot;</span> + Rain::<span class="hljs-built_in">LLToStr</span> (needupdate[a]);
             outtext += emp-&gt;mdelim;
 
@@ -1220,7 +1220,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
             emp-&gt;abspath = Rain::<span class="hljs-built_in">GetExePath</span> () + <span class="hljs-string">&quot;\\&quot;</span> + emp-&gt;addr + <span class="hljs-string">&quot;\\&quot;</span> + emp-&gt;relpath;
             emp-&gt;lastpct = <span class="hljs-number">-1</span>;
             <span class="hljs-built_in">CreateDirToFile</span> (emp-&gt;abspath);
-            <span class="hljs-keyword">wchar_t</span> unicode[MAX_PATH];
+            <span class="hljs-type">wchar_t</span> unicode[MAX_PATH];
             <span class="hljs-built_in">MultiByteToWideChar</span> (CP_UTF8, <span class="hljs-number">0</span>, emp-&gt;abspath.<span class="hljs-built_in">c_str</span> (), <span class="hljs-number">-1</span>, unicode, MAX_PATH);
             emp-&gt;outfile.<span class="hljs-built_in">open</span> (unicode, std::ios_base::binary);
             emp-&gt;curfilesz = <span class="hljs-number">0</span>;
@@ -1235,7 +1235,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</div></code></pre>
+</code></pre>
 <p>As you're likely almost as tired of scrolling through the code segments as I was writing them. Each sync request would reqire a lot of parsing from the string coming out of the socket into buffered filedata. It made it particularily difficult because the most logical way to implement socket managers was with callback routines, but these callbacks would often be called in the middle of a full message (if the network was being choppy, or just anytime actually), and I would have to implement logic to buffer the messages until an entire message was received, which required sending a header with each message representing itself or otherwise having a clear deliminator as to when a message would end (which isn't the best option for filedata obviously), both of which would require us to maintain the state of the program across multiple message callback calls, which would also entail us to detect when the socket has disconnected unexpectedly and reset the internal state and rollback any partial file changes we were wrote, and so on...</p>
 <p>Eventually <code>EmiliaBackup</code> was completed, but I never got around to using it. The thing is, there were so many possible things that could go wrong with the FTP that it was pretty likely some files would get deleted and I would never know about them until a while later. It wasn't worth the risk, and it was much easier and faster just to backup through a USB 3.0 in a drive.</p>
 <h2 id="beyond-isps-smtp--emails">Beyond ISPs: SMTP &amp; Emails</h2>
@@ -1368,7 +1368,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 <h3 id="rainlibrary3">RainLibrary3</h3>
 <p><code>EmiliaUpdate</code> used <code>RainLibrary3</code>, pushing the library development frontier once again.</p>
 <p>The penultimate iteration of the Rain library, <code>RainLibrary3</code>, is summarized below:</p>
-<pre><code><code><div>05/29/18  14:45             1,353 RainAlgorithm.cpp
+<pre><code>05/29/18  14:45             1,353 RainAlgorithm.cpp
 05/29/18  14:45               481 RainAlgorithm.h
 05/29/18  14:45               501 RainError.cpp
 05/29/18  14:45               248 RainError.h
@@ -1404,7 +1404,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 05/29/18  14:45               254 RainWSA2SMTP.h
 05/29/18  14:45             4,253 RainWSA2Utility.cpp
 05/23/18  08:19             1,130 RainWSA2Utility.h
-</div></code></code></pre>
+</code></pre>
 <p><code>RainLibrary3</code>'s development also paralleled the continuing development of <code>Monochrome3</code>, which at this point, was called <code>Emilia</code> already. <a href="emilia.md-assets/RainLibrary3">Download</a>.</p>
 <h2 id="modern-day-emilia">Modern-Day Emilia</h2>
 <p>All of the history brings us to the current iteration of Emilia, the 5.4.4.1891 server. First, let's take a look at the front-end, which now has a <a href="https://github.com/GilgameshxZero/emilia-tan-com">real home</a> as a repository.</p>
@@ -1414,7 +1414,7 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 <p>The backend of Emilia lives <a href="https://github.com/GilgameshxZero/emilia">here</a>. I'll explain the manifestation and evolution of each of the components in the history of Emilia discussed prior.</p>
 <h3 id="rainaeternum">RainAeternum</h3>
 <p>The current iteration of the Rain library abandons the numerical numbering system. Here's the summary of the files:</p>
-<pre><code><code><div>11/27/18  11:06             5,189 algorithm-libraries.cpp
+<pre><code>11/27/18  11:06             5,189 algorithm-libraries.cpp
 12/03/18  22:55               625 algorithm-libraries.h
 12/25/18  10:07               897 condition-variable.cpp
 12/25/18  10:07             1,216 condition-variable.h
@@ -1453,29 +1453,29 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 12/20/18  19:26               367 utility-time.cpp
 12/20/18  19:26               247 utility-time.h
 11/25/18  15:05               213 windows-lam-include.h
-</div></code></code></pre>
+</code></pre>
 <p><code>rain-aeternum</code> has unified coding &amp; naming style, multithreading-safe functions, and the current functions used in <code>Emilia</code>. It is also pretty backwards-compatible with <code>RainLibrary3</code>. <a href="emilia.md-assets/rain-aeternum.zip">Download</a>.</p>
 <p>For reference, here's an overview of the classes defined in <code>rain-aeternum</code>. We'll talk about some of them later.</p>
 <p><img src="emilia.md-assets/rain-classes.jpg" alt=""><br>
 <em>Overview of <code>rain-aternum</code> classes.</em></p>
 <h3 id="winsock--listening">Winsock &amp; Listening</h3>
 <p>Much of the boilerplate code for WSA/winsock is within <code>rain-aeternum</code>. Here's a summary of the functions available in <code>rain-aeternum</code> for winsock setup.</p>
-<pre><code class="language-c++"><div><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">initWinsock22</span><span class="hljs-params">()</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getTargetAddr</span><span class="hljs-params">(struct addrinfo **target, std::string host, std::string port,
-                    <span class="hljs-keyword">int</span> family = AF_UNSPEC, <span class="hljs-keyword">int</span> sockType = SOCK_STREAM, <span class="hljs-keyword">int</span> type = IPPROTO_TCP)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getServerAddr</span><span class="hljs-params">(struct addrinfo **server, std::string port,
-                    <span class="hljs-keyword">int</span> family = AF_INET, <span class="hljs-keyword">int</span> sockType = SOCK_STREAM, <span class="hljs-keyword">int</span> type = IPPROTO_TCP, <span class="hljs-keyword">int</span> flags = AI_PASSIVE)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">createSocket</span><span class="hljs-params">(SOCKET &amp;newSocket,
-                    <span class="hljs-keyword">int</span> family = AF_UNSPEC, <span class="hljs-keyword">int</span> sockType = SOCK_STREAM, <span class="hljs-keyword">int</span> type = IPPROTO_TCP)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">connectTarget</span><span class="hljs-params">(SOCKET &amp;cSocket, struct addrinfo **target)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">bindListenSocket</span><span class="hljs-params">(struct addrinfo **addr, SOCKET &amp;lSocket)</span></span>;
+<pre><code class="language-c++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">initWinsock22</span><span class="hljs-params">()</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getTargetAddr</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> addrinfo **target, std::string host, std::string port,
+                    <span class="hljs-type">int</span> family = AF_UNSPEC, <span class="hljs-type">int</span> sockType = SOCK_STREAM, <span class="hljs-type">int</span> type = IPPROTO_TCP)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getServerAddr</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> addrinfo **server, std::string port,
+                    <span class="hljs-type">int</span> family = AF_INET, <span class="hljs-type">int</span> sockType = SOCK_STREAM, <span class="hljs-type">int</span> type = IPPROTO_TCP, <span class="hljs-type">int</span> flags = AI_PASSIVE)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">createSocket</span><span class="hljs-params">(SOCKET &amp;newSocket,
+                    <span class="hljs-type">int</span> family = AF_UNSPEC, <span class="hljs-type">int</span> sockType = SOCK_STREAM, <span class="hljs-type">int</span> type = IPPROTO_TCP)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">connectTarget</span><span class="hljs-params">(SOCKET &amp;cSocket, <span class="hljs-keyword">struct</span> addrinfo **target)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">bindListenSocket</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> addrinfo **addr, SOCKET &amp;lSocket)</span></span>;
 <span class="hljs-function">SOCKET <span class="hljs-title">acceptClientSocket</span><span class="hljs-params">(SOCKET &amp;lSocket)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">freeAddrInfo</span><span class="hljs-params">(struct addrinfo **addr)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">shutdownSocketSend</span><span class="hljs-params">(SOCKET &amp;cSocket)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sendRawMessage</span><span class="hljs-params">(SOCKET &amp;sock, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *cstrtext, <span class="hljs-keyword">int</span> len)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sendRawMessage</span><span class="hljs-params">(SOCKET &amp;sock, std::string strText)</span></span>;
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sendRawMessage</span><span class="hljs-params">(SOCKET &amp;sock, std::string *strText)</span></span>;
-</div></code></pre>
+<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">freeAddrInfo</span><span class="hljs-params">(<span class="hljs-keyword">struct</span> addrinfo **addr)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">shutdownSocketSend</span><span class="hljs-params">(SOCKET &amp;cSocket)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sendRawMessage</span><span class="hljs-params">(SOCKET &amp;sock, <span class="hljs-type">const</span> <span class="hljs-type">char</span> *cstrtext, <span class="hljs-type">int</span> len)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sendRawMessage</span><span class="hljs-params">(SOCKET &amp;sock, std::string strText)</span></span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">sendRawMessage</span><span class="hljs-params">(SOCKET &amp;sock, std::string *strText)</span></span>;
+</code></pre>
 <p>It's pretty rare that I touch any WSA/winsock functions these days beyond this abstraction layer.</p>
 <h3 id="multithreading-accepting-multiple-connections">Multithreading: Accepting Multiple Connections</h3>
 <p>Any webserver will need to multithread to deal with many clients.</p>
@@ -1484,13 +1484,13 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
 <li>For servers: one thread will block on <code>listen</code>. For any new sockets spawned from <code>listen</code>, we'll spawn a <code>recvThread</code> for that socket, which has its own handlers and variables.</li>
 </ul>
 <p>The <code>RecvHandlerParam</code> contains crucial information that the <code>recvThread</code> needs.</p>
-<pre><code class="language-c++"><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RecvHandlerParam</span> {</span>
+<pre><code class="language-c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">RecvHandlerParam</span> {
     <span class="hljs-keyword">public</span>:
     <span class="hljs-comment">//event handler function type</span>
-    <span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span><span class="hljs-params">(*EventHandler)</span> <span class="hljs-params">(<span class="hljs-keyword">void</span> *)</span></span>;
+    <span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span><span class="hljs-params">(*EventHandler)</span> <span class="hljs-params">(<span class="hljs-type">void</span> *)</span></span>;
 
     <span class="hljs-built_in">RecvHandlerParam</span>();
-    <span class="hljs-built_in">RecvHandlerParam</span>(SOCKET *socket, std::string *message, std::<span class="hljs-keyword">size_t</span> bufLen, <span class="hljs-keyword">void</span> *funcParam, EventHandler onConnect, EventHandler onMessage, EventHandler onDisconnect);
+    <span class="hljs-built_in">RecvHandlerParam</span>(SOCKET *socket, std::string *message, std::<span class="hljs-type">size_t</span> bufLen, <span class="hljs-type">void</span> *funcParam, EventHandler onConnect, EventHandler onMessage, EventHandler onDisconnect);
 
     <span class="hljs-comment">//socket between server and client</span>
     SOCKET *socket;
@@ -1499,10 +1499,10 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
     std::string *message;
 
     <span class="hljs-comment">//length of buffer for recv</span>
-    std::<span class="hljs-keyword">size_t</span> bufLen;
+    std::<span class="hljs-type">size_t</span> bufLen;
 
     <span class="hljs-comment">//parameter to be passed to EventHandler</span>
-    <span class="hljs-keyword">void</span> *funcParam;
+    <span class="hljs-type">void</span> *funcParam;
 
     <span class="hljs-comment">//called whenever recv returns something to the buffer</span>
     <span class="hljs-comment">//return nonzero to terminate recv loop</span>
@@ -1513,21 +1513,21 @@ contenttype = <span class="hljs-string">&quot;application/octet-stream&quot;</sp
     EventHandler onConnect;
     EventHandler onDisconnect;
 };
-</div></code></pre>
+</code></pre>
 <p><code>ClientSocketManager</code> and <code>ServerManager</code> implement the abstraction described above, with many more capabilities to manage inconsistent connections and concurrency. <code>ServerManager</code> spawns <code>ServerSocketManagers</code> as described above, each of which has its own <code>recvThread</code> and set of parameters. Both <code>ClientSocketManager</code> and <code>ServerManager</code> have <code>SocketManager</code> as a superclass. <code>SocketManager</code> declares pure virtual functions useful for logging and message sending.</p>
 <p>The <code>HeadedClientSocketManager</code> and <code>HeadedServerManager</code> extend and build an abstraction layer atop <code>ClientSocketManager</code> and <code>ServerManager</code>. <code>Headed</code> managers only call their message callbacks on <code>recv</code> when they've received a full message. Each message is sent with either a 2-byte or a 6-byte header containing the length of the message, depending on whether the length is longer than 65536 bytes (storable within 2 bytes) or not.</p>
 <h3 id="build--versioning">Build &amp; Versioning</h3>
 <p>The main development routine of <code>Emilia</code> is through Visual Studio. Within Visual Studio, on every build, a pre-build event is run containing the same batch file as in the previous versioning section. The batch file increments the build number in this header file <code>build.h</code>.</p>
-<pre><code class="language-c++"><div><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> once</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> STRINGIZE2(s) #s</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> STRINGIZE(s) STRINGIZE2(s)</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VERSION_MAJOR            5</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VERSION_MINOR            4</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VERSION_REVISION         4</span>
-<span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> VERSION_BUILD            1891</span>
-</div></code></pre>
+<pre><code class="language-c++"><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> STRINGIZE2(s) #s</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> STRINGIZE(s) STRINGIZE2(s)</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VERSION_MAJOR            5</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VERSION_MINOR            4</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VERSION_REVISION         4</span>
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> VERSION_BUILD            1891</span>
+</code></pre>
 <p>Once again, the resource file <code>rc.rc</code> includes this <code>build.h</code> file and uses it to version the application EXE.</p>
-<pre><code><code><div>#include &quot;build.h&quot;
+<pre><code>#include &quot;build.h&quot;
 
 1 ICON &quot;icon.ico&quot;
 
@@ -1549,10 +1549,10 @@ BEGIN
         VALUE &quot;Translation&quot;, 0x409, 1252
     END
 END
-</div></code></code></pre>
+</code></pre>
 <p>In some cases, <code>Emilia</code> may need to access the version of the current executable. One way to do this is to include <code>build.h</code> in the relevant <code>.cpp</code> file. However, this means that we have to rebuild <code>Emilia</code> and all files which include <code>build.h</code> either directly or indirectly every time <code>build.h</code> is modified, which is on every build. Instead, <code>build.h</code> is excluded from the build targets, and all code which needs to access to version number will do so by including <code>build-helper.h</code>, which declares the function defined below.</p>
-<pre><code class="language-c++"><div><span class="hljs-function">std::string <span class="hljs-title">getVersionStr</span><span class="hljs-params">()</span> </span>{
-    <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> major = <span class="hljs-number">0</span>, minor, revision, build;
+<pre><code class="language-c++"><span class="hljs-function">std::string <span class="hljs-title">getVersionStr</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-type">static</span> <span class="hljs-type">int</span> major = <span class="hljs-number">0</span>, minor, revision, build;
 
     <span class="hljs-comment">//if not called before, read the build file</span>
     <span class="hljs-keyword">if</span> (major == <span class="hljs-number">0</span>) {
@@ -1562,16 +1562,16 @@ END
             in &gt;&gt; token;
             <span class="hljs-keyword">if</span> (token == <span class="hljs-string">&quot;VERSION_MAJOR&quot;</span>) {
                 in &gt;&gt; token;
-                major = Rain::strToT&lt;<span class="hljs-keyword">int</span>&gt;(token);
+                major = Rain::<span class="hljs-built_in">strToT</span>&lt;<span class="hljs-type">int</span>&gt;(token);
             } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (token == <span class="hljs-string">&quot;VERSION_MINOR&quot;</span>) {
                 in &gt;&gt; token;
-                minor = Rain::strToT&lt;<span class="hljs-keyword">int</span>&gt;(token);
+                minor = Rain::<span class="hljs-built_in">strToT</span>&lt;<span class="hljs-type">int</span>&gt;(token);
             } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(token == <span class="hljs-string">&quot;VERSION_REVISION&quot;</span>) {
                 in &gt;&gt; token;
-                revision = Rain::strToT&lt;<span class="hljs-keyword">int</span>&gt;(token);
+                revision = Rain::<span class="hljs-built_in">strToT</span>&lt;<span class="hljs-type">int</span>&gt;(token);
             } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(token == <span class="hljs-string">&quot;VERSION_BUILD&quot;</span>) {
                 in &gt;&gt; token;
-                build = Rain::strToT&lt;<span class="hljs-keyword">int</span>&gt;(token);
+                build = Rain::<span class="hljs-built_in">strToT</span>&lt;<span class="hljs-type">int</span>&gt;(token);
             }
         }
         in.<span class="hljs-built_in">close</span>();
@@ -1579,7 +1579,7 @@ END
 
     <span class="hljs-keyword">return</span> Rain::<span class="hljs-built_in">tToStr</span>(major) + <span class="hljs-string">&quot;.&quot;</span> + Rain::<span class="hljs-built_in">tToStr</span>(minor) + <span class="hljs-string">&quot;.&quot;</span> + Rain::<span class="hljs-built_in">tToStr</span>(revision) + <span class="hljs-string">&quot;.&quot;</span> + Rain::<span class="hljs-built_in">tToStr</span>(build);
 }
-</div></code></pre>
+</code></pre>
 <p>Reading <code>build.h</code> directly is the only way we can avoid rebuilding <code>Emilia</code> on a changing <code>build.h</code> while still making versioning accessible within <code>Emilia</code>. This saves developer hours waiting on compilation.</p>
 <h3 id="http-server">HTTP Server</h3>
 <p>The HTTP server on <code>Emilia</code> is set up in almost exactly the same way as in Monochrome3. There are many more configuration options, and we've now disabled accessing files outside of the root directory. <code>onMessage</code> waits for a full HTTP request to come in before parsing it, and <code>processRequest</code> delegates to either a 404, the file, or a CGI script depending on whether or not the file exists and whether the file is specified as a CGI script in the configuration. The configuration also specifies <code>Content-Type</code> headers. Moreover, bytes transferred to and from the server are done so buffered, so that larger files are also not a problem for <code>Emilia</code>.</p>
@@ -1587,7 +1587,7 @@ END
 <h3 id="cgi-scripts">CGI Scripts</h3>
 <p>While the main portion of <code>Emilia</code> is developed in Visual Studio, the CGI scripts are not VS projects themselves, but standalone C++ files. I compile them manually using the following batch script during development, and the resulting EXE files are copied onto the HTTP server root directory.</p>
 <p>Manual compilation avoids the need for projects, which increases the development time of each script.</p>
-<pre><code class="language-bat"><div><span class="hljs-built_in">set</span> filename=%<span class="hljs-number">1</span>
+<pre><code class="language-bat"><span class="hljs-built_in">set</span> filename=%<span class="hljs-number">1</span>
 
 <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">defined</span> DevEnvDir (
     <span class="hljs-keyword">call</span> &quot;C:\Program Files (x86)\Microsoft Visual Studio\<span class="hljs-number">2017</span>\Community\VC\Auxiliary\Build\vcvarsall.bat&quot; x64
@@ -1627,18 +1627,18 @@ END
 
 <span class="hljs-built_in">cd</span> ..\..\build
 <span class="hljs-keyword">call</span> post-build-event.bat
-</div></code></pre>
+</code></pre>
 <p>Below is the CGI script which manages the subscribers to my mailing list.</p>
-<pre><code class="language-c++"><div><span class="hljs-comment">/*
+<pre><code class="language-c++"><span class="hljs-comment">/*
 Emilia-tan Script
 
 This script modifies the subscriber list for the mailing list.
 */</span>
 
-<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&quot;../rain-aeternum/rain-libraries.h&quot;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;../rain-aeternum/rain-libraries.h&quot;</span></span>
 
-<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> *argv[])</span> </span>{
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">static</span> std::string DATA_FILE = <span class="hljs-string">&quot;..\\..\\data\\mlist-subs.ini&quot;</span>;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span> </span>{
+    <span class="hljs-type">const</span> <span class="hljs-type">static</span> std::string DATA_FILE = <span class="hljs-string">&quot;..\\..\\data\\mlist-subs.ini&quot;</span>;
 
     _setmode(_fileno(stdout), _O_BINARY);
 
@@ -1677,13 +1677,13 @@ This script modifies the subscriber list for the mailing list.
 
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
-</div></code></pre>
+</code></pre>
 <p>CGI scripts are fairly lightweight, even though they're implemented in C++.</p>
 <p><video src="emilia.md-assets/cgi-emails.webm" autoplay loop muted></video><br>
 <em>Showcasing the calling and response of the CGI script on click of the <code>Submit</code> button on the homepage.</em></p>
 <h3 id="configuration">Configuration</h3>
 <p>Many of the magic numbers spread throughout <code>Monochrome3</code> have been moved to a configuration file.</p>
-<pre><code><code><div>config-path:            ..\config\
+<pre><code>config-path:            ..\config\
 
 log-path:               ..\logs\
 log-error:              errors.log
@@ -1719,11 +1719,11 @@ update-exc-ignore:      update-exc-ignores.ini
 update-exclusive-dir:	exclusive\
 update-root:            ..\
 update-script:          bin\update-script.bat
-</div></code></code></pre>
+</code></pre>
 <p>There exists a local version of the config file, but also a production version, which contains a different <code>emilia-auth-pass</code>, which is used by the update client to connect to the built-in update server. We'll talk more about this later.</p>
 <h3 id="logging">Logging</h3>
 <p>As part of the debugging process, log files have been sometimes quite helpful in finding out the problem with a crash or an undelivered email. Logs are synced between local and production within the deployment routine. Below is an sample of the log in regards to the HTTP server.</p>
-<pre><code><code><div>12/22/18.06:38:59-0000 168
+<pre><code>12/22/18.06:38:59-0000 168
 HTTP Client disconnected from 73.228.114.27. Total: 8.
 HTTP Client disconnected from 73.228.114.27. Total: 7.
 HTTP Client disconnected from 73.228.114.27. Total: 6.
@@ -1749,7 +1749,7 @@ Accept-Language: en-US,en;q=0.9,ja;q=0.8,zh-CN;q=0.7,zh;q=0.6
 
 12/22/18.06:40:04-0000 54
 HTTP Client connected from 194.147.32.109. Total: 7.
-</div></code></code></pre>
+</code></pre>
 <p>An abbreviated version of the log is output to the console. Below is a GIF demonstrating this in action.</p>
 <p><video src="emilia.md-assets/console-output.webm" autoplay loop muted></video></p>
 <p>The corresponding class in <code>rain-aeternum</code> is <code>LogStream</code>, which also has options to capture logs from <code>cout</code>, <code>cin</code>, <code>cerr</code>, and sockets.</p>
@@ -1831,7 +1831,7 @@ HTTP Client connected from 194.147.32.109. Total: 7.
 <p>The specific update server/clients transfer files in much the same way as <code>EmiliaUpdate</code>, though with the <code>Headed</code> servers described above for header and message parsing. Files are diffed using their last write time, and only new files are updated. There are minimal configuration sets associated with the update routine to ignore or include files and not cause as much confusion as with the<code> 3.1.3</code> <code>Emilia</code>.</p>
 <p>In the event that a file locked by the server process is undergoing updating, <code>Emilia</code> saves the updated file to a <code>.tmp</code> extension which is the copied over to the original file when the original file is unlocked. To unlock the original file, we wait until the entire update process is complete and restart the process once all the pending copy operations are complete. This restart and copy process is accomplished through a batch file <code>update-script.bat</code>, which <code>Emilia</code> calls for each file which is locked and needs to be updated.</p>
 <h4 id="update-scriptbat">update-script.bat</h4>
-<pre><code class="language-bat"><div>@<span class="hljs-built_in">echo</span> off
+<pre><code class="language-bat">@<span class="hljs-built_in">echo</span> off
 <span class="hljs-built_in">set</span> server=%<span class="hljs-number">1</span>
 <span class="hljs-built_in">set</span> src=%<span class="hljs-number">2</span>
 <span class="hljs-keyword">if</span> &quot;%~<span class="hljs-number">3</span>&quot;==&quot;&quot; (
@@ -1854,7 +1854,7 @@ HTTP Client connected from 194.147.32.109. Total: 7.
 <span class="hljs-comment">rem allow time for concurrent update scripts to finish</span>
 timeout <span class="hljs-number">1</span>
 <span class="hljs-built_in">start</span> &quot;Emilia&quot; <span class="hljs-variable">%server%</span> &quot;update-restart&quot;
-</div></code></pre>
+</code></pre>
 <p>I actually wrote this one myself! Batch is hard...</p>
 <p>Here's how a typical deployment might look like, with the <code>sync</code> command.</p>
 <p><video src="emilia.md-assets/sync.webm" autoplay loop muted></video><br>

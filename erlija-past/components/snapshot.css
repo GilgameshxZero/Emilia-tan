@@ -1,11 +1,11 @@
 @import "../colors.css";
-@import "../snapshot.css";
+@import "../silver/silver.css";
 
 /* Force light theme. */
-@import "../snapshot.force.light.css";
+@import "../silver/force/light.css";
 
 :host {
-	/* Override of snapshot.css variables. */
+	/* Override of silver.css variables. */
 	--blockquote-background-color: #ffffff20;
 	--blockquote-border-color: #b54c2e80;
 	--list-marker-color: var(--color-ribbon);
@@ -16,7 +16,7 @@
 	--textlink-foreground-color: var(--color-ribbon);
 	--pre-background-color: #ffffff20;
 
-	/* Curried from styles defined in snapshot.css. Less horizontal padding since snapshots already have padded container. */
+	/* Curried from styles defined in silver.css. Less horizontal padding since snapshots already have padded container. */
 	width: calc(100% - 2em);
 	height: calc(100% - 4em);
 	padding: 2em max(1em, 50% - 40ch);
