@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # The Passage of Polymarket
 
 February 12, 2022

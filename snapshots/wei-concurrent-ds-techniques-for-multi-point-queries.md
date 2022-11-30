@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # Concurrent Datastructure Techniques for Multi-Point Queries
 
 December 8, 2021

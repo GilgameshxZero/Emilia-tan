@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # A No-Nonsense Guide to Early Retirement
 
 September 21, 2021

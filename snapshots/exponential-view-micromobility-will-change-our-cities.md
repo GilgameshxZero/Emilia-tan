@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # Micromobility Will Change Our Cities
 
 February 19, 2022

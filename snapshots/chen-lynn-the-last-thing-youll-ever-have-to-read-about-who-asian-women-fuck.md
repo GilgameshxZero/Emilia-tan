@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # The Last Thing You’ll Ever Have to Read about Who Asian Women Fuck
 
 February 2, 2022

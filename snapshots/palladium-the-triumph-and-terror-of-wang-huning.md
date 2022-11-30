@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # The Triumph and Terror of Wang Huning
 
 October 23, 2021

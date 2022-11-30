@@ -1,5 +1,6 @@
 @import "../colors.css";
 @import "../silver/silver.css";
+@import "../silver/force/subtitled-h1.css";
 
 /* Force dark theme. */
 @import "../silver/force/dark.css";

@@ -13,8 +13,6 @@ int main(int argc, char *argv[]) {
 
 and `h1` and `h2` headings can be subtitled by prepending a `div`.
 
-<div class="next-subtitled"></div>
-
 ## next, we’ll observe these curly quotes
 
 a subtitle, Aug. 24, 2021

@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # Reverse-engineering implicit regularization due to large learning rates in deep learning
 
 September 17, 2021

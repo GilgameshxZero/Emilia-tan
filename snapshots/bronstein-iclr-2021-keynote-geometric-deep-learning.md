@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # ICLR 2021 Keynote - “Geometric Deep Learning: The Erlangen Programme of ML” - M Bronstein
 
 October 23, 2021

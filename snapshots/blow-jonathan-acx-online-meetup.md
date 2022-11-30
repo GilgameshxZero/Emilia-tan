@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # Jonathan Blow at the ACX Online Meetup
 
 September 20, 2021

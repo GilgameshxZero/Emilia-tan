@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # Harry Potter and the Methods of Rationality
 
 February 11, 2022

@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # Tackling the Generative Learning Trilemma with Accelerated Diffusion Models
 
 February 5, 2022

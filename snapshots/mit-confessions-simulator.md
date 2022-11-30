@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # Predictive Text RNNs and n-grams for MIT Confessions
 
 June 29, 2018

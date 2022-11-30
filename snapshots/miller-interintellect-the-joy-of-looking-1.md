@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # The Joy of Looking: Collisions with Visual Art and Collective Perspectives
 
 February 4, 2022

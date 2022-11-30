@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # The World's Fair
 
 October 23, 2021

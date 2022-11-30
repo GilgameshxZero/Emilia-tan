@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # urop.guide
 
 July 17, 2019

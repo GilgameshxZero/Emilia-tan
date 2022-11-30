@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # Sampling from Discrete Energy-Based Models with Quality/Efficiency Trade-offs
 
 September 17, 2021

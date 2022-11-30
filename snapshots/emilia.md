@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # A Brief History of Emilia
 
 December 25, 2018

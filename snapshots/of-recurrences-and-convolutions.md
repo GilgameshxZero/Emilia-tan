@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # Of Recurrences and Convolutions
 
 November 25, 2022

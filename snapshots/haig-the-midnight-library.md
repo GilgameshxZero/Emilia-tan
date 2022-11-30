@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # The Midnight Library
 
 February 5, 2022

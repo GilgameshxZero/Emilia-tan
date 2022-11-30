@@ -1,5 +1,3 @@
-<div class="next-subtitled"></div>
-
 # Introduction to Prediction Markets
 
 February 12, 2022
