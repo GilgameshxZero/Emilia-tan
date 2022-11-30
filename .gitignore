@@ -1,3 +1,6 @@
+# Submodule symlink.
+silver/
+
 **/.vs/
 **/.vscode/
 **/bin/
