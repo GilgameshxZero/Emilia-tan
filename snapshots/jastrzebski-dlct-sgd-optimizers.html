@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"/></head><body><template>
+        <div class="next-subtitled"></div>
+<h1 id="reverse-engineering-implicit-regularization-due-to-large-learning-rates-in-deep-learning">Reverse-engineering implicit regularization due to large learning rates in deep learning</h1>
+<p>September 17, 2021<br>
+<a href="https://rosanneliu.com/dlctfs/dlct_210917.pdf">https://rosanneliu.com/dlctfs/dlct_210917.pdf</a></p>
+<p><img src="jastrzebski-dlct-sgd-optimizers.md-assets/2021-09-17-13-21-37.png" alt=""><br>
+<em>Learning rate is typically scaled 0.1x per 50 epochs.</em></p>
+<p><img src="jastrzebski-dlct-sgd-optimizers.md-assets/2021-09-17-13-22-04.png" alt=""></p>
+<p><img src="jastrzebski-dlct-sgd-optimizers.md-assets/2021-09-17-13-22-23.png" alt=""></p>
+<p><img src="jastrzebski-dlct-sgd-optimizers.md-assets/2021-09-17-13-22-53.png" alt=""></p>
+<p><img src="jastrzebski-dlct-sgd-optimizers.md-assets/2021-09-17-13-25-18.png" alt=""><br>
+<em>Small Hessian at initialization by design; Hessian then hovers around 20 (asymptote)?</em></p>
+<p><img src="jastrzebski-dlct-sgd-optimizers.md-assets/2021-09-17-13-26-52.png" alt=""><br>
+<em>Y-axis is the spectral norm of the Hessian.</em></p>
+<p><img src="jastrzebski-dlct-sgd-optimizers.md-assets/2021-09-17-13-30-25.png" alt=""><br>
+<em>As cross-entropy loss decreases from ~2.3 (for CIFAR10). At the beginning, we have picked the learning rate well—the optimization doesn’t diverge at the beginning, but the learning rate does not fit the curvature at the end.</em></p>
+<p><img src="jastrzebski-dlct-sgd-optimizers.md-assets/2021-09-17-13-52-58.png" alt=""></p>
+<p><img src="jastrzebski-dlct-sgd-optimizers.md-assets/2021-09-17-14-00-21.png" alt=""><br>
+<em>Right plot is largest/smallest eigenvalue.</em></p>
+
+        
+        
+    </template></body>
+    </html>
