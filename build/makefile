@@ -17,13 +17,18 @@ ifdef MAKEDIR: # gmake: false; nmake: unused target
 # nmake specific commands.
 
 # Real targets.
-_default: laminate
-# Prepare HTML essays for viewing with emilia.
+_default: laminate-all
 laminate:
 	@<<laminate.bat
 @ECHO OFF
+sed -E -i -z -e "s/<head>.*<body class=\"vscode-body vscode-light\">\s*(.*)\s*<\/body>/<head><meta charset=\"utf-8\"\/><\/head><body><template>\n\1<\/template><\/body>/g" %SOURCE%
+sed -E -i -z -e "s/(.*)\s*<script async src=\"https:\/\/cdn.jsdelivr.net\/npm\/katex-copytex@latest\/dist\/katex-copytex.min.js\"><\/script>(.*)/\1\2/g" %SOURCE%
+<<NOKEEP
+laminate-all:
+	@<<laminate-all.bat
+@ECHO OFF
 FOR %%F IN (..\snapshots\*.html) DO (
-	sed -E -i -z -e "s/<head>.*<body class=\"vscode-body vscode-light\">(.*)<\/body>/<head><meta charset=\"utf-8\"\/><\/head><body><template>\1<\/template><\/body>/g" %%F
+	nmake laminate SOURCE=%%F
 )
 <<NOKEEP
 
@@ -36,10 +41,13 @@ else
 
 # Ensure files with the same name as fake targets do not trigger.
 .PHONY: __default _default laminate
-_default: laminate
+_default: laminate-all
 laminate:
+	@sed -E -i -z -e "s/<head>.*<body class=\"vscode-body vscode-light\">\s*(.*)\s*<\/body>/<head><meta charset=\"utf-8\"\/><\/head><body><template>\n\1<\/template><\/body>/g" $(SOURCE)
+	@sed -E -i -z -e "s/(.*)\s*<script async src=\"https:\/\/cdn.jsdelivr.net\/npm\/katex-copytex@latest\/dist\/katex-copytex.min.js\"><\/script>(.*)/\1\2/g" $(SOURCE)
+laminate-all:
 	@for f in ../snapshots/*.html; do\
-		sed -E -i -z -e "s/<head>.*<body class=\"vscode-body vscode-light\">(.*)<\/body>/<head><meta charset=\"utf-8\"\/><\/head><body><template>\1<\/template><\/body>/g" $$f;\
+		make laminate SOURCE=$$f;\
 	done
 
 # ------------------------------------------------------------------------------
