@@ -1,4 +1,12 @@
+<!-- emilia-snapshot-properties
+Homochromatic Square Perimeters
+2021/12/03
+utulek
+emilia-snapshot-properties -->
+
 # Homochromatic Square Perimeters
+
+December 3, 2021
 
 > Cells in an $N$-by-$N$ grid $G$ are colored in monochrome:
 > 

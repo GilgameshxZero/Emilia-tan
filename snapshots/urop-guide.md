@@ -1,3 +1,9 @@
+<!-- emilia-snapshot-properties
+urop.guide
+2019/07/17
+utulek
+emilia-snapshot-properties -->
+
 # urop.guide
 
 July 17, 2019

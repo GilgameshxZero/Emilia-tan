@@ -1,7 +1,7 @@
 <!-- emilia-snapshot-properties
-test silver
-Test Title
+Test
 2022/12/18
+test test-2
 emilia-snapshot-properties -->
 
 Snapshots are essays, deployed to emilia. They are tagged by a list of space-separated tags, then marked by a title and date, all in an HTML comment, ideally near the top of the file.

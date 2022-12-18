@@ -1,3 +1,9 @@
+<!-- emilia-snapshot-properties
+Predictive Text RNNs and n-grams for MIT Confessions
+2018/06/29
+utulek
+emilia-snapshot-properties -->
+
 # Predictive Text RNNs and n-grams for MIT Confessions
 
 June 29, 2018

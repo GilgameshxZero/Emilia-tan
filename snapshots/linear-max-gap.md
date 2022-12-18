@@ -1,4 +1,10 @@
-# Linear max gap
+<!-- emilia-snapshot-properties
+Linear Max Gap
+2022/12/01
+utulek
+emilia-snapshot-properties -->
+
+# Linear Max Gap
 
 December 1, 2022
 Yang Yan

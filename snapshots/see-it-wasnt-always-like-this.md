@@ -1,3 +1,9 @@
+<!-- emilia-snapshot-properties
+See, It Wasn’t Always Like This
+2021/11/29
+cygnus
+emilia-snapshot-properties -->
+
 See, it wasn’t always like this.
 The enforcer of consistency, the mellow of stigma:
 thusly,

@@ -1,3 +1,9 @@
+<!-- emilia-snapshot-properties
+A Brief History of Emilia
+2018/12/25
+utulek
+emilia-snapshot-properties -->
+
 # A Brief History of Emilia
 
 December 25, 2018
