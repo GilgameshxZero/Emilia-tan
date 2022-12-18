@@ -1,3 +1,9 @@
+Snapshots are essays, deployed to emilia. They are tagged by a list of space-separated tags, then marked by a title and date, all in an HTML comment anywhere.
+
+<!-- emilia-snapshot-tags: test -->
+<!-- emilia-snapshot-title: Test page -->
+<!-- emilia-snapshot-date: 2021/08/24 -->
+
 This is a test page for `silver.css`.
 
 ```c++
