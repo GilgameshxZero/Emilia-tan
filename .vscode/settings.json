@@ -1,9 +1,0 @@
-{
-	"markdown.styles": ["build/snapshots.css"],
-	"markdown.extension.print.onFileSave": true,
-
-	"[markdown]": {
-		"editor.fontFamily": "'EB Garamond', Georgia, serif",
-		"editor.wordWrap": "bounded"
-	}
-}
