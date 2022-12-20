@@ -2,7 +2,7 @@
 
 :host {
 	/* Slower transition speed for design purposes. */
-	--transition-time-ratio: 4;
+	--transition-time-ratio: 2;
 
 	/* Always positioned fixed relative to viewport, which allows body to scroll while the background remains in place. */
 	--viewport-unit: max(100vw, 100vh);
