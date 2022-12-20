@@ -93,7 +93,7 @@ registerComponent(
 							window.scrollTo(0, 0);
 
 							// TODO: This may break if the user scrolls frequently, and the transitionend event on background never fires, causing the background to lag in snapshots.
-							window.addEventListener(`scroll`, this.onScroll);
+							window.addEventListener(`scroll`, this.background.onScroll);
 							if (onTransitionEnd) {
 								onTransitionEnd();
 							}
