@@ -1,7 +1,7 @@
 <!-- emilia-snapshot-properties
 A Brief History of Emilia
 2018/12/25
-alto
+monochrome
 emilia-snapshot-properties -->
 
 # A Brief History of Emilia

@@ -4,8 +4,12 @@
 	<body>
 		<template>
 			<link rel="stylesheet" href="timeline.css" />
-			<div><emilia-icon></emilia-icon><emilia-tag-menu></emilia-tag-menu></div>
-			<emilia-snapshot-menu></emilia-snapshot-menu>
+			<emilia-icon></emilia-icon>
+			<div>
+				<!-- The doubly wrapped divs enable 50% split on wide screens while centering on narrow screens. -->
+				<div><emilia-tag-menu></emilia-tag-menu></div>
+				<div><emilia-snapshot-menu></emilia-snapshot-menu></div>
+			</div>
 		</template>
 	</body>
 </html>

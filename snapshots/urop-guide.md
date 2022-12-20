@@ -1,7 +1,7 @@
 <!-- emilia-snapshot-properties
 urop.guide
 2019/07/17
-alto
+monochrome
 emilia-snapshot-properties -->
 
 # urop.guide

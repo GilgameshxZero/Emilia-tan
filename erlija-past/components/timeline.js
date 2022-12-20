@@ -35,8 +35,8 @@ registerComponent(
 					name: `Project 794`,
 					tagline: `Personal newsletters and life updates.`
 				},
-				alto: {
-					name: `Alto`,
+				monochrome: {
+					name: `Monochrome`,
 					tagline: `Long-form technical project write-ups.`
 				},
 				cygnus: {

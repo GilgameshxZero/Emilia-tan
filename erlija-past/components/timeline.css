@@ -3,7 +3,7 @@
 :host {
 	flex: 1 1 auto;
 	display: flex;
-	flex-flow: row nowrap;
+	flex-flow: column nowrap;
 	margin: 1.5rem;
 
 	opacity: 0;
@@ -15,47 +15,49 @@
 	opacity: 1;
 }
 
+:host > emilia-icon {
+	margin: 0 auto 1.5rem;
+}
+
 :host > div {
-	flex: 1 0 0;
 	display: flex;
+	flex-flow: row nowrap;
+	margin: 0 auto;
+	width: 100%;
+}
+
+:host > div > div {
+	flex: 0 0 50%;
 	flex-flow: column nowrap;
-	margin-bottom: 1.5rem;
-	margin-right: 1.5rem;
+	display: flex;
 }
 
-:host > div > * {
-	margin-bottom: 1.5rem;
-}
-
-:host > div > *:last-child {
-	margin-bottom: 0;
-}
-
-:host > div > emilia-icon {
-	flex: 0 0 auto;
+:host > div > div > emilia-tag-menu {
+	flex: 0 1 auto;
 	margin-left: auto;
+	margin-right: 0.75rem;
+}
+
+:host > div > div > emilia-snapshot-menu {
+	flex: 0 1 auto;
+	margin-left: 0.75rem;
 	margin-right: auto;
 }
 
-:host > div > emilia-tag-menu {
-	flex: 0 1 auto;
-}
-
-:host > emilia-snapshot-menu {
-	flex: 2 0 0;
-}
-
 @media (max-width: calc(1rem + 80ch)) {
-	:host {
+	:host > div {
 		flex-flow: column nowrap;
 	}
 
-	:host > div {
+	:host > div > div {
 		flex: 0 0 auto;
-		margin-right: 0;
 	}
 
-	:host > emilia-snapshot-menu {
-		flex: 0 0 auto;
+	:host > div > div > emilia-tag-menu {
+		margin: 0 auto 1.5rem;
+	}
+
+	:host > div > div > emilia-snapshot-menu {
+		margin: 0 auto;
 	}
 }
