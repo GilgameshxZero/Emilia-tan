@@ -62,7 +62,14 @@ registerComponent(
 						snapshotMenuItem.appendChild(title);
 						const date = document.createElement(`span`);
 						date.setAttribute(`slot`, `date`);
-						date.textContent = snapshot.date;
+						date.textContent = new Date(snapshot.date).toLocaleDateString(
+							`en-US`,
+							{
+								year: `numeric`,
+								month: `long`,
+								day: `numeric`
+							}
+						);
 						snapshotMenuItem.appendChild(date);
 						this.shadowRoot.appendChild(snapshotMenuItem);
 					}
