@@ -11,8 +11,6 @@ registerComponent(
 		}
 
 		toTimeline() {
-			window.removeEventListener(`scroll`, this.onScroll);
-
 			// hsl-base-1
 			document.body.style.backgroundColor = `hsl(227, 50%, 34%)`;
 			this.resourceLoad.then(() => {
@@ -29,9 +27,6 @@ registerComponent(
 				this.setAttribute(`position`, `snapshot`);
 				this.addEventListener(`transitionend`, () => {
 					this.removeAttribute(`lagging`);
-
-					// Only add the event handler for scrolling once the transition event has ended, so that we don’t skip triggering the event if we scroll too frequently.
-					window.addEventListener(`scroll`, this.onScroll);
 				});
 			});
 		}

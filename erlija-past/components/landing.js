@@ -52,6 +52,7 @@ registerComponent(
 
 		toTimeline(onTransitionEnd = null) {
 			// This is a no-op if no event listener was set.
+			window.removeEventListener(`scroll`, this.background.onScroll);
 
 			// Move background immediately, as the background moves slower and this feels more responsive.
 			this.background.toTimeline();
@@ -90,6 +91,9 @@ registerComponent(
 						// setPath resets subcomponentLoad, so wait on it again.
 						snapshot.subcomponentLoad.then(() => {
 							window.scrollTo(0, 0);
+
+							// TODO: This may break if the user scrolls frequently, and the transitionend event on background never fires, causing the background to lag in snapshots.
+							window.addEventListener(`scroll`, this.onScroll);
 							if (onTransitionEnd) {
 								onTransitionEnd();
 							}
