@@ -30,6 +30,10 @@
 	opacity: 1;
 }
 
+:host(.disabled) {
+	pointer-events: none;
+}
+
 emilia-icon {
 	margin: 1.5rem auto;
 }

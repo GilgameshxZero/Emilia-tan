@@ -19,6 +19,10 @@
 	opacity: 1;
 }
 
+:host(.disabled) {
+	pointer-events: none;
+}
+
 @media (max-width: calc(1rem + 80ch)) {
 	:host {
 		position: revert;

@@ -76,12 +76,18 @@ registerComponent(
 		onTagSelect(tag) {
 			// Subsequent tag selections do not unload the timeline.
 			this.tagSelected = tag;
+
+			// Disabling tag menu disallows rapid clicking and messing up the snapshot menu.
+			const tagMenu = this.shadowRoot.querySelector(`emilia-tag-menu`);
+			tagMenu.classList.add(`disabled`);
+
 			const snapshotMenu =
 				this.shadowRoot.querySelector(`emilia-snapshot-menu`);
 			snapshotMenu.onMenuReset(this.snapshots[tag].snapshots);
 
 			// Add new click handlers for new snapshot menu items.
 			snapshotMenu.subcomponentLoad.then(() => {
+				tagMenu.classList.remove(`disabled`);
 				const snapshotItems = [
 					...snapshotMenu.shadowRoot.querySelectorAll(
 						`emilia-snapshot-menu-item`

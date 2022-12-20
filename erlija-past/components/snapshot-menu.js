@@ -31,6 +31,7 @@ registerComponent(
 					resolve();
 				}
 			});
+
 			this.subcomponentLoad = new Promise((resolve) => {
 				Promise.all([
 					unloadThis,

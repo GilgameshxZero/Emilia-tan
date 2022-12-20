@@ -58,9 +58,11 @@ registerComponent(
 
 			this.promiseCurrentTransitionEnd().then(() => {
 				const timeline = document.createElement(`emilia-timeline`);
+				timeline.classList.add(`disabled`);
 				this.shadowRoot.appendChild(timeline);
 				timeline.resourceLoad.then(() => {
 					timeline.subcomponentLoad.then(() => {
+						timeline.classList.remove(`disabled`);
 						window.scrollTo(0, 0);
 						if (onTransitionEnd) {
 							onTransitionEnd();
@@ -77,9 +79,11 @@ registerComponent(
 
 			this.promiseCurrentTransitionEnd().then(() => {
 				const snapshot = document.createElement(`emilia-snapshot`);
+				snapshot.classList.add(`disabled`);
 				this.shadowRoot.appendChild(snapshot);
 				snapshot.resourceLoad.then(() => {
 					snapshot.subcomponentLoad.then(() => {
+						snapshot.classList.remove(`disabled`);
 						// Excludes leading `../echidna/snapshots/` and trailing `.html`.
 						snapshot.setPath(path.substring(0, path.length - 5).slice(21));
 
@@ -101,9 +105,11 @@ registerComponent(
 
 			this.promiseCurrentTransitionEnd().then(() => {
 				const map = document.createElement(`emilia-map`);
+				map.classList.add(`disabled`);
 				this.shadowRoot.appendChild(map);
 				map.resourceLoad.then(() => {
 					map.subcomponentLoad.then(() => {
+						map.classList.remove(`disabled`);
 						if (onTransitionEnd) {
 							onTransitionEnd();
 						}
@@ -121,6 +127,7 @@ registerComponent(
 				if (!current) {
 					resolve();
 				}
+				current.classList.add(`disabled`);
 				current.classList.remove(`loaded`);
 				current.addEventListener(`transitionend`, () => {
 					current.remove();
