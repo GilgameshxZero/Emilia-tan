@@ -1,66 +1,91 @@
-import { prependRelativePaths, registerComponent } from "../component.js";
-import { updateUrlWithScene } from "../url.js";
-import "./sunflower.js";
+import {
+	prependRelativePaths,
+	registerComponent
+} from "../../scripts/component.js";
+import "./icon.js";
 
 registerComponent(
 	`snapshot`,
+	`erlija-past`,
 	class extends HTMLElement {
-		// Begins fetching of essay; must be called before sceneIn.
-		loadSnapshot(name) {
-			this.snapshotName = name;
-			this.snapshotInnerLoad = new Promise((resolve, reject) => {
-				fetch(`snapshots/${name}.html`)
-					.then((res) => {
-						return res.text();
+		onDomLoad() {
+			// Snapshots are fake subcomponentLoaded immediately, but again when the snapshot path is set. The firts subcomponentLoad is for the two icons.
+			const icons = [...this.shadowRoot.querySelectorAll(`emilia-icon`)];
+			this.subcomponentLoad = new Promise((resolve) => {
+				Promise.all([
+					this.resourceLoad,
+					...icons.map((icon) => {
+						return icon.resourceLoad;
 					})
-					.then((text) => {
-						resolve(text);
-					})
-					.catch((reason) => {
-						reject(reason);
+				]).then(() => {
+					Promise.all(
+						icons.map((icon) => {
+							return icon.subcomponentLoad;
+						})
+					).then(() => {
+						resolve();
 					});
+				});
+			});
+
+			// Set click handlers for both icons to go back to timeline.
+			icons.forEach((icon) => {
+				icon.addEventListener(`click`, () => {
+					this.parentNode.host.toTimeline();
+				});
 			});
 		}
 
-		// Transition in essay scene, once it has been loaded.
-		sceneIn() {
-			// At this point, shadowRoot may not exist yet.
-			Promise.all([
-				this.snapshotInnerLoad,
-				// Additionally wait for load promise here, so that both fetch and load are fulfilled.
-				this.componentLoad
-			]).then((result) => {
-				// Now, shadowRoot must exist, and so must the sunflower have been constructed (and thus have componentLoad).
-				const sunflowers = this.shadowRoot.querySelectorAll(`emilia-sunflower`);
-				Promise.all(
-					Array.from(sunflowers).map((sunflower) => {
-						return sunflower.componentLoad;
+		// Actually load the snapshot text, and reset subcomponentLoad. resourceLoad is completed at this point.
+		setPath(path) {
+			this.subcomponentLoad = new Promise((resolve) => {
+				fetch(`snapshots/${path}.html`)
+					.then((res) => {
+						return res.text();
 					})
-				).then(() => {
-					updateUrlWithScene(this);
+					.then((html) => {
+						// We now have the snapshot HTML in text.
+						const fragmentClone = new DOMParser()
+							.parseFromString(html, "text/html")
+							.querySelector(`template`)
+							.content.cloneNode(true);
+						prependRelativePaths(fragmentClone, "../snapshots/");
+						this.shadowRoot.querySelector(`article`).appendChild(fragmentClone);
 
-					// Sunflower is also ready.
-					const fragmentClone = new DOMParser()
-						.parseFromString(result[0], "text/html")
-						.querySelector(`template`)
-						.content.cloneNode(true);
-					prependRelativePaths(fragmentClone, "../snapshots/");
-					this.shadowRoot.querySelector(`article`).appendChild(fragmentClone);
-
-					// Process and jump to any ID fragment.
-					const fragment = window.location.hash;
-					if (fragment.length > 0) {
-						this.shadowRoot.querySelector(fragment).scrollIntoView();
-					}
-
-					// Display the essay as soon as fonts are loaded!
-					document.fonts.ready.then(() => {
-						sunflowers.forEach((sunflower) => {
-							sunflower.setTransition(`map`, this);
+						// <table> postprocessor to wrap them all in a h-scrollable div (the markdown converter doesn’t support this).
+						this.shadowRoot.querySelectorAll(`table`).forEach((table) => {
+							const wrapper = document.createElement(`div`);
+							wrapper.classList.add(`table-wrapper`);
+							table.parentNode.insertBefore(wrapper, table);
+							wrapper.appendChild(table);
 						});
-						document.body.setAttribute(`active`, ``);
+
+						// Update URL. Remove .html extension.
+						document.title = `${path} | erlija`;
+						history.pushState(null, ``, `/snapshots/${path}`);
+
+						// Display the essay as soon as fonts are loaded!
+						document.fonts.ready.then(() => {
+							this.classList.add(`loaded`);
+							requestAnimationFrame(() => {
+								// Process and jump to any ID fragment. Must be done after transition has begun, or else opacity is still 0.
+								const fragment = window.location.hash;
+								if (fragment.length > 0) {
+									history.replaceState(
+										null,
+										``,
+										window.location.pathname + window.location.search
+									);
+									const fragmentElement =
+										this.shadowRoot.querySelector(fragment);
+									if (fragmentElement) {
+										fragmentElement.scrollIntoView();
+									}
+								}
+								resolve();
+							});
+						});
 					});
-				});
 			});
 		}
 	}

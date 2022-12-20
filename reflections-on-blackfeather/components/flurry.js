@@ -9,8 +9,8 @@ registerComponent(
 			this.spawnFeather = this.spawnFeather.bind(this);
 		}
 
-		onComponentDOMContentLoaded() {
-			this.componentLoad.then(this.spawnFeather);
+		onDomLoad() {
+			this.resourceLoad.then(this.spawnFeather);
 		}
 
 		spawnFeather() {

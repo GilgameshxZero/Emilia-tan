@@ -10,7 +10,7 @@ registerComponent(
 			super();
 		}
 
-		onComponentDOMContentLoaded() {
+		onDomLoad() {
 			const lighthousesContainer = this.shadowRoot.querySelector(
 				`div[name="lighthouses"]`
 			);
@@ -27,7 +27,7 @@ registerComponent(
 				lighthouse.appendChild(date);
 				lighthousesContainer.appendChild(lighthouse);
 			});
-			this.componentLoad.then(() => {
+			this.resourceLoad.then(() => {
 				lighthousesContainer.scrollTop = lighthousesContainer.scrollHeight;
 			});
 

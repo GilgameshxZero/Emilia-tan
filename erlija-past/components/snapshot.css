@@ -1,57 +1,62 @@
-@import "../colors.css";
-@import "../silver/silver.css";
-@import "../silver/force/subtitled-h1.css";
-
-/* Force light theme. */
-@import "../silver/force/light.css";
+@import "../styles/colors.css";
+@import "../../silver/silver.css";
+@import "../../silver/selective/subtitled-h1.css";
+@import "../../silver/selective/light.css";
 
 :host {
 	/* Override of silver.css variables. */
-	--blockquote-background-color: #ffffff20;
-	--blockquote-border-color: #b54c2e80;
-	--list-marker-color: var(--color-ribbon);
+	--blockquote-background-color: hsl(var(--hsla-pane-1));
+	--blockquote-border-color: hsl(var(--hsl-snapshot-accent));
+	--list-marker-color: hsl(var(--hsl-snapshot-accent));
 
 	/* Override of light/dark-dependent variables. */
-	--foreground-color: var(--color-bushes);
+	--foreground-color: hsl(var(--hsl-text-foreground));
 	--background-color: transparent;
-	--textlink-foreground-color: var(--color-ribbon);
-	--pre-background-color: #ffffff20;
+	--textlink-foreground-color: hsl(var(--hsl-snapshot-accent));
+	--pre-background-color: hsl(var(--hsla-pane-1));
 
 	/* Curried from styles defined in silver.css. Less horizontal padding since snapshots already have padded container. */
-	width: calc(100% - 2em);
-	height: calc(100% - 4em);
-	padding: 2em max(1em, 50% - 40ch);
-	overflow-y: scroll;
+	display: flex;
+	flex-flow: column nowrap;
+	width: calc(100% - 2rem);
+	height: calc(100% - 1.5rem);
+	padding: 0 max(1rem, 50% - 40ch);
 
-	--mask-image-value: linear-gradient(
-			to bottom,
-			transparent 0,
-			black 2em,
-			black calc(100% - 2em),
-			transparent 100%
-		),
-		linear-gradient(
-			to right,
-			black 0,
-			black 1em,
-			transparent 1em,
-			transparent calc(100% - 1em),
-			black calc(100% - 1em),
-			black 100%
-		);
-	-webkit-mask-image: var(--mask-image-value);
-	mask-image: var(--mask-image-value);
+	opacity: 0;
+	transition: opacity var(--transition-time);
+}
+
+:host(.loaded) {
+	opacity: 1;
+}
+
+emilia-icon {
+	margin: 1.5rem auto;
 }
 
 article {
-	padding: 1em 2em;
+	padding: 0 1.5rem;
 
-	background-color: #00000010;
-	box-shadow: inset 0 0 0.4em #00000030;
+	background-color: hsl(var(--hsla-pane-1));
+	border-radius: 0.5rem;
+	box-shadow: 0 0 0.5rem 0.5rem hsl(var(--hsla-pane-shadow));
 }
 
-emilia-sunflower {
-	display: block;
+/* Allows horizontal scrolling of tables wrapped inside it. */
+article div.table-wrapper {
+	overflow-x: auto;
+}
+
+@media (max-width: calc(1rem + 80ch)) {
+	:host {
+		width: 100%;
+		padding: 0;
+	}
+
+	article {
+		padding: 0 0.5rem;
+		border-radius: 0;
+	}
 }
 
 /* Print options for this ShadowRoot. */
@@ -62,7 +67,7 @@ emilia-sunflower {
 		padding: initial;
 	}
 
-	emilia-sunflower {
+	emilia-icon {
 		display: none;
 	}
 

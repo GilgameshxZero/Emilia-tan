@@ -5,8 +5,8 @@ import "./neon.js";
 registerComponent(
 	`arx`,
 	class extends HTMLElement {
-		onComponentDOMContentLoaded() {
-			this.componentLoad.then(() => {
+		onDomLoad() {
+			this.resourceLoad.then(() => {
 				this.shadowRoot
 					.querySelector(`emilia-neon`)
 					.addEventListener(`click`, () => {

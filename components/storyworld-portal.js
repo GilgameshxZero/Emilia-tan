@@ -16,7 +16,7 @@ registerComponent(
 			};
 		}
 
-		onComponentDOMContentLoaded() {
+		onDomLoad() {
 			// Set image source based on storyworld attribute.
 			const imgMap = {
 				"erlija-past": "sunflower",

@@ -1,0 +1,61 @@
+@import "../styles/colors.css";
+
+:host {
+	flex: 1 1 auto;
+	display: flex;
+	flex-flow: row nowrap;
+	margin: 1.5rem;
+
+	opacity: 0;
+	transition: opacity var(--transition-time);
+	color: hsl(var(--hsl-text-foreground));
+}
+
+:host(.loaded) {
+	opacity: 1;
+}
+
+:host > div {
+	flex: 1 0 0;
+	display: flex;
+	flex-flow: column nowrap;
+	margin-bottom: 1.5rem;
+	margin-right: 1.5rem;
+}
+
+:host > div > * {
+	margin-bottom: 1.5rem;
+}
+
+:host > div > *:last-child {
+	margin-bottom: 0;
+}
+
+:host > div > emilia-icon {
+	flex: 0 0 auto;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+:host > div > emilia-tag-menu {
+	flex: 0 1 auto;
+}
+
+:host > emilia-snapshot-menu {
+	flex: 2 0 0;
+}
+
+@media (max-width: calc(1rem + 80ch)) {
+	:host {
+		flex-flow: column nowrap;
+	}
+
+	:host > div {
+		flex: 0 0 auto;
+		margin-right: 0;
+	}
+
+	:host > emilia-snapshot-menu {
+		flex: 0 0 auto;
+	}
+}

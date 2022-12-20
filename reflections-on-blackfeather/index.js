@@ -24,7 +24,7 @@ window.addEventListener(
 		underlay.setAttribute(`location`, locationName);
 
 		// Wait for all immediately accessible components to load.
-		Promise.all([underlay.componentLoad]).then(() => {
+		Promise.all([underlay.resourceLoad]).then(() => {
 			if (locationName === `blackfeather`) {
 				underlay.toBlackfeather(
 					window.location.pathname.match(/\/snapshots\/([^\/\?#]+)/)[1]

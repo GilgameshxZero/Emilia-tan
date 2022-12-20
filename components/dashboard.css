@@ -1,5 +1,5 @@
-@import "../colors.css";
-@import "../fonts.css";
+@import "../styles/colors.css";
+@import "../styles/fonts.css";
 
 :host {
 	position: absolute;

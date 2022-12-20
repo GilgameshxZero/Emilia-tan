@@ -1,40 +1,52 @@
+@import "../styles/colors.css";
+
 :host {
-	display: block;
-	height: calc(100% - 4em);
-	width: calc(100% - 4em);
-	max-width: 80ch;
-	padding: 2em max(2em, 50% - 40ch);
-	overflow-y: scroll;
-
-	--mask-image-value: linear-gradient(
-			to bottom,
-			transparent 0,
-			black 2em,
-			black calc(100% - 2em),
-			transparent 100%
-		),
-		linear-gradient(
-			to right,
-			black 0,
-			black 2em,
-			transparent 2em,
-			transparent calc(100% - 2em),
-			black calc(100% - 2em),
-			black 100%
-		);
-	-webkit-mask-image: var(--mask-image-value);
-	mask-image: var(--mask-image-value);
-}
-
-:host > div {
+	flex: 1 1 auto;
 	display: flex;
-	flex-flow: column-reverse nowrap;
-	min-height: 100%;
-	padding-right: 2em;
+	/* Enforce padding + no larger than 80ch. */
+	max-width: 80ch;
+	padding: 1.5rem max(1.5rem, 50% - 40ch);
+	margin: auto;
 
-	border-right: 0.2em solid #00000020;
+	color: hsl(var(--hsl-text-foreground-inverse));
+	font-family: "EB Garamond";
+	font-size: 1.2em;
+	text-align: center;
+	opacity: 0;
+	transition: opacity var(--transition-time);
 }
 
-emilia-sunflower {
-	display: block;
+:host(.loaded) {
+	opacity: 1;
+}
+
+article {
+	margin: auto;
+}
+
+/* Hotfix because text elements aren’t affected by component.js :host invisibility, for a brief flash on iOS when loading component (2022-12-19). */
+:host(.loaded) article {
+	opacity: 1;
+}
+
+a {
+	color: hsl(var(--hsl-base-5));
+}
+
+emilia-icon {
+	background-color: transparent;
+	opacity: var(--alpha-icon-ready);
+	transition: opacity var(--transition-time);
+	box-shadow: none;
+}
+
+emilia-icon:hover {
+	background-color: transparent;
+	opacity: 1;
+}
+
+section[name="portals"] {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
 }

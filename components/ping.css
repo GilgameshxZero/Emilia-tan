@@ -1,5 +1,5 @@
-@import "../colors.css";
-@import "../fonts.css";
+@import "../styles/colors.css";
+@import "../styles/fonts.css";
 
 :host > div {
 	display: flex;
@@ -16,6 +16,6 @@
 	padding: 0.1em;
 	margin: auto;
 
-	font-family: var(--storyworld-font-title);
+	font-family: Tomorrow;
 	font-size: calc(var(--storyworld-font-size-title-base) * 10);
 }

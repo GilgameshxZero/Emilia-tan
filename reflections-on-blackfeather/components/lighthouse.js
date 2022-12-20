@@ -4,8 +4,8 @@ import "./neon.js";
 registerComponent(
 	`lighthouse`,
 	class extends HTMLElement {
-		onComponentDOMContentLoaded() {
-			this.componentLoad.then(() => {
+		onDomLoad() {
+			this.resourceLoad.then(() => {
 				this.addEventListener(`click`, () => {
 					document
 						.querySelector(`emilia-underlay`)

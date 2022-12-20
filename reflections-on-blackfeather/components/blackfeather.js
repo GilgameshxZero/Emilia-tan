@@ -5,7 +5,7 @@ import "./snapshot.js";
 registerComponent(
 	`blackfeather`,
 	class extends HTMLElement {
-		onComponentDOMContentLoaded() {
+		onDomLoad() {
 			this.shadowRoot
 				.querySelector(`emilia-neon`)
 				.addEventListener(`click`, () => {

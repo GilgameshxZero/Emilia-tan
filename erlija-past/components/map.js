@@ -1,72 +1,27 @@
-import { registerComponent } from "../component.js";
-import { updateUrlWithScene } from "../url.js";
-import { listSnapshots } from "../snapshot.js";
-import "./marker.js";
-import "./sunflower.js";
-import "./erlija.js";
+import { registerComponent } from "../../scripts/component.js";
 
 registerComponent(
 	`map`,
+	`erlija-past`,
 	class extends HTMLElement {
-		constructor() {
-			super();
-			this.onscroll = document.querySelector(`emilia-sunset`).onProgress;
-		}
+		onDomLoad() {
+			document.title = `map | erlija`;
+			history.pushState(null, ``, `/map`);
 
-		onComponentDOMContentLoaded() {
-			const snapshotsContainer = this.shadowRoot.querySelector(`div`);
-			listSnapshots().forEach((snapshot) => {
-				const marker = document.createElement(`emilia-marker`);
-				marker.setAttribute(`name`, snapshot.name);
-				const title = document.createElement(`span`);
-				title.setAttribute(`slot`, `title`);
-				title.textContent = snapshot.title.toLowerCase();
-				const date = document.createElement(`span`);
-				date.setAttribute(`slot`, `date`);
-				date.textContent = snapshot.date.toLowerCase();
-				marker.appendChild(title);
-				marker.appendChild(date);
-				snapshotsContainer.appendChild(marker);
+			// Click handler to go back to timeline.
+			const icon = this.shadowRoot.querySelector(`emilia-icon`);
+			icon.addEventListener(`click`, () => {
+				this.parentNode.host.toTimeline();
 			});
-		}
 
-		// Transitions in map scene.
-		sceneIn() {
-			this.componentLoad.then(() => {
-				const sunflower = this.shadowRoot.querySelector(`emilia-sunflower`);
-				Promise.all([
-					sunflower.componentLoad,
-					...Array.from(this.shadowRoot.querySelectorAll(`emilia-marker`)).map(
-						(marker) => {
-							return marker.componentLoad;
-						}
-					)
-				]).then(() => {
-					updateUrlWithScene(this);
-
-					// Scroll to match progress on sunset.
-					const progress = getComputedStyle(
-						document.querySelector(`emilia-sunset`)
-					).getPropertyValue(`--progress`);
-					this.scrollTop = progress * (this.scrollHeight - this.clientHeight);
-
-					document.body.setAttribute(`active`, ``);
-					sunflower.setTransition(`erlija`, this);
+			this.subcomponentLoad = new Promise((resolve) => {
+				Promise.all([this.resourceLoad, icon.resourceLoad]).then(() => {
+					icon.subcomponentLoad.then(() => {
+						this.classList.add(`loaded`);
+						resolve();
+					});
 				});
 			});
-		}
-
-		// Transition out called by marker.
-		sceneOut(snapshotName) {
-			document.body.removeAttribute(`active`);
-			document.querySelector(`emilia-sunset`).setAttribute(`scene`, `snapshot`);
-			const snapshot = document.createElement(`emilia-snapshot`);
-			document.body.appendChild(snapshot);
-			snapshot.loadSnapshot(snapshotName);
-			setTimeout(() => {
-				document.body.removeChild(this);
-				snapshot.sceneIn();
-			}, 500);
 		}
 	}
 );

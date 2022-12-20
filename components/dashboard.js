@@ -1,4 +1,4 @@
-import { registerComponent } from "../component.js";
+import { registerComponent } from "../scripts/component.js";
 import "./ping.js";
 
 registerComponent(`dashboard`);

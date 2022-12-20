@@ -8,9 +8,9 @@ registerComponent(
 			this.onanimationend = this.remove;
 		}
 
-		onComponentDOMContentLoaded() {
+		onDomLoad() {
 			// Prevents flash on upper-left corner during creation.
-			this.componentLoad.then(() => {
+			this.resourceLoad.then(() => {
 				this.style.setProperty(
 					`--travel-begin-top`,
 					`${20 + Math.random() * 30}%`
