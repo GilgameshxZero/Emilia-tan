@@ -37,16 +37,14 @@ registerComponent(
 
 			// Pressing the back button loads a subcomponent based on the new url.
 			window.addEventListener(`popstate`, () => {
-				this.fromAny(this.shadowRoot.querySelector(`:last-child`), () => {
-					const path = window.location.pathname;
-					if (path === `/map`) {
-						this.toMap();
-					} else if (path.startsWith(`/snapshots/`)) {
-						this.toSnapshot(`../echidna${path}.html`);
-					} else {
-						this.toTimeline();
-					}
-				});
+				const path = window.location.pathname;
+				if (path === `/map`) {
+					this.toMap();
+				} else if (path.startsWith(`/snapshots/`)) {
+					this.toSnapshot(`../echidna${path}.html`);
+				} else {
+					this.toTimeline();
+				}
 			});
 		}
 
