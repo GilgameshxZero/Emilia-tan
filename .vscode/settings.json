@@ -1,0 +1,9 @@
+{
+	"markdown.styles": ["build/default.css"],
+	"markdown.extension.print.onFileSave": true,
+
+	"[markdown]": {
+		"editor.fontFamily": "'EB Garamond', Georgia, serif",
+		"editor.wordWrap": "bounded"
+	}
+}
