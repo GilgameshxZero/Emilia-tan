@@ -1,9 +1,3 @@
 [submodule "silver"]
 	path = silver
 	url = ../silver.git
-[submodule "cygnus"]
-	path = snapshots/cygnus
-	url = ../cygnus.git
-[submodule "utulek"]
-	path = snapshots/utulek
-	url = ../utulek.git
