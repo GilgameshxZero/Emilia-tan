@@ -23,7 +23,7 @@
 
 	--saturation-pane: 10%;
 	--lightness-pane: 90%;
-	--alpha-pane: 0.3;
+	--alpha-pane: 0.45;
 	--hsla-pane-1: var(--hue-base-5), var(--saturation-pane),
 		var(--lightness-pane), var(--alpha-pane);
 	/* Two panes overlapping gives 100%-(100%-30%)^2 alpha. */
