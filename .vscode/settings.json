@@ -1,5 +1,5 @@
 {
-	"markdown.styles": ["build/default.css"],
+	"markdown.styles": [".vscode/default.css"],
 	"markdown.extension.print.onFileSave": true,
 
 	"[markdown]": {

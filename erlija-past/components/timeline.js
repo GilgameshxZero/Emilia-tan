@@ -40,7 +40,7 @@ registerComponent(
 					tagline: `Long-form technical project write-ups.`
 				},
 				cygnus: {
-					name: `Cygnus-Sylph`,
+					name: `Cygnus`,
 					tagline: `Worldbuilding in short stories and poetry.`
 				},
 				utulek: {
@@ -51,7 +51,7 @@ registerComponent(
 			this.snapshots = {};
 			this.snapshotsLoad = Promise.all(
 				Object.keys(this.tags).map((tag) => {
-					return fetch(`api/snapshots/${tag}.json`)
+					return fetch(`api/tags/${tag}.json`)
 						.then((res) => {
 							return res.json();
 						})
@@ -101,7 +101,7 @@ registerComponent(
 					snapshotItems.forEach((item) => {
 						item.addEventListener(`click`, () => {
 							// Call landing handler.
-							this.parentNode.host.toSnapshot(item.getAttribute(`path`));
+							this.parentNode.host.toSnapshot(item.getAttribute(`name`));
 						});
 					});
 				});

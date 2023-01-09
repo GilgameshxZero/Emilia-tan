@@ -37,20 +37,36 @@ registerComponent(
 		}
 
 		// Actually load the snapshot text, and reset subcomponentLoad. resourceLoad is completed at this point.
-		setPath(path) {
+		setSnapshotName(name) {
+			let htmlPath;
 			this.subcomponentLoad = new Promise((resolve) => {
-				fetch(`snapshots/${path}.html`)
+				fetch(`/api/snapshots/${name}.json`)
+					.then((res) => {
+						return res.json();
+					})
+					.then((json) => {
+						htmlPath = json.path.slice(11);
+						return fetch(htmlPath);
+					})
 					.then((res) => {
 						return res.text();
 					})
 					.then((html) => {
-						// We now have the snapshot HTML in text.
-						const fragmentClone = new DOMParser()
+						// We now have the snapshot HTML in text. It needs some additional processing, since the HTML is generated directly from a VSCode extension.
+						const article = this.shadowRoot.querySelector(`article`);
+						article.innerHTML = new DOMParser()
 							.parseFromString(html, "text/html")
-							.querySelector(`template`)
-							.content.cloneNode(true);
-						prependRelativePaths(fragmentClone, "../snapshots/");
-						this.shadowRoot.querySelector(`article`).appendChild(fragmentClone);
+							.querySelector(`body`).innerHTML;
+						const katex = article.querySelector(
+							`script[async][src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"]`
+						);
+						if (katex) {
+							katex.remove();
+						}
+						prependRelativePaths(
+							article,
+							htmlPath.substr(0, htmlPath.lastIndexOf(`/`)) + `/`
+						);
 
 						// <table> postprocessor to wrap them all in a h-scrollable div (the markdown converter doesn’t support this).
 						this.shadowRoot.querySelectorAll(`table`).forEach((table) => {
@@ -61,25 +77,24 @@ registerComponent(
 						});
 
 						// Update URL. Remove .html extension.
-						document.title = `${path} | erlija`;
-						history.pushState(null, ``, `/snapshots/${path}`);
+						document.title = `${name} | erlija`;
+						const fragment = window.location.hash;
+						history.pushState(null, ``, `/snapshots/${name}${fragment}`);
 
 						// Display the essay as soon as fonts are loaded!
 						document.fonts.ready.then(() => {
 							this.classList.add(`loaded`);
 							requestAnimationFrame(() => {
 								// Process and jump to any ID fragment. Must be done after transition has begun, or else opacity is still 0.
-								const fragment = window.location.hash;
 								if (fragment.length > 0) {
-									history.replaceState(
-										null,
-										``,
-										window.location.pathname + window.location.search
+									const fragmentElement = this.shadowRoot.getElementById(
+										fragment.slice(1)
 									);
-									const fragmentElement =
-										this.shadowRoot.querySelector(fragment);
 									if (fragmentElement) {
-										fragmentElement.scrollIntoView();
+										// For some reason, this setTimeout is still necessary even with requestAnimationFrame.
+										setTimeout(() => {
+											fragmentElement.scrollIntoView();
+										}, 0);
 									}
 								}
 								resolve();

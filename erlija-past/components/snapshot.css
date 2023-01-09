@@ -1,7 +1,7 @@
 @import "../styles/colors.css";
-@import "../../snapshots/silver/silver.css";
-@import "../../snapshots/silver/selective/subtitled-h1.css";
-@import "../../snapshots/silver/selective/light.css";
+@import "../../silver/silver.css";
+@import "../../silver/selective/subtitled-h1.css";
+@import "../../silver/selective/light.css";
 
 :host {
 	/* Override of silver.css variables. */

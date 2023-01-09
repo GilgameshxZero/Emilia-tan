@@ -56,7 +56,7 @@ registerComponent(
 						const snapshotMenuItem = document.createElement(
 							`emilia-snapshot-menu-item`
 						);
-						snapshotMenuItem.setAttribute(`path`, snapshot.path);
+						snapshotMenuItem.setAttribute(`name`, snapshot.name);
 						const title = document.createElement(`span`);
 						title.setAttribute(`slot`, `title`);
 						title.textContent = snapshot.title;

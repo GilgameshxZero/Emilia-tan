@@ -25,7 +25,7 @@ registerComponent(
 					if (path === `/map`) {
 						this.toMap(resolve);
 					} else if (path.startsWith(`/snapshots/`)) {
-						this.toSnapshot(`../echidna${path}.html`, resolve);
+						this.toSnapshot(path.slice(11), resolve);
 					} else {
 						this.toTimeline(resolve);
 					}
@@ -41,7 +41,7 @@ registerComponent(
 				if (path === `/map`) {
 					this.toMap();
 				} else if (path.startsWith(`/snapshots/`)) {
-					this.toSnapshot(`../echidna${path}.html`);
+					this.toSnapshot(path.slice(11));
 				} else {
 					this.toTimeline();
 				}
@@ -72,7 +72,7 @@ registerComponent(
 		}
 
 		// Called by timeline.
-		toSnapshot(path, onTransitionEnd = null) {
+		toSnapshot(name, onTransitionEnd = null) {
 			this.background.resetScroll();
 			this.background.toSnapshot();
 
@@ -83,10 +83,9 @@ registerComponent(
 				snapshot.resourceLoad.then(() => {
 					snapshot.subcomponentLoad.then(() => {
 						snapshot.classList.remove(`disabled`);
-						// Excludes leading `../echidna/snapshots/` and trailing `.html`.
-						snapshot.setPath(path.substring(0, path.length - 5).slice(21));
+						snapshot.setSnapshotName(name);
 
-						// setPath resets subcomponentLoad, so wait on it again.
+						// setSnapshotName resets subcomponentLoad, so wait on it again.
 						snapshot.subcomponentLoad.then(() => {
 							window.scrollTo(0, 0);
 
