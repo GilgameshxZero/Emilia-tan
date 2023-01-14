@@ -43,9 +43,13 @@ registerComponent(
 					name: `Cygnus`,
 					tagline: `Worldbuilding in short stories and poetry.`
 				},
+				altair: {
+					name: `Altair`,
+					tagline: `Technical problem-solving.`
+				},
 				utulek: {
 					name: `Útulek`,
-					tagline: `Technical problem-solving.`
+					tagline: `On mathematics, algorithms, and inference.`
 				}
 			};
 			this.snapshots = {};
