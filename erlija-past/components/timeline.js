@@ -37,7 +37,7 @@ registerComponent(
 				},
 				monochrome: {
 					name: `Monochrome`,
-					tagline: `Long-form technical project write-ups.`
+					tagline: `Long-form project write-ups.`
 				},
 				cygnus: {
 					name: `Cygnus`,
