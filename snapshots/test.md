@@ -75,3 +75,11 @@ In particular pay attention to latex rendering, and task list rendering, which s
 * [ ] todo list 1
 * [x] todo list 2
 * [ ] todo list 3
+
+Here is a test of the [snapshot interlinking framework](test).
+
+<details><summary>And a summary for $f(x)$ (LaTeX should not work here):</summary>
+
+The details!
+Note that wrapped markdown also works: $f(x)=x$, as long as it is preceded by a blank line. Unfortunately this means that markdown in summaries is difficult.
+</details>
