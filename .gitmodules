@@ -7,6 +7,3 @@
 [submodule "snapshots/utulek"]
 	path = snapshots/utulek
 	url = ../utulek.git
-[submodule "snapshots/altair"]
-	path = snapshots/altair
-	url = ../altair.git
