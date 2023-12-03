@@ -1,12 +1,12 @@
 [submodule "silver"]
 	path = silver
 	url = ../silver.git
+[submodule "snapshots/altair"]
+	path = snapshots/altair
+	url = ../altair.git
 [submodule "snapshots/cygnus"]
 	path = snapshots/cygnus
 	url = ../cygnus.git
 [submodule "snapshots/utulek"]
 	path = snapshots/utulek
 	url = ../utulek.git
-[submodule "snapshots/altair"]
-	path = snapshots/altair
-	url = ../altair.git
